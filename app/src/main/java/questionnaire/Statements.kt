@@ -1,7 +1,7 @@
 package questionnaire
 
 
-class Statements: ArrayList<String>(){
+class Statements: ArrayList<String>(), JsonObject {
 
     var groupsType = SINGLE
 
@@ -12,5 +12,7 @@ class Statements: ArrayList<String>(){
         const val ENTER = 2
     }
 
-
+    override fun toJsonObject(): String {
+        return ""
+    }
 }

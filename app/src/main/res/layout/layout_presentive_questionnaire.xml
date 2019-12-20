@@ -1,13 +1,43 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             tools:context="questionnaire.ui.PresentiveQuestionnaire">
-
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+<android.support.design.widget.CoordinatorLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="questionnaire.ui.PresentativeQuestionnaire">
+    <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/hello_blank_fragment"/>
+            android:layout_height="match_parent">
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="20dp">
+            <ImageView
+                    android:id="@+id/Questionnaire.Image"
+                    android:layout_width="250dp"
+                    android:layout_height="250dp"
+                    android:layout_margin="20dp"
+                    app:srcCompat="@android:drawable/ic_menu_report_image"
+                    android:layout_centerHorizontal="true"/>
+            <TextView
+                    android:layout_below="@id/Questionnaire.Image"
+                    android:id="@+id/Questionnaire.Title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="24sp"
+                    android:text="@string/title_of_questionnaire"
+                    android:textAlignment="center"
+                    android:singleLine="true"/>
+            <TextView
+                    android:id="@+id/Questionnaire.Description"
+                    android:layout_margin="10dp"
+                    android:text="@string/decription_of_questionnaire"
+                    android:textSize="18sp"
+                    android:layout_below="@id/Questionnaire.Title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
 
-</FrameLayout>
+        </RelativeLayout>
+    </ScrollView>
+
+</android.support.design.widget.CoordinatorLayout>

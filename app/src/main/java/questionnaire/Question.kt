@@ -2,7 +2,10 @@ package questionnaire
 
 import java.io.File
 
-class Question(var question: String, val statements: Statements, var truth: String) {
+class Question(
+    var question: String, val statements: Statements, var truth: String
+
+): JsonObject {
 
     var decription = ""
     var jsonObject = ""
@@ -23,6 +26,10 @@ class Question(var question: String, val statements: Statements, var truth: Stri
             return null
         }
 
+    }
+
+    override fun toJsonObject(): String {
+        return ""
     }
 
 }

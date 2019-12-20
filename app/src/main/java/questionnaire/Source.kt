@@ -1,7 +1,7 @@
 package questionnaire
 
 
-class Analitics: JsonObject {
+class Source: JsonObject {
 
     override fun toJsonObject(): String {
         return ""
