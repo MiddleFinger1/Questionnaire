@@ -1,4 +1,4 @@
-package com.example.questionnaire
+package application
 
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView

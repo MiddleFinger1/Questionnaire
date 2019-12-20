@@ -1,0 +1,6 @@
+package questionnaire
+
+
+class Settings {
+
+}
