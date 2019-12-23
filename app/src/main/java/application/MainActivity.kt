@@ -4,6 +4,10 @@ import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v7.app.AppCompatActivity
 import android.widget.TextView
+import android.widget.Toast
+import questionnaire.Questionnaire
+import questionnaire.ui.PresentativeQuestionnaire
+import questionnaire.ui.QuestionSession
 
 class MainActivity : AppCompatActivity() {
 
@@ -33,5 +37,18 @@ class MainActivity : AppCompatActivity() {
 
         textMessage = findViewById(R.id.message)
         navView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
+
+        try {
+            val fragment = PresentativeQuestionnaire()
+
+            val questionnaire = Questionnaire("test")
+            fragment.questionnaire = questionnaire
+
+            supportFragmentManager.beginTransaction().replace(R.id.MainLayout, fragment).commit()
+        }
+        catch (ex: Exception) {
+            Toast.makeText(baseContext, ex.toString(), Toast.LENGTH_LONG).show()
+        }
+
     }
 }
