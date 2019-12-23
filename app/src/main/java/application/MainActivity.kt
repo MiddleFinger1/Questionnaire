@@ -38,17 +38,6 @@ class MainActivity : AppCompatActivity() {
         textMessage = findViewById(R.id.message)
         navView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
 
-        try {
-            val fragment = PresentativeQuestionnaire()
-
-            val questionnaire = Questionnaire("test")
-            fragment.questionnaire = questionnaire
-
-            supportFragmentManager.beginTransaction().replace(R.id.MainLayout, fragment).commit()
-        }
-        catch (ex: Exception) {
-            Toast.makeText(baseContext, ex.toString(), Toast.LENGTH_LONG).show()
-        }
 
     }
 }

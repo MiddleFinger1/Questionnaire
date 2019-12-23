@@ -11,3 +11,10 @@
 /build
 /captures
 .externalNativeBuild
+libs/json-simple-3.0.2.jar
+app/libs/json-simple-3.0.2.jar
+app/src/main/java/questionnaire/Question.kt
+.idea/misc.xml
+app/src/main/java/questionnaire/Question.kt
+.idea/misc.xml
+.idea/codeStyles/Project.xml

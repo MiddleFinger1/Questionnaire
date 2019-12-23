@@ -3,6 +3,7 @@ package questionnaire
 import org.json.simple.JSONArray
 import org.json.simple.JSONObject
 import org.json.simple.parser.JSONParser
+import java.io.FileReader
 
 
 class Statements: ArrayList<String>(), JsonObject {
@@ -13,7 +14,8 @@ class Statements: ArrayList<String>(), JsonObject {
 
         fun createStatements(json: String) =
             try {
-                createStatements(JSONParser().parse(json) as JSONObject)
+                val reader = FileReader(json)
+                createStatements(JSONParser().parse(reader) as JSONObject)
             }
             catch (ex: Exception){
                 null
