@@ -1,40 +1,79 @@
 package questionnaire
 
+import org.json.simple.JSONObject
+import org.json.simple.parser.JSONParser
 
-class Questionnaire(
-    var title: String, var description: String = ""
+
+class Questionnaire(val settings: Settings
 
 ): ArrayList<Question>(), JsonObject {
 
-	val group = NONE_GROUP
-    lateinit var settings: Settings
-    lateinit var analitics: Analitics
-    var sourse: Source? = null
+    var description = ""
+    lateinit var analytics: Analytics
+    var resourses = arrayListOf<String>()
 
     companion object {
-		
-		const val NONE_GROUP = "none group"
-		
-        fun toCreateQuestionnaire(json: String): Questionnaire? {
 
-            return null
+        fun createQuestionnaire(json: String) =
+            try{
+                createQuestionnaire(JSONParser().parse(json) as JSONObject)
+            }
+            catch (ex: Exception){
+                println(ex.toString())
+                println(ex.stackTrace)
+                null
+            }
+
+        fun createQuestionnaire(jsonObject: JSONObject): Questionnaire? {
+            return try {
+                val settings = Settings.createSettings(jsonObject[SETTINGS].toString())
+                Questionnaire(settings).apply {
+                    description = jsonObject[DESCRIPTION].toString()
+                    analytics = Analytics.createAnalytics(jsonObject[Analytics].toString())
+                    resourses = jsonObject[RESOURCES].toString().split(",") as ArrayList<String>
+                }
+            }
+            catch (ex: Exception){
+                println(ex.toString())
+                println(ex.stackTrace)
+                null
+            }
         }
     }
 	
     override fun toJsonObject(): String {
-        return ""
+        var questions = ""
+        for (i in 0..this.size) {
+            val question = this[i]
+            questions +=
+                if (i < lastIndex) "{${question.toJsonObject()}},\n"
+                else "{${question.toJsonObject()}}"
+        }
+        var resources = ""
+        for (i in 0..this.resourses.size){
+            val resource = this.resourses[i]
+            resources +=
+                if (i < lastIndex) "\"$resource\","
+                else "\"$resource\""
+        }
+        return """
+            {
+                "$DESCRIPTION": "$description",
+                "$QUESTIONS": "[$questions]",
+                "$RESOURCES": [$resources]
+                "$SETTINGS": {${settings.toJsonObject()}}
+                "$ANALYTICS": {${analytics.toJsonObject()}}
+            }
+        """
     }
 	
 	/*
-	{	
-		"title": "", 		// название анкеты
-		"group": "", 		// к какой группе относиться (обычно это мб имеет отношение к пользователю или тегу)
-		"description": "", 	// описание анкеты
+	{
+	    "description": "", 	// описание анкеты
 		"questions": [],	// список вопросов
-		"icon": "",			// иконка для анкеты
 		"resources": [], 	// внутренние ресурсы анкеты (источники)
-		"settings": {},
-		"analitics": {}
+		"settings": {},     // найстройки анкеты и методы его теги поиска
+		"analytics": {}
 	}
 	*/
 }
