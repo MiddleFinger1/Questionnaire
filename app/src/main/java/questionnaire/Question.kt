@@ -2,7 +2,6 @@ package questionnaire
 
 import org.json.simple.JSONObject
 import org.json.simple.parser.JSONParser
-import java.io.FileReader
 
 class Question(
     var question: String, val statements: Statements, var truth: String
@@ -21,8 +20,7 @@ class Question(
 
         fun createQuestion(json: String) =
             try {
-                val reader = FileReader(json)
-                createQuestion(JSONParser().parse(reader) as JSONObject)
+                createQuestion(JSONParser().parse(json) as JSONObject)
             }
             catch (ex: Exception){
                 null
