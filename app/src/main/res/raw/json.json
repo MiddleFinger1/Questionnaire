@@ -1,0 +1,37 @@
+{
+  "description": "this questionnaire are test and no more",
+  "questions": [
+    {
+      "question": "Who think up Master of Puppets",
+      "description": "it needs the choice",
+      "type": 0,
+      "statements": {
+        "type": 0,
+        "statements": ["Mettalica", "Rammstein", "Megadeth", "Pantera"]
+      },
+      "truth": "Mettalica",
+      "icon": ""
+    },
+    {
+      "question": "when did Rammstein published the album \"Herzelied\"?",
+      "description": "select a date",
+      "type": 0,
+      "statements": {
+        "type": 0,
+        "statements": ["1995", "1998", "1990", "2001"]
+      },
+      "truth": "1995",
+      "icon": ""
+    }
+  ],
+  "resources": [],
+  "settings": {
+    "title": "test",
+    "id": 0,
+    "group": "test",
+    "mark": 0.0,
+    "privacy": 0,
+    "userId": 0
+  },
+  "analytics": {}
+}

@@ -1,5 +1,6 @@
 package questionnaire
 
+import org.json.simple.JSONArray
 import org.json.simple.JSONObject
 import org.json.simple.parser.JSONParser
 
@@ -28,9 +29,19 @@ class Questionnaire(val settings: Settings
             return try {
                 val settings = Settings.createSettings(jsonObject[SETTINGS].toString())
                 Questionnaire(settings).apply {
-                    description = jsonObject[DESCRIPTION].toString()
-                    analytics = Analytics.createAnalytics(jsonObject[Analytics].toString())
-                    resourses = jsonObject[RESOURCES].toString().split(",") as ArrayList<String>
+                        description = jsonObject[DESCRIPTION].toString()
+                        analytics = Analytics.createAnalytics(jsonObject[Analytics].toString())
+
+                        for (item in jsonObject[RESOURCES].toString().split(","))
+                            resourses.add(item)
+
+                        for (item in jsonObject[QUESTIONS] as JSONArray){
+                            val question = Question.createQuestion(item.toString())
+                            if (question != null){
+                                question.context = this
+                                add(question)
+                            }
+                        }
                 }
             }
             catch (ex: Exception){

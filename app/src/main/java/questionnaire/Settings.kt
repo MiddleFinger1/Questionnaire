@@ -26,7 +26,10 @@ class Settings(var title: String): JsonObject {
                 group = jsonObject[GROUP].toString()
                 mark = jsonObject[MARK].toString().toDouble()
                 privacy = jsonObject[PRIVACY].toString().toInt()
-				userId = jsonObject[USER_ID].toString().toInt()
+
+                val jsonIdUser = jsonObject[USER_ID]
+                if (jsonIdUser != null)
+				    userId = jsonIdUser.toString().toInt()
             }
     }
 

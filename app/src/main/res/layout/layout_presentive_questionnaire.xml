@@ -1,26 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="questionnaire.ui.PresentativeQuestionnaire">
-    <ScrollView
+        tools:context="questionnaire.ui.PresentativeQuestionnaire"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/Questionnaire"
+        android:fitsSystemWindows="true">
+
+    <android.support.design.widget.AppBarLayout
+            android:id="@+id/main.appbar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="300dp"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            android:fitsSystemWindows="true">
+
+        <android.support.design.widget.CollapsingToolbarLayout
+                android:id="@+id/main.collapsing"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                android:fitsSystemWindows="true"
+                app:contentScrim="?attr/colorPrimary"
+                app:expandedTitleMarginStart="48dp"
+                app:expandedTitleMarginEnd="64dp">
+
+            <ImageView
+                    android:id="@+id/Questionnaire.Image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:fitsSystemWindows="true"
+                    app:srcCompat="@mipmap/ic_launcher_round"
+                    app:layout_collapseMode="parallax"/>
+
+            <android.support.v7.widget.Toolbar
+                    android:id="@+id/main.toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                    app:layout_collapseMode="pin"/>
+        </android.support.design.widget.CollapsingToolbarLayout>
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
         <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="20dp">
-            <ImageView
-                    android:id="@+id/Questionnaire.Image"
-                    android:layout_width="250dp"
-                    android:layout_height="250dp"
-                    android:layout_margin="20dp"
-                    app:srcCompat="@android:drawable/ic_menu_report_image"
-                    android:layout_centerHorizontal="true"/>
             <TextView
-                    android:layout_below="@id/Questionnaire.Image"
+                    android:layout_alignParentTop="true"
                     android:id="@+id/Questionnaire.Title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -36,8 +70,62 @@
                     android:layout_below="@id/Questionnaire.Title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/markLayout"
+                    android:layout_below="@id/Questionnaire.Description">
+                <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/Questionnaire.Mark1"
+                        android:layout_weight="1"
+                        android:background="@android:drawable/btn_star_big_off"/>
+                <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/Questionnaire.Mark2"
+                        android:layout_weight="1"
+                        android:background="@android:drawable/btn_star_big_off"/>
+                <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/Questionnaire.Mark3"
+                        android:layout_weight="1"
+                        android:background="@android:drawable/btn_star_big_off"/>
+                <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/Questionnaire.Mark4"
+                        android:layout_weight="1"
+                        android:background="@android:drawable/btn_star_big_off"/>
+                <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/Questionnaire.Mark5"
+                        android:layout_weight="1"
+                        android:background="@android:drawable/btn_star_big_off"/>
+            </LinearLayout>
+            <Button
+                    android:text="@string/exit_questionnaire"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/Questionnaire.Cancel"
+                    android:textAllCaps="false"
+                    android:layout_alignParentBottom="false"
+                    android:layout_below="@id/markLayout"/>
+            <Button
+                    android:text="@string/start_questionnaire"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/Questionnaire.Ok"
+                    android:textAllCaps="false"
+                    android:layout_alignParentBottom="false"
+                    android:layout_alignParentEnd="true"
+                    android:layout_below="@id/markLayout"/>
 
         </RelativeLayout>
-    </ScrollView>
+    </android.support.v4.widget.NestedScrollView>
 
 </android.support.design.widget.CoordinatorLayout>

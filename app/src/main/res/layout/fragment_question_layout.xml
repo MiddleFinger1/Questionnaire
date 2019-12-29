@@ -1,12 +1,58 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             tools:context="questionnaire.ui.QuestionSession">
-
-    <TextView
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context="questionnaire.ui.QuestionSession"
+                android:padding="10dp">
+    <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/hello_blank_fragment"/>
-
-</FrameLayout>
+            android:layout_above="@id/Question.Exit"
+            android:layout_alignParentTop="true">
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+            <ImageView
+                    android:src="@android:drawable/ic_menu_info_details"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/Question.Image"
+                    android:layout_gravity="center_horizontal"/>
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/Question.Question"
+                    android:text="@string/the_question"
+                    android:textAlignment="center"
+                    android:textSize="24sp"/>
+            <TextView
+                    android:text="@string/desription_to_question"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/Question.Description"
+                    android:textSize="18sp"/>
+            <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/Question.Statements">
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+    <Button
+            android:text="@string/exit_questionnaire"
+            android:layout_width="100dp"
+            android:id="@+id/Question.Exit"
+            android:layout_alignParentBottom="true"
+            android:textAllCaps="false"
+            android:layout_height="wrap_content"/>
+    <Button
+            android:text="@string/next_question"
+            android:layout_width="100dp"
+            android:id="@+id/Question.Next"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:textAllCaps="false"
+            android:layout_height="wrap_content"/>
+</RelativeLayout>

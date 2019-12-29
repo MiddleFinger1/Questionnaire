@@ -24,36 +24,35 @@ class Question(
             }
             catch (ex: Exception){
                 null
-            }
+           }
 
         fun createQuestion(jsonObject: JSONObject): Question? {
             return try {
-                val question = jsonObject["question"].toString()
-                val statements = Statements.createStatements(jsonObject["statements"].toString())
-                val truth = jsonObject["truth"].toString()
+                val question = jsonObject[QUESTION].toString()
+                val statements = Statements.createStatements(jsonObject[STATEMENTS].toString())
+                val truth = jsonObject[TRUTH].toString()
 
                 Question(question, statements!!, truth).apply {
-                    decription = jsonObject["decription"].toString()
-                    type = jsonObject["type"].toString().toInt()
-                    icon = jsonObject["icon"].toString()
+                    decription = jsonObject[DESCRIPTION].toString()
+                    type = jsonObject[TYPE].toString().toInt()
+                    icon = jsonObject[ICON].toString()
                 }
             }
             catch (ex: Exception) {
                 null
             }
         }
-
     }
 	
     override fun toJsonObject(): String {
         return """
             {
-                "question": "$question",
-                "description": "$decription",
-                "type": $type,
-                "statements": ${statements.toJsonObject()},
-                "truth": "$truth",
-                "icon": "$icon"
+                "$QUESTION": "$question",
+                "$DESCRIPTION": "$decription",
+                "$TYPE": $type,
+                "$STATEMENTS": ${statements.toJsonObject()},
+                "$TRUTH": "$truth",
+                "$ICON": "$icon"
             }
         """
     }
