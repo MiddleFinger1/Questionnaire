@@ -6,9 +6,7 @@ import application.fragments.GameOfflineSessions
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
-import questionnaire.Questionnaire
 import questionnaire.ui.ActivityQuestionnaire
-import questionnaire.ui.PresentativeQuestionnaire
 
 
 class MainActivity : AppCompatActivity() {
@@ -33,12 +31,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
-
-        val fragment = PresentativeQuestionnaire()
-        fragment.activity = this
-        fragment.questionnaire = Questionnaire.createQuestionnaire(Helper.converting(resources.openRawResource(R.raw.json)))!!
-
-        supportFragmentManager.beginTransaction().replace(R.id.MainLayout, fragment).commit()
 
         navView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
     }

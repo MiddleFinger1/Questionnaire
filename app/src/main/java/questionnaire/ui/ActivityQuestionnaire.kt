@@ -2,22 +2,21 @@ package questionnaire.ui
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.Toolbar
 import application.R
+import application.Helper
+import questionnaire.Questionnaire
 
 class ActivityQuestionnaire : AppCompatActivity() {
-
-    private lateinit var toolbar: Toolbar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_questionnaire)
 
-        toolbar = findViewById(R.id.toolbar)
+        val fragment = PresentativeQuestionnaire()
+        fragment.activity = this
+        fragment.questionnaire = Questionnaire.createQuestionnaire(Helper.converting(resources.openRawResource(R.raw.json)))!!
 
-        setSupportActionBar(toolbar)
-
-
+        supportFragmentManager.beginTransaction().replace(R.id.MainQuestionnaireLayout, fragment).commit()
     }
 
 }

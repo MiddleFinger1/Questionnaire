@@ -15,4 +15,5 @@
     <string name="the_question">Question</string>
     <string name="desription_to_question">Desription to question</string>
     <string name="title_activity_questionnaire">ActivityQuestionnaire</string>
+    <string name="back_question">Back</string>
 </resources>

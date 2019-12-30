@@ -2,12 +2,12 @@
   "description": "this questionnaire are test and no more",
   "questions": [
     {
-      "question": "Who think up Master of Puppets",
+      "question": "Who think up \"Master of Puppets\"?",
       "description": "it needs the choice",
       "type": 0,
       "statements": {
         "type": 0,
-        "statements": ["Mettalica", "Rammstein", "Megadeth", "Pantera"]
+        "statements": ["Metallica", "Rammstein", "Megadeth", "Pantera"]
       },
       "truth": "Mettalica",
       "icon": ""

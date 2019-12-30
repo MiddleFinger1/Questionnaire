@@ -7,7 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import application.R
+import kotlinx.android.synthetic.main.layout_game_offline_sessions.view.*
 import questionnaire.Question
+import questionnaire.Statements
 
 
 class QuestionSession : Fragment() {
@@ -16,9 +18,12 @@ class QuestionSession : Fragment() {
     lateinit var question: Question
     lateinit var contextQuestion: PresentativeQuestionnaire
 
+    private var answer = ""
+
     private lateinit var views: View
     private lateinit var buttonNext: Button
     private lateinit var buttonExit: Button
+    private lateinit var buttonBack: Button
     private lateinit var questionTitle: TextView
     private lateinit var descriptionView: TextView
     private lateinit var questionImage: ImageView
@@ -31,6 +36,7 @@ class QuestionSession : Fragment() {
         views.apply {
             buttonExit = findViewById(R.id.Question_Exit)
             buttonNext = findViewById(R.id.Question_Next)
+            buttonBack = findViewById(R.id.Question_Back)
             questionTitle = findViewById(R.id.Question_Question)
             descriptionView = findViewById(R.id.Question_Description)
             questionImage = findViewById(R.id.Question_Image)
@@ -43,27 +49,52 @@ class QuestionSession : Fragment() {
             else resources.getString(R.string.next_question)
 
         buttonNext.setOnClickListener {
-            // if
-            try {
-                contextQuestion.nextQuestion()
-            }
-            catch (ex: Exception){
-                Toast.makeText(context, ex.toString(), Toast.LENGTH_LONG).show()
-            }
+            if (answer != "") contextQuestion.nextQuestion()
+        }
+
+        buttonBack.setOnClickListener {
+            contextQuestion.backQuestion()
         }
 
         buttonExit.setOnClickListener {
-            contextQuestion.activity.supportFragmentManager.beginTransaction().replace(R.id.MainLayout, contextQuestion).commit()
+            contextQuestion.activity.supportFragmentManager.beginTransaction().replace(R.id.MainQuestionnaireLayout, contextQuestion).commit()
         }
 
         questionTitle.text = question.question
         descriptionView.text = question.decription
 
+        createChoice(statementsLayout, question.statements)
+
         // statements and image soon must be add
         return views
     }
 
+    private fun createChoice(layout: LinearLayout, statements: Statements){
 
+        when (statements.type){
 
+            Statements.SINGLE -> {
 
+                val groupButton = RadioGroup(context)
+                for (item in statements)
+                    groupButton.addView(RadioButton(context).apply {
+                        text = item
+                        setOnClickListener {
+                            if (!it.isActivated) answer = text.toString()
+                        }
+                    })
+                layout.addView(groupButton)
+            }
+            Statements.MULTI ->
+                for (item in statements)
+                    layout.addView(RadioButton(context).apply {
+                        text = item
+                    })
+            Statements.ENTER -> {
+                layout.addView(EditText(context).apply {
+
+                })
+            }
+        }
+    }
 }

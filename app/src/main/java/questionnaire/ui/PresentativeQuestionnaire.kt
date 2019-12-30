@@ -7,12 +7,10 @@ import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import application.R
 import questionnaire.Questionnaire
+import questionnaire.Statements
 
 
 class PresentativeQuestionnaire : Fragment() {
@@ -59,7 +57,23 @@ class PresentativeQuestionnaire : Fragment() {
                 fragment.question = questionnaire[scene]
                 fragment.contextQuestion = this
             } else fragment = this
-            activity.supportFragmentManager.beginTransaction().replace(R.id.MainLayout, fragment).commit()
+            activity.supportFragmentManager.beginTransaction().replace(R.id.MainQuestionnaireLayout, fragment).commit()
+        }
+        catch (ex: Exception){
+            Toast.makeText(context, ex.toString(), Toast.LENGTH_LONG).show()
+        }
+    }
+
+    fun backQuestion(){
+        try {
+            val fragment: Fragment
+            if (scene > 0) {
+                scene -= 1
+                fragment = QuestionSession()
+                fragment.question = questionnaire[scene]
+                fragment.contextQuestion = this
+            } else fragment = this
+            activity.supportFragmentManager.beginTransaction().replace(R.id.MainQuestionnaireLayout, fragment).commit()
         }
         catch (ex: Exception){
             Toast.makeText(context, ex.toString(), Toast.LENGTH_LONG).show()
