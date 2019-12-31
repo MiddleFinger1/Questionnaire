@@ -9,7 +9,7 @@
         "type": 0,
         "statements": ["Metallica", "Rammstein", "Megadeth", "Pantera"]
       },
-      "truth": "Mettalica",
+      "truth": "Metallica",
       "icon": ""
     },
     {
@@ -22,7 +22,18 @@
       },
       "truth": "1995",
       "icon": ""
-    }
+    },
+	{
+		"question": "какие концепции включает в себя ООП?",
+		"description": "выберете несколько ответов",
+		"type": 0,
+		"statements": {
+			"type": 1,
+			"statements": ["инкапсуляцию", "сокрытие", "полиморфизм", "наследование", "статическая типизация"]
+		},
+		"truth": "",
+		"icon": ""
+	}
   ],
   "resources": [],
   "settings": {
@@ -31,7 +42,8 @@
     "group": "test",
     "mark": 0.0,
     "privacy": 0,
-    "userId": 0
+    "userId": 0,
+	"path": "json.json"
   },
   "analytics": {}
 }

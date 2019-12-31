@@ -12,6 +12,7 @@ class Settings(var title: String): JsonObject {
     private set(value) = Unit
     var privacy = PUBLIC
 	var userId = -1
+	var path = ""
 
     companion object {
         const val PUBLIC = 0
@@ -26,10 +27,12 @@ class Settings(var title: String): JsonObject {
                 group = jsonObject[GROUP].toString()
                 mark = jsonObject[MARK].toString().toDouble()
                 privacy = jsonObject[PRIVACY].toString().toInt()
-
+				path = jsonObject[PATH].toString()
+				
                 val jsonIdUser = jsonObject[USER_ID]
                 if (jsonIdUser != null)
 				    userId = jsonIdUser.toString().toInt()
+					
             }
     }
 
@@ -52,6 +55,7 @@ class Settings(var title: String): JsonObject {
                 "$TITLE": "$title",
                 "$MARK": $mark,
                 "$PRIVACY": $privacy,
+				"$PATH": "$path"
            }
         """
         /*
@@ -60,8 +64,9 @@ class Settings(var title: String): JsonObject {
 				"userId": -1		// айди пользователя
                 "group": "", 		// к какой группе относиться (обычно это мб имеет отношение к пользователю или тегу)
                 "title": "", 		// название анкеты
-                "mark": 0.0         // общая оценка
-                "privacy": 0        // доступ к анкете
+                "mark": 0.0,         // общая оценка
+                "privacy": 0,       // доступ к анкете
+				"path": ""			// путь к анкете (в json разметке) .json
             }
          */
     }

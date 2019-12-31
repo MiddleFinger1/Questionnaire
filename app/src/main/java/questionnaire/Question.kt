@@ -28,15 +28,18 @@ class Question(
 
         fun createQuestion(jsonObject: JSONObject): Question? {
             return try {
-                val question = jsonObject[QUESTION].toString()
+                val question = jsonObject[QUESTION]
                 val statements = Statements.createStatements(jsonObject[STATEMENTS].toString())
-                val truth = jsonObject[TRUTH].toString()
+                val truth = jsonObject[TRUTH]
 
-                Question(question, statements!!, truth).apply {
-                    decription = jsonObject[DESCRIPTION].toString()
-                    type = jsonObject[TYPE].toString().toInt()
-                    icon = jsonObject[ICON].toString()
+                return if (question != null && statements != null && truth != null){
+                    Question(question.toString(), statements, truth.toString()).apply {
+                        decription = jsonObject[DESCRIPTION].toString()
+                        type = jsonObject[TYPE].toString().toInt()
+                        icon = jsonObject[ICON].toString()
+                    }
                 }
+                else null
             }
             catch (ex: Exception) {
                 null

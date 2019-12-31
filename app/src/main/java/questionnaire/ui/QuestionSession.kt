@@ -1,13 +1,14 @@
 package questionnaire.ui
 
+import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import android.support.v7.widget.Toolbar
 import application.R
-import kotlinx.android.synthetic.main.layout_game_offline_sessions.view.*
 import questionnaire.Question
 import questionnaire.Statements
 
@@ -21,6 +22,7 @@ class QuestionSession : Fragment() {
     private var answer = ""
 
     private lateinit var views: View
+    private lateinit var toolbar: Toolbar
     private lateinit var buttonNext: Button
     private lateinit var buttonExit: Button
     private lateinit var buttonBack: Button
@@ -34,6 +36,7 @@ class QuestionSession : Fragment() {
         views = inflater.inflate(R.layout.fragment_question_layout, container, false)
 
         views.apply {
+            toolbar = findViewById(R.id.Question_Toolbar)
             buttonExit = findViewById(R.id.Question_Exit)
             buttonNext = findViewById(R.id.Question_Next)
             buttonBack = findViewById(R.id.Question_Back)
@@ -43,6 +46,9 @@ class QuestionSession : Fragment() {
             statementsLayout = findViewById(R.id.Question_Statements)
         }
 
+        toolbar.setTitleTextColor(Color.WHITE)
+        toolbar.title = "${contextQuestion.scene + 1}/${contextQuestion.questionnaire.size}"
+
         buttonNext.text =
             if (contextQuestion.scene == question.context.lastIndex)
                 resources.getString(R.string.finish_questionnaire)
@@ -50,6 +56,11 @@ class QuestionSession : Fragment() {
 
         buttonNext.setOnClickListener {
             if (answer != "") contextQuestion.nextQuestion()
+
+            if (answer == question.truth)
+                Toast.makeText(context, "true", Toast.LENGTH_SHORT).show()
+            else
+                Toast.makeText(context, "false", Toast.LENGTH_SHORT).show()
         }
 
         buttonBack.setOnClickListener {
@@ -89,6 +100,10 @@ class QuestionSession : Fragment() {
                 for (item in statements)
                     layout.addView(RadioButton(context).apply {
                         text = item
+                        setOnClickListener {
+                            it as RadioButton
+                            if (!it.isActivated) answer = text.toString()
+                        }
                     })
             Statements.ENTER -> {
                 layout.addView(EditText(context).apply {
