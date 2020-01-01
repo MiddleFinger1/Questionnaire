@@ -1,0 +1,54 @@
+{
+	"subjects": [
+		{
+			"subject": "математика",
+			"background": "math.png",
+			"path": "math.json"
+		},
+		{
+			"subject": "русский язык",
+			"background": "russian.png",
+			"path": "russian.json"
+		},
+		{
+			"subject": "английский язык",
+			"background": "english.png",
+			"path": "english.json"
+		},
+		{
+			"subject": "латинский язык",
+			"background": "latin.png",
+			"path": "latin.json"
+		},
+		{
+			"subject": "физика",
+			"background": "physics.png",
+			"path": "physics.json"
+		},
+		{
+			"subject": "химия",
+			"background": "chemistry.png",
+			"path": "chemistry.json"
+		},
+		{
+			"subject": "астрономия",
+			"background": "astronomy.png",
+			"path": "astronomy.json"
+		},
+		{
+			"subject": "программирование",
+			"background": "programming.png",
+			"path": "programming.json"
+		},
+		{
+			"subject": "философия",
+			"background": "philosophy.png",
+			"path": "philosophy.json"
+		},
+		{
+			"subject": "биология",
+			"background": "biology.png",
+			"path": "biology.json"
+		}
+	]
+}

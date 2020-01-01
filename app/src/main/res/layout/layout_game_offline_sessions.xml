@@ -3,12 +3,11 @@
              android:layout_width="match_parent"
              android:layout_height="match_parent"
              tools:context="application.fragments.GameOfflineSessions">
-
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-            android:id="@+id/text"
+    <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/hello_blank_fragment"/>
-
+            android:id="@+id/OfflineSessions.RecyclerView"
+            android:paddingBottom="10dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"/>
 </FrameLayout>

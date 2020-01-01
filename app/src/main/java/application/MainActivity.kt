@@ -15,7 +15,7 @@ class MainActivity : AppCompatActivity() {
         val fragment: Fragment? = when (item.itemId) {
             R.id.navigation_home -> null
             R.id.navigation_dashboard ->
-                GameOfflineSessions()
+                GameOfflineSessions().apply { activity = this@MainActivity}
             R.id.navigation_notifications -> {
                 startActivity(Intent(baseContext, ActivityQuestionnaire::class.java))
                 null
