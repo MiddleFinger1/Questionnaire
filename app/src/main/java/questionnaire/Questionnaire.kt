@@ -1,5 +1,6 @@
 package questionnaire
 
+import android.util.Log
 import org.json.simple.JSONArray
 import org.json.simple.JSONObject
 import org.json.simple.parser.JSONParser
@@ -11,7 +12,7 @@ class Questionnaire(val settings: Settings
 
     var description = ""
     lateinit var analytics: Analytics
-    var resourses = arrayListOf<String>()
+    var resources = arrayListOf<Source>()
 
     companion object {
 
@@ -32,8 +33,12 @@ class Questionnaire(val settings: Settings
                         description = jsonObject[DESCRIPTION].toString()
                         analytics = Analytics.createAnalytics(jsonObject[Analytics].toString())
 
-                        for (item in jsonObject[RESOURCES].toString().split(","))
-                            resourses.add(item)
+                        for (item in jsonObject[RESOURCES] as JSONArray) {
+                            Log.e("item", item.toString())
+                            val source = Source.createSource(item.toString())
+                            if (source is Source)
+                                resources.add(source)
+                        }
 
                         for (item in jsonObject[QUESTIONS] as JSONArray){
                             val question = Question.createQuestion(item.toString())
@@ -61,11 +66,11 @@ class Questionnaire(val settings: Settings
                 else "{${question.toJsonObject()}}"
         }
         var resources = ""
-        for (i in 0..this.resourses.size){
-            val resource = this.resourses[i]
+        for (i in 0..this.resources.size){
+            val resource = this.resources[i]
             resources +=
-                if (i < lastIndex) "\"$resource\","
-                else "\"$resource\""
+                if (i < lastIndex) "\"${resource.toJsonObject()}\","
+                else "\"${resource.toJsonObject()}\""
         }
         return """
             {

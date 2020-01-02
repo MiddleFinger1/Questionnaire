@@ -13,6 +13,7 @@ class Settings(var title: String): JsonObject {
     var privacy = PUBLIC
 	var userId = -1
 	var path = ""
+    var isInSd = true
 
     companion object {
         const val PUBLIC = 0
@@ -50,6 +51,7 @@ class Settings(var title: String): JsonObject {
         return """
            {
                 "$ID": $id,
+                "$IS_IN_SD": $isInSd,
 				"$USER_ID": $userId,
                 "$GROUP": "$group",
                 "$TITLE": "$title",
@@ -61,6 +63,7 @@ class Settings(var title: String): JsonObject {
         /*
             {
                 "id": -1            // айди анкеты
+                "isInSd"
 				"userId": -1		// айди пользователя
                 "group": "", 		// к какой группе относиться (обычно это мб имеет отношение к пользователю или тегу)
                 "title": "", 		// название анкеты

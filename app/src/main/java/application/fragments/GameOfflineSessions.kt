@@ -15,7 +15,7 @@ import org.json.simple.JSONArray
 import org.json.simple.JSONObject
 import org.json.simple.parser.JSONParser
 import questionnaire.game.Subject
-import questionnaire.ui.SubjectAdapter
+import questionnaire.game.SubjectAdapter
 import android.support.v7.widget.LinearLayoutManager
 
 

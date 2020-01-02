@@ -2,7 +2,9 @@ package questionnaire.ui
 
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
@@ -12,7 +14,10 @@ import android.view.ViewGroup
 import android.widget.*
 import application.MainActivity
 import application.R
+import org.w3c.dom.Text
 import questionnaire.Questionnaire
+import questionnaire.ui.openSourse
+import java.net.URI
 
 
 class PresentativeQuestionnaire : Fragment() {
@@ -20,11 +25,13 @@ class PresentativeQuestionnaire : Fragment() {
     lateinit var activity: AppCompatActivity
     lateinit var questionnaire: Questionnaire
 
+    private lateinit var titleView: TextView
+    private lateinit var fab: FloatingActionButton
     private lateinit var views: View
     private lateinit var toolbar: Toolbar
     private lateinit var imagePresents: ImageView
     private lateinit var descriptionView: TextView
-    private lateinit var buttonOk: Button
+    private lateinit var sourceLayout: LinearLayout
     private lateinit var buttonExit: Button
 
     var scene = -1
@@ -34,18 +41,36 @@ class PresentativeQuestionnaire : Fragment() {
         views = inflater.inflate(R.layout.layout_presentive_questionnaire, container, false)
 
         views.apply {
+            titleView = findViewById(R.id.Questionnaire_Title)
+            fab = findViewById(R.id.Questionnaire_FABStart)
             toolbar = findViewById(R.id.Questionnaire_Toolbar)
             imagePresents = findViewById(R.id.Questionnaire_Image)
             descriptionView = findViewById(R.id.Questionnaire_Description)
-            buttonOk = findViewById(R.id.Questionnaire_Ok)
             buttonExit = findViewById(R.id.Questionnaire_Cancel)
+            sourceLayout = findViewById(R.id.Questionnaire_SourseLayout)
         }
 
         questionnaire.apply {
-            toolbar.title = settings.title
+            titleView.text = settings.title
             descriptionView.text = description
 
-            buttonOk.setOnClickListener {
+            for (path in resources) {
+                val source = openSourse(activity, path)
+
+                sourceLayout.addView(when {
+                    (source is String) -> TextView(context).apply {
+                        text = path.path
+                        setOnClickListener {
+                            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(source)))
+                        }
+                    }
+                    else -> null
+                })
+            }
+
+            if (resources.isEmpty()) sourceLayout.addView(TextView(context).apply { text = "Нет ресурсов" })
+
+            fab.setOnClickListener {
                 scene = -1
                 nextQuestion()
             }

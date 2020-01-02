@@ -1,0 +1,13 @@
+{
+	"settings": [
+		{
+			"title": "Программирование (Kotlin) 1 уровень",
+			"id": 0,
+			"group": "programming",
+			"mark": 0.0,
+			"privacy": 0,
+			"userId": 0,
+			"path": "programming1.json"
+		}
+	]
+}

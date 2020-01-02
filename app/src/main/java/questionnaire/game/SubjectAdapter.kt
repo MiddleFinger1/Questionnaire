@@ -1,4 +1,4 @@
-package questionnaire.ui
+package questionnaire.game
 
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView.Adapter
@@ -6,7 +6,6 @@ import android.support.v7.widget.RecyclerView.ViewHolder
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import application.R
-import questionnaire.game.Subject
 
 
 class SubjectAdapter: Adapter<ViewHolder>() {

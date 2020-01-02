@@ -50,6 +50,17 @@
                 android:layout_height="wrap_content"
                 android:padding="20dp">
             <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/Questionnaire.Title"
+                    android:text="@string/title_of_questionnaire"
+                    android:textAlignment="center"
+                    android:padding="10dp"
+                    android:textSize="24sp"
+                    android:layout_alignParentTop="true"
+                    android:textColor="#000000"
+                    android:singleLine="true"/>
+            <TextView
                     android:id="@+id/Questionnaire.Description"
                     android:text="@string/decription_of_questionnaire"
                     android:textSize="18sp"
@@ -57,13 +68,27 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/ubuntu_light"
                     android:textColor="#000000"
-                    android:padding="10dp"/>
+                    android:padding="10dp"
+                    android:layout_below="@id/Questionnaire.Title"/>
+            <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/Questionnaire.SourseLayout"
+                    android:singleLine="true"
+                    android:text="@string/questionnaire_sourse"
+                    android:textSize="18sp"
+                    android:layout_below="@id/Questionnaire.Description"
+                    android:padding="5dp"
+                    android:textColor="#1565C0"
+                    android:fontFamily="@font/ubuntu_light"
+                    android:textAlignment="textStart"/>
             <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/markLayout"
-                    android:layout_below="@id/Questionnaire.Description">
+                    android:layout_below="@id/Questionnaire.SourseLayout">
                 <Button
                         style="?android:attr/buttonBarButtonStyle"
                         android:layout_width="wrap_content"
@@ -111,18 +136,6 @@
                     android:background="#FFFFFF"
                     android:textSize="18sp"
                     android:fontFamily="@font/ubuntu_medium"/>
-            <Button
-                    android:text="@string/start_questionnaire"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/Questionnaire.Ok"
-                    android:textAllCaps="false"
-                    android:layout_alignParentBottom="false"
-                    android:layout_alignParentEnd="true"
-                    android:layout_below="@id/markLayout"
-                    android:background="#FFFFFF"
-                    android:textSize="18sp"
-                    android:fontFamily="@font/ubuntu_medium"/>
 
         </RelativeLayout>
     </android.support.v4.widget.NestedScrollView>
@@ -133,5 +146,6 @@
             android:layout_margin="@dimen/activity_horizontal_margin"
             app:layout_anchor="@id/main.appbar"
             app:layout_anchorGravity="bottom|right|end"
-            app:backgroundTint="#F9A825"/>
+            app:backgroundTint="#F9A825" android:src="@android:drawable/ic_media_play"
+            android:id="@+id/Questionnaire.FABStart"/>
 </android.support.design.widget.CoordinatorLayout>
