@@ -2,6 +2,7 @@ package questionnaire.ui
 
 
 import android.content.Intent
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
@@ -14,10 +15,9 @@ import android.view.ViewGroup
 import android.widget.*
 import application.MainActivity
 import application.R
-import org.w3c.dom.Text
 import questionnaire.Questionnaire
+import questionnaire.Source
 import questionnaire.ui.openSourse
-import java.net.URI
 
 
 class PresentativeQuestionnaire : Fragment() {
@@ -54,6 +54,11 @@ class PresentativeQuestionnaire : Fragment() {
             titleView.text = settings.title
             descriptionView.text = description
 
+            if (settings.icon != null) {
+                val icon = openSourse(activity, settings.icon!!)
+                if (icon is Drawable)
+                    imagePresents.background = icon
+            }
             for (path in resources) {
                 val source = openSourse(activity, path)
 

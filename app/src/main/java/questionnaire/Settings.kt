@@ -14,6 +14,7 @@ class Settings(var title: String): JsonObject {
 	var userId = -1
 	var path = ""
     var isInSd = true
+    var icon: Source? = null
 
     companion object {
         const val PUBLIC = 0
@@ -25,15 +26,30 @@ class Settings(var title: String): JsonObject {
 
         fun createSettings(jsonObject: JSONObject) =
             Settings(jsonObject[TITLE].toString()).apply {
-                group = jsonObject[GROUP].toString()
-                mark = jsonObject[MARK].toString().toDouble()
-                privacy = jsonObject[PRIVACY].toString().toInt()
-				path = jsonObject[PATH].toString()
-				
+
+                val jsonGroup = jsonObject[GROUP]
+                if (jsonGroup != null)
+                    group = jsonGroup.toString()
+
+                val jsonMark = jsonObject[MARK]
+                if (jsonMark != null)
+                    mark = jsonMark.toString().toDouble()
+
+                val jsonPrivacy = jsonObject[PRIVACY]
+                if (jsonPrivacy != null)
+                    privacy = jsonPrivacy.toString().toInt()
+
+                val jsonPath = jsonObject[PATH]
+                if (jsonPath != null)
+				    path = jsonPath.toString()
+
                 val jsonIdUser = jsonObject[USER_ID]
                 if (jsonIdUser != null)
 				    userId = jsonIdUser.toString().toInt()
-					
+
+                val jsonIcon = jsonObject[ICON]
+                if (jsonIcon != null)
+                    icon = Source.createSource(jsonIcon.toString())
             }
     }
 

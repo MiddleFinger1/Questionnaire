@@ -3,7 +3,6 @@ package questionnaire.game
 import android.graphics.drawable.Drawable
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView.ViewHolder
-import android.util.Log
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
