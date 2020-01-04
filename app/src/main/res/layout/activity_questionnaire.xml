@@ -5,4 +5,4 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/MainQuestionnaireLayout"
-        tools:context="questionnaire.ui.ActivityQuestionnaire"/>
+        tools:context="com.application.questionnaire.ui.ActivityQuestionnaire"/>

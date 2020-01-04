@@ -102,19 +102,6 @@
 			"type": 3
 		}
 	],
-	"settings": {
-		"title": "1 уровень",
-		"id": 0,
-		"group": "programming",
-		"mark": 0.0,
-		"privacy": 0,
-		"userId": 0,
-		"icon": {
-			"isInSd": true,
-			"path": "programming.png",
-			"type": 0
-		},
-		"path": "programming1.json"
-  },
+	"settings": {},
 	"analytics": {}
 }

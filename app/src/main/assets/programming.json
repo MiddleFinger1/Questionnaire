@@ -1,13 +1,60 @@
 {
 	"settings": [
 		{
-			"title": "Программирование (Kotlin) 1 уровень",
+			"title": "Переменные и операторы",
 			"id": 0,
 			"group": "programming",
 			"mark": 0.0,
 			"privacy": 0,
 			"userId": 0,
-			"path": "programming1.json"
+			"path": "programming1.json",
+			"icon": {
+				"isInSd": true,
+				"path": "programming.png",
+				"type": 0
+			}
+		},
+		{
+			"title": "Циклы и условия",
+			"id": 1,
+			"group": "programming",
+			"mark": 0.0,
+			"privacy": 0,
+			"userId": 0,
+			"path": "programming2.json",
+			"icon": {
+				"isInSd": true,
+				"path": "programming.png",
+				"type": 0
+			}
+		},
+		{
+			"title": "Функции",
+			"id": 1,
+			"group": "programming",
+			"mark": 0.0,
+			"privacy": 0,
+			"userId": 0,
+			"path": "programming3.json",
+			"icon": {
+				"isInSd": true,
+				"path": "programming.png",
+				"type": 0
+			}
+		},
+		{
+			"title": "Функции. Часть 2",
+			"id": 1,
+			"group": "programming",
+			"mark": 0.0,
+			"privacy": 0,
+			"userId": 0,
+			"path": "programming4.json",
+			"icon": {
+				"isInSd": true,
+				"path": "programming.png",
+				"type": 0
+			}
 		}
 	]
 }
