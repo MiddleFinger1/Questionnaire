@@ -3,26 +3,37 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
-        app:cardBackgroundColor="#00838F"
-        app:cardCornerRadius="20dp" android:layout_marginBottom="10dp">
+        android:layout_height="120dp"
+        android:layout_marginBottom="10dp"
+        app:cardBackgroundColor="#FFFFFF"
+        app:cardElevation="5dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp">
     <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="10dp">
+            android:scrollbarFadeDuration="100"
+            android:scrollbarDefaultDelayBeforeFade="100"
+            android:fadingEdgeLength="@dimen/activity_horizontal_margin">
+        <ImageView
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:id="@+id/Settings.ImageView"
+                android:background="@drawable/ic_dashboard_black_24dp"/>
         <TextView
                 android:text="TextView"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:id="@+id/Settings.Title"
                 android:padding="10dp"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentStart="true"
                 android:layout_toStartOf="@+id/Settings.Privacy"
-                android:layout_marginEnd="0dp"
-                android:textColor="#FFFFFF"
+                android:textColor="#000000"
                 android:textSize="18sp"
-                android:fontFamily="@font/ubuntu_medium"/>
+                android:fontFamily="@font/ubuntu_medium"
+                android:layout_toEndOf="@id/Settings.ImageView"
+                android:layout_alignParentTop="true"
+                android:singleLine="true"
+                android:layout_marginTop="10dp"/>
         <ImageView
                 android:layout_height="40dp"
                 app:srcCompat="@drawable/ic_lock_open_black_48dp"
@@ -30,18 +41,21 @@
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentTop="true"
                 android:layout_width="40dp"
-        />
+                android:layout_margin="10dp"/>
         <TextView
                 android:text="TextView"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/Settings.Group"
                 android:layout_alignParentBottom="true"
-                android:layout_alignParentStart="true"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/colorPrimary"
                 android:textAlignment="textStart"
                 android:fontFamily="@font/ubuntu_light"
-                android:textSize="14sp"/>
+                android:textSize="14sp"
+                android:layout_toEndOf="@id/Settings.ImageView"
+                android:singleLine="true"
+                android:layout_toStartOf="@id/Settings.Mark"
+                android:layout_margin="10dp"/>
         <TextView
                 android:text="TextView"
                 android:layout_width="wrap_content"
@@ -52,6 +66,7 @@
                 android:textColor="#F9A825"
                 android:fontFamily="@font/ubuntu_light"
                 android:textAlignment="textEnd"
-                android:textSize="14sp"/>
+                android:textSize="14sp"
+                android:layout_margin="10dp"/>
     </RelativeLayout>
 </android.support.v7.widget.CardView>

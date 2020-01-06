@@ -5,10 +5,13 @@ import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.Toolbar
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.application.R
+import com.application.fragments.GameOfflineSessions
 import com.questionnaire.Settings
 
 
@@ -17,6 +20,7 @@ class QuestionnaireGroup : Fragment() {
     lateinit var activity: AppCompatActivity
     lateinit var settings: ArrayList<Settings>
     private lateinit var recyclerView: RecyclerView
+    private lateinit var toolbar: Toolbar
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
@@ -26,6 +30,14 @@ class QuestionnaireGroup : Fragment() {
 
             recyclerView = findViewById(R.id.Group_recyclerView)
             recyclerView.setHasFixedSize(true)
+
+            toolbar = findViewById(R.id.Group_Toolbar)
+
+            toolbar.setNavigationOnClickListener {
+                val fragment = GameOfflineSessions()
+                fragment.activity = activity
+                activity.supportFragmentManager.beginTransaction().replace(R.id.MainLayout, fragment).commit()
+            }
 
             val layoutManager = LinearLayoutManager(context)
             layoutManager.orientation = LinearLayoutManager.VERTICAL

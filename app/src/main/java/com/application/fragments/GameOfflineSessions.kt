@@ -1,6 +1,7 @@
 package com.application.fragments
 
 
+import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
@@ -17,6 +18,7 @@ import org.json.simple.parser.JSONParser
 import com.questionnaire.game.Subject
 import com.questionnaire.game.SubjectAdapter
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.Toolbar
 
 
 class GameOfflineSessions : Fragment() {
@@ -24,6 +26,7 @@ class GameOfflineSessions : Fragment() {
     lateinit var activity: AppCompatActivity
     private lateinit var views: View
     private lateinit var recyclerView: RecyclerView
+    private lateinit var toolbar: Toolbar
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
@@ -31,8 +34,11 @@ class GameOfflineSessions : Fragment() {
 
         return views.apply {
 
-            recyclerView = findViewById(R.id.OfflineSessions_RecyclerView)
+            toolbar = findViewById(R.id.offLine_Toolbar)
+            toolbar.title = "Прохождение анкет"
+            toolbar.setTitleTextColor(Color.BLACK)
 
+            recyclerView = findViewById(R.id.OfflineSessions_RecyclerView)
             recyclerView.setHasFixedSize(true)
 
             val adapter = SubjectAdapter()

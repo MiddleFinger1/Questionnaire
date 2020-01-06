@@ -1,5 +1,6 @@
 package com.application;
 
+
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -24,21 +25,21 @@ public abstract class Helper {
         }
     }
 	
-	private static String getRealPathFromURI(Context context, Uri uri) {
-		Cursor cursor;
-		try {
-			//val proj = arrayOf(MediaStore.Images.Media.DATA)
-			cursor = context.contentResolver.query(uri, proj, null, null, null);
-			columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-			cursor.moveToFirst();
-			return cursor.getString(columnIndex);
-		}
-		catch (Exception ex){
-			if (cursor != null) cursor.close();
-			return "";
-		}
-		
-	}
+	//private static String getRealPathFromURI(Context context, Uri uri) {
+	//	Cursor cursor = null;
+	//	try {
+	//		int[] proj = arrayOf(MediaStore.Images.Media.DATA);
+	//		cursor = context.contentResolver.query(uri, proj, null, null, null);
+	//		int columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+	//		cursor.moveToFirst();
+	//		return cursor.getString(columnIndex);
+	//	}
+	//	catch (Exception ex){
+	//		if (cursor != null) cursor.close();
+	//		return "";
+	//	}
+	//
+	//}
 	
 	/*
 	private fun getRealPathFromURI(context: Context, contentUri: Uri): String {
