@@ -2,6 +2,7 @@ package com.questionnaire.ui
 
 
 import android.content.Intent
+import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
@@ -22,15 +23,16 @@ class PresentativeQuestionnaire : Fragment() {
 
     lateinit var activity: AppCompatActivity
     lateinit var questionnaire: Questionnaire
+    private var checkSingleLine = true
 
     private lateinit var titleView: TextView
-    private lateinit var fab: FloatingActionButton
+    private lateinit var fabStart: FloatingActionButton
+    private lateinit var fabExit: FloatingActionButton
     private lateinit var views: View
     private lateinit var toolbar: Toolbar
     private lateinit var imagePresents: ImageView
     private lateinit var descriptionView: TextView
     private lateinit var sourceLayout: LinearLayout
-    private lateinit var buttonExit: Button
 
     var scene = -1
 
@@ -40,12 +42,19 @@ class PresentativeQuestionnaire : Fragment() {
 
         views.apply {
             titleView = findViewById(R.id.Questionnaire_Title)
-            fab = findViewById(R.id.Questionnaire_FABStart)
+            fabStart = findViewById(R.id.Questionnaire_FABStart)
+            fabExit = findViewById(R.id.Questionnaire_FABExit)
             toolbar = findViewById(R.id.Questionnaire_Toolbar)
             imagePresents = findViewById(R.id.Questionnaire_Image)
             descriptionView = findViewById(R.id.Questionnaire_Description)
-            buttonExit = findViewById(R.id.Questionnaire_Cancel)
             sourceLayout = findViewById(R.id.Questionnaire_SourseLayout)
+        }
+
+        titleView.setOnClickListener {
+            if (it is TextView){
+                checkSingleLine = !checkSingleLine
+                it.setSingleLine(checkSingleLine)
+            }
         }
 
         questionnaire.apply {
@@ -62,6 +71,7 @@ class PresentativeQuestionnaire : Fragment() {
 
                 sourceLayout.addView(when {
                     (source is String) -> TextView(context).apply {
+                        setTextColor(Color.parseColor("#6295C3"))
                         text = path.path
                         setOnClickListener {
                             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(source)))
@@ -73,16 +83,15 @@ class PresentativeQuestionnaire : Fragment() {
 
             if (resources.isEmpty()) sourceLayout.addView(TextView(context).apply { text = "Нет ресурсов" })
 
-            fab.setOnClickListener {
+            fabStart.setOnClickListener {
                 scene = -1
                 nextQuestion()
             }
-        }
 
-        buttonExit.setOnClickListener {
-            activity.startActivity(Intent(context, MainActivity::class.java))
+            fabExit.setOnClickListener {
+                activity.startActivity(Intent(context, MainActivity::class.java))
+            }
         }
-
         return views
     }
 

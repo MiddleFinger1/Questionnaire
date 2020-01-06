@@ -57,7 +57,7 @@ class QuestionSession : Fragment() {
         buttonNext.setOnClickListener {
             if (answer != "") contextQuestion.nextQuestion()
 
-            if (answer == question.truth)
+            if (answer == question.statements[question.truth])
                 Toast.makeText(context, "true", Toast.LENGTH_SHORT).show()
             else
                 Toast.makeText(context, "false", Toast.LENGTH_SHORT).show()

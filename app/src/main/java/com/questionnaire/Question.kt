@@ -2,14 +2,15 @@ package com.questionnaire
 
 import org.json.simple.JSONObject
 import org.json.simple.parser.JSONParser
+import java.lang.NumberFormatException
 
 class Question(
-    var question: String, val statements: Statements, var truth: String
+    var question: String, val statements: Statements, var truth: Int
 
 ): JsonObject {
 
     var decription = ""
-    var icon = ""
+    var icon: Source? = null
     var type = ON_DEFAULT
     lateinit var context: Questionnaire
 
@@ -30,13 +31,20 @@ class Question(
             return try {
                 val question = jsonObject[QUESTION]
                 val statements = Statements.createStatements(jsonObject[STATEMENTS].toString())
-                val truth = jsonObject[TRUTH]
-
-                return if (question != null && statements != null && truth != null){
-                    Question(question.toString(), statements, truth.toString()).apply {
+                val truth = try {
+                    jsonObject[TRUTH].toString().toInt()
+                }
+                catch (ex: Exception) {
+                    return null
+                }
+                return if (question != null && statements != null){
+                    Question(question.toString(), statements, truth).apply {
                         decription = jsonObject[DESCRIPTION].toString()
                         type = jsonObject[TYPE].toString().toInt()
-                        icon = jsonObject[ICON].toString()
+
+                        val jsonIcon = jsonObject[ICON]
+                        if (jsonIcon != null)
+                            icon = Source.createSource(jsonIcon.toString())
                     }
                 }
                 else null
@@ -54,7 +62,7 @@ class Question(
                 "$DESCRIPTION": "$decription",
                 "$TYPE": $type,
                 "$STATEMENTS": ${statements.toJsonObject()},
-                "$TRUTH": "$truth",
+                "$TRUTH": $truth,
                 "$ICON": "$icon"
             }
         """

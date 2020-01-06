@@ -23,6 +23,35 @@ public abstract class Helper {
             return "";
         }
     }
-
-
+	
+	private static String getRealPathFromURI(Context context, Uri uri) {
+		Cursor cursor;
+		try {
+			//val proj = arrayOf(MediaStore.Images.Media.DATA)
+			cursor = context.contentResolver.query(uri, proj, null, null, null);
+			columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+			cursor.moveToFirst();
+			return cursor.getString(columnIndex);
+		}
+		catch (Exception ex){
+			if (cursor != null) cursor.close();
+			return "";
+		}
+		
+	}
+	
+	/*
+	private fun getRealPathFromURI(context: Context, contentUri: Uri): String {
+        var cursor: Cursor? = null
+        try {
+            val proj = arrayOf(MediaStore.Images.Media.DATA)
+            cursor = context.contentResolver.query(contentUri, proj, null, null, null)
+            val columnIndex = cursor!!.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+            cursor.moveToFirst()
+            return cursor.getString(columnIndex)
+        } finally {
+            cursor?.close()
+        }
+    }
+	*/
 }

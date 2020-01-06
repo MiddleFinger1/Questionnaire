@@ -1,9 +1,11 @@
 package com.questionnaire.ui
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import android.view.WindowManager
 import android.widget.Toast
 import com.application.R
 import com.application.Helper
@@ -18,6 +20,13 @@ class ActivityQuestionnaire : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_questionnaire)
+
+        if (android.os.Build.VERSION.SDK_INT >= 21){
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+            window.statusBarColor = Color.parseColor("#ACACAC")
+        }
+
         try {
             var json = intent.getStringExtra("settings")
             val settings = Settings.createSettings(json)

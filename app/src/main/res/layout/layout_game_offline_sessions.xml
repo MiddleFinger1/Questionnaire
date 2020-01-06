@@ -4,7 +4,7 @@
         android:fitsSystemWindows="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="application.fragments.GameOfflineSessions">
+        tools:context="com.application.fragments.GameOfflineSessions">
 
     <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
