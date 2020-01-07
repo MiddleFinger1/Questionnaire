@@ -2,6 +2,7 @@ package com.users
 
 import com.questionnaire.JsonObject
 import org.json.simple.JSONObject
+import org.json.simple.parser.JSONParser
 
 
 data class DataPrivacy(
@@ -10,9 +11,13 @@ data class DataPrivacy(
 	
 	companion object {
 	
-		fun createDataPrivacy(json: String): DataPrivacy? {
-			return null
-		}
+		fun createDataPrivacy(json: String) =
+			try {
+				createDataPrivacy(JSONParser().parse(json) as JSONObject)
+			}
+			catch (ex: Exception){
+				null
+			}
 		
 		fun createDataPrivacy(json: String, check: Boolean): DataPrivacy? {
 			return null

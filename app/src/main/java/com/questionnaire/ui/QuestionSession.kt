@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar
 import com.application.R
 import com.questionnaire.Question
 import com.questionnaire.Statements
+import android.content.res.ColorStateList
 
 
 class QuestionSession : Fragment() {
@@ -46,7 +47,6 @@ class QuestionSession : Fragment() {
             statementsLayout = findViewById(R.id.Question_Statements)
         }
 
-        toolbar.setTitleTextColor(Color.WHITE)
         toolbar.title = "${contextQuestion.scene + 1}/${contextQuestion.questionnaire.size}"
 
         buttonNext.text =
@@ -56,9 +56,10 @@ class QuestionSession : Fragment() {
 
         buttonNext.setOnClickListener {
             if (answer != "") contextQuestion.nextQuestion()
-
-            if (answer == question.statements[question.truth])
-                Toast.makeText(context, "true", Toast.LENGTH_SHORT).show()
+            if (answer == question.statements[question.truth]) {
+                contextQuestion.points += question.cost
+                Toast.makeText(context, "+${question.cost}", Toast.LENGTH_SHORT).show()
+            }
             else
                 Toast.makeText(context, "false", Toast.LENGTH_SHORT).show()
         }
@@ -90,6 +91,19 @@ class QuestionSession : Fragment() {
                 for (item in statements)
                     groupButton.addView(RadioButton(context).apply {
                         text = item
+                        setTextColor(Color.BLACK)
+                        highlightColor = Color.BLACK
+                        buttonTintList = ColorStateList(
+                            arrayOf(
+                                intArrayOf(-android.R.attr.state_enabled),
+                                intArrayOf(android.R.attr.state_enabled)
+                            ),
+                            intArrayOf(
+                                Color.BLACK,
+                                Color.parseColor("#008577")
+                            )
+                        )
+                        invalidate()
                         setOnClickListener {
                             if (!it.isActivated) answer = text.toString()
                         }

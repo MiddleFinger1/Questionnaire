@@ -4,14 +4,17 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.application.questionnaire.ui.QuestionSession" android:background="#FFFFFF">
+        tools:context="com.questionnaire.ui.QuestionSession"
+        android:background="#FFFFFF">
     <android.support.v7.widget.Toolbar
             android:id="@+id/Question.Toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:layout_alignParentTop="true"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            android:background="@color/colorPrimary"/>
+            android:background="#FFFFFF"
+            app:titleTextColor="#000000"
+            android:elevation="8dp"/>
     <ScrollView
             android:padding="10dp"
             android:layout_width="match_parent"
@@ -71,7 +74,7 @@
                     android:textColor="#000000"
                     android:background="#FFFFFF"
                     android:shadowColor="#FFFFFF"
-                    android:fontFamily="@font/ubuntu_medium"/>
+                    android:fontFamily="@font/ubuntu_medium" android:elevation="5dp"/>
             <Button
                     android:layout_width="70dp"
                     android:layout_height="wrap_content"
@@ -85,7 +88,7 @@
                     android:textColor="#000000"
                     android:background="#FFFFFF"
                     android:shadowColor="#FFFFFF"
-                    android:fontFamily="@font/ubuntu_medium"/>
+                    android:fontFamily="@font/ubuntu_medium" android:elevation="5dp"/>
             <Button
                     android:text="@string/next_question"
                     android:layout_width="70dp"
@@ -99,7 +102,7 @@
                     android:textColor="#000000"
                     android:background="#FFFFFF"
                     android:shadowColor="#FFFFFF"
-                    android:fontFamily="@font/ubuntu_medium"/>
+                    android:fontFamily="@font/ubuntu_medium" android:elevation="5dp"/>
         </RelativeLayout>
     </ScrollView>
 </RelativeLayout>

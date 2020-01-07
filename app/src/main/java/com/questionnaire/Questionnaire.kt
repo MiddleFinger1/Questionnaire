@@ -1,6 +1,5 @@
 package com.questionnaire
 
-import android.util.Log
 import org.json.simple.JSONArray
 import org.json.simple.JSONObject
 import org.json.simple.parser.JSONParser
@@ -11,7 +10,7 @@ class Questionnaire(var settings: Settings
 ): ArrayList<Question>(), JsonObject {
 
     var description = ""
-    lateinit var analytics: Analytics
+    var analytics = Analytics()
     var resources = arrayListOf<Source>()
 
     companion object {
@@ -30,23 +29,25 @@ class Questionnaire(var settings: Settings
             return try {
                 val settings = Settings.createSettings(jsonObject[SETTINGS].toString())
                 Questionnaire(settings).apply {
-                        description = jsonObject[DESCRIPTION].toString()
-                        analytics = Analytics.createAnalytics(jsonObject[Analytics].toString())
+                    description = jsonObject[DESCRIPTION].toString()
 
-                        for (item in jsonObject[RESOURCES] as JSONArray) {
-                            Log.e("item", item.toString())
-                            val source = Source.createSource(item.toString())
-                            if (source is Source)
-                                resources.add(source)
-                        }
+                    val analytics = Analytics.createAnalytics(jsonObject[Analytics].toString())
+                    if (analytics != null)
+                        this.analytics = analytics
 
-                        for (item in jsonObject[QUESTIONS] as JSONArray){
-                            val question = Question.createQuestion(item.toString())
-                            if (question != null){
-                                question.context = this
-                                add(question)
-                            }
+                    for (item in jsonObject[RESOURCES] as JSONArray) {
+                        val source = Source.createSource(item.toString())
+                        if (source is Source)
+                            resources.add(source)
+                    }
+
+                    for (item in jsonObject[QUESTIONS] as JSONArray){
+                        val question = Question.createQuestion(item.toString())
+                        if (question != null){
+                            question.context = this
+                            add(question)
                         }
+                    }
                 }
             }
             catch (ex: Exception){

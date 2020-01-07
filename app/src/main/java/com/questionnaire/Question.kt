@@ -13,6 +13,7 @@ class Question(
     var icon: Source? = null
     var type = ON_DEFAULT
     lateinit var context: Questionnaire
+	var cost = 1.0
 
     companion object {
 
@@ -45,6 +46,10 @@ class Question(
                         val jsonIcon = jsonObject[ICON]
                         if (jsonIcon != null)
                             icon = Source.createSource(jsonIcon.toString())
+							
+						val jsonCost = jsonObject[COST]
+						if (jsonCost != null)
+							cost = jsonCost.toString().toDouble()
                     }
                 }
                 else null
@@ -63,7 +68,8 @@ class Question(
                 "$TYPE": $type,
                 "$STATEMENTS": ${statements.toJsonObject()},
                 "$TRUTH": $truth,
-                "$ICON": "$icon"
+                "$ICON": "$icon",
+				"$COST": $cost
             }
         """
     }

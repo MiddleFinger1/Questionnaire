@@ -35,6 +35,7 @@ class PresentativeQuestionnaire : Fragment() {
     private lateinit var sourceLayout: LinearLayout
 
     var scene = -1
+    var points = 0.0
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -68,7 +69,6 @@ class PresentativeQuestionnaire : Fragment() {
             }
             for (path in resources) {
                 val source = openSource(activity, path)
-
                 sourceLayout.addView(when {
                     (source is String) -> TextView(context).apply {
                         setTextColor(Color.parseColor("#6295C3"))
@@ -103,7 +103,10 @@ class PresentativeQuestionnaire : Fragment() {
                 fragment = QuestionSession()
                 fragment.question = questionnaire[scene]
                 fragment.contextQuestion = this
-            } else fragment = this
+            }
+            else fragment = AnalyticsFragment().apply {
+                    contextQuestionnaire = this@PresentativeQuestionnaire
+                }
             activity.supportFragmentManager.beginTransaction().replace(R.id.MainQuestionnaireLayout, fragment).commit()
         }
         catch (ex: Exception){
@@ -119,6 +122,7 @@ class PresentativeQuestionnaire : Fragment() {
                 fragment = QuestionSession()
                 fragment.question = questionnaire[scene]
                 fragment.contextQuestion = this
+                points -= questionnaire[scene].cost
             } else fragment = this
             activity.supportFragmentManager.beginTransaction().replace(R.id.MainQuestionnaireLayout, fragment).commit()
         }
