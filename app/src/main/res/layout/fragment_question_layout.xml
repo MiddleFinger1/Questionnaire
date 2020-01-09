@@ -15,23 +15,29 @@
             android:background="#FFFFFF"
             app:titleTextColor="#000000"
             android:elevation="8dp"/>
-    <ScrollView
-            android:padding="10dp"
+    <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/Question.Toolbar">
+            android:layout_below="@id/Question.Toolbar"
+            android:layout_marginBottom="30dp">
         <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
             <ImageView
-                    android:src="@android:drawable/ic_menu_info_details"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/Question.Image"
                     android:layout_gravity="center_horizontal"
                     android:layout_alignParentTop="true"
-                    android:layout_centerHorizontal="true"/>
+                    android:layout_centerHorizontal="true"
+                    android:padding="10dp"
+                    android:maxHeight="250dp"
+                    android:maxWidth="250dp"
+                    android:background="@drawable/ic_dashboard_black_24dp"
+                    android:minHeight="100dp"
+                    android:minWidth="100dp"
+                    android:layout_margin="10dp"/>
             <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -41,7 +47,6 @@
                     android:textSize="24sp"
                     android:layout_below="@id/Question.Image"
                     android:textColor="#000000"
-                    android:padding="10dp"
                     android:fontFamily="@font/ubuntu_medium"/>
             <TextView
                     android:text="@string/desription_to_question"
@@ -50,59 +55,17 @@
                     android:id="@+id/Question.Description"
                     android:textSize="18sp"
                     android:layout_below="@id/Question.Question"
-                    android:textColor="#000000"
-                    android:fontFamily="@font/ubuntu_light"/>
+                    android:fontFamily="@font/ubuntu_light"
+                    android:textColor="#ACACAC"
+                    android:padding="10dp"
+                    android:paddingStart="20dp"/>
             <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:id="@+id/Question.Statements"
-                    android:layout_below="@id/Question.Description"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginBottom="20dp">
+                    android:layout_below="@id/Question.Description">
             </LinearLayout>
-            <Button
-                    android:text="@string/exit_questionnaire"
-                    android:layout_width="70dp"
-                    android:id="@+id/Question.Exit"
-                    android:textAllCaps="false"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_below="@id/Question.Statements"
-                    android:textSize="18sp"
-                    android:textColor="#000000"
-                    android:background="#FFFFFF"
-                    android:shadowColor="#FFFFFF"
-                    android:fontFamily="@font/ubuntu_medium" android:elevation="5dp"/>
-            <Button
-                    android:layout_width="70dp"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/Question.Back"
-                    android:text="@string/back_question"
-                    android:layout_below="@id/Question.Statements"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerHorizontal="true"
-                    android:textAllCaps="false"
-                    android:textSize="18sp"
-                    android:textColor="#000000"
-                    android:background="#FFFFFF"
-                    android:shadowColor="#FFFFFF"
-                    android:fontFamily="@font/ubuntu_medium" android:elevation="5dp"/>
-            <Button
-                    android:text="@string/next_question"
-                    android:layout_width="70dp"
-                    android:id="@+id/Question.Next"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentEnd="true"
-                    android:textAllCaps="false"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/Question.Statements"
-                    android:textSize="18sp"
-                    android:textColor="#000000"
-                    android:background="#FFFFFF"
-                    android:shadowColor="#FFFFFF"
-                    android:fontFamily="@font/ubuntu_medium" android:elevation="5dp"/>
         </RelativeLayout>
-    </ScrollView>
+    </android.support.v4.widget.NestedScrollView>
 </RelativeLayout>

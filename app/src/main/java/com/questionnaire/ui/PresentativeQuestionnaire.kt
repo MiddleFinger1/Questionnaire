@@ -10,6 +10,7 @@ import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -97,20 +98,21 @@ class PresentativeQuestionnaire : Fragment() {
 
     fun nextQuestion() {
         try {
-            val fragment: Fragment
             if (scene < questionnaire.lastIndex) {
                 scene += 1
-                fragment = QuestionSession()
-                fragment.question = questionnaire[scene]
-                fragment.contextQuestion = this
-            }
-            else fragment = AnalyticsFragment().apply {
-                    contextQuestionnaire = this@PresentativeQuestionnaire
+                val fragment = QuestionSession().apply {
+                    question = questionnaire[scene]
+                    contextQuestion = this@PresentativeQuestionnaire
                 }
-            activity.supportFragmentManager.beginTransaction().replace(R.id.MainQuestionnaireLayout, fragment).commit()
+                activity.supportFragmentManager.beginTransaction().replace(R.id.MainQuestionnaireLayout, fragment).commit()
+            }
+            else {
+                val fragment = this
+                activity.supportFragmentManager.beginTransaction().replace(R.id.MainQuestionnaireLayout, fragment).commit()
+            }
         }
         catch (ex: Exception){
-            Toast.makeText(context, ex.toString(), Toast.LENGTH_LONG).show()
+            Log.e("ex", ex.toString())
         }
     }
 

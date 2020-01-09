@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+      xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+            android:id="@+id/MenuQuestion.Exit"
+            android:title="@string/exit_questionnaire"
+            app:showAsAction="always"
+            android:icon="@drawable/ic_exit_to_app_black_48dp"/>
+    <item
+            android:id="@+id/MenuQuestion.Back"
+            android:title="@string/back_question"
+            app:showAsAction="ifRoom"
+            android:icon="@drawable/ic_keyboard_arrow_left_black_48dp"/>
+    <item
+            android:id="@+id/MenuQuestion.Next"
+            android:title="@string/next_question"
+            app:showAsAction="ifRoom"
+            android:icon="@drawable/ic_keyboard_arrow_right_black_48dp"/>
+</menu>

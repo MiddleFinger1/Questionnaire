@@ -15,7 +15,11 @@
 					]
 			},
 			"truth": 0,
-			"icon": "",
+			"icon": {
+				"isInSd": true,
+				"path": "programming.png",
+				"type": 0
+			},
 			"cost": 1.0
 		},
 		{
