@@ -1,24 +1,24 @@
 package com.questionnaire
 
+import android.util.Log
+import org.json.simple.JSONArray
 import org.json.simple.JSONObject
 import org.json.simple.parser.JSONParser
-import java.lang.NumberFormatException
+
 
 class Question(
-    var question: String, val statements: Statements, var truth: Int
+    var question: String, val statements: Statements
 
 ): JsonObject {
 
-    var decription = ""
+    val truth = arrayListOf<Int>()
+    var description = ""
     var icon: Source? = null
-    var type = ON_DEFAULT
+    var isDefault = true
     lateinit var context: Questionnaire
 	var cost = 1.0
 
     companion object {
-
-        const val ON_DEFAULT = 0
-        const val ON_TIME = 1
 
         fun createQuestion(json: String) =
             try {
@@ -32,16 +32,21 @@ class Question(
             return try {
                 val question = jsonObject[QUESTION]
                 val statements = Statements.createStatements(jsonObject[STATEMENTS].toString())
-                val truth = try {
-                    jsonObject[TRUTH].toString().toInt()
-                }
-                catch (ex: Exception) {
-                    return null
-                }
-                return if (question != null && statements != null){
-                    Question(question.toString(), statements, truth).apply {
-                        decription = jsonObject[DESCRIPTION].toString()
-                        type = jsonObject[TYPE].toString().toInt()
+                val jsonTruth = jsonObject[TRUTH] as? JSONArray
+                return if (question != null && statements != null && jsonTruth != null){
+                    Question(question.toString(), statements).apply {
+                        try {
+                            for (item in jsonTruth)
+                                truth += item.toString().toInt()
+                        }
+                        catch (ex: Exception){
+                            Log.e("ex", ex.toString())
+                        }
+                        description = jsonObject[DESCRIPTION].toString()
+
+                        val jsonIsDefault = jsonObject[IS_DEFAULT]
+                        if (jsonIsDefault != null)
+                            isDefault = jsonIsDefault.toString().toBoolean()
 
                         val jsonIcon = jsonObject[ICON]
                         if (jsonIcon != null)
@@ -64,8 +69,8 @@ class Question(
         return """
             {
                 "$QUESTION": "$question",
-                "$DESCRIPTION": "$decription",
-                "$TYPE": $type,
+                "$DESCRIPTION": "$description",
+                "$IS_DEFAULT": $isDefault,
                 "$STATEMENTS": ${statements.toJsonObject()},
                 "$TRUTH": $truth,
                 "$ICON": "$icon",

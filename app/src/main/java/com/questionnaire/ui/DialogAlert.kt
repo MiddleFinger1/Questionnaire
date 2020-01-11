@@ -1,8 +1,6 @@
-package com.application.fragments
+package com.questionnaire.ui
 
 import android.content.Context
-import android.graphics.Color
-import android.graphics.Typeface
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.util.DisplayMetrics
@@ -11,11 +9,13 @@ import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.LinearLayout.*
 import android.widget.TextView
+import android.widget.Toast
 import com.application.R
 
 
 class DialogAlert: DialogFragment() {
 
+    lateinit var contextQuestionnaire: PresentativeQuestionnaire
     var setTitle = ""
     var setDescription = ""
     private lateinit var titleView: TextView
@@ -49,33 +49,40 @@ class DialogAlert: DialogFragment() {
         if (setDescription != "")
             descriptionView.text = setDescription
 
+        // не получается универсализировать для определенных нужд
+        titleView.text = "Завершить тестирование!"
+        descriptionView.text = "Вы хотите завершить анкету и узнать свой результат?"
+        //setTitle = "Завершить тестирование!"
+        //setDescription = "Вы хотите завершить анкету и узнать свой результат?"
+        addButtonAction("Cancel") {
+            dismiss()
+        }
+        addButtonAction("Ok"){
+            val fragment = AnalyticsFragment()
+            fragment.contextQuestionnaire = contextQuestionnaire
+            activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.MainQuestionnaireLayout, fragment)?.commit()
+            dismiss()
+        }
         return views
     }
 
-    companion object {
-        const val BUTTON_OK = 0
-        const val BUTTON_CANCEL = 1
-        const val BUTTON_SIMPLE = 2
-    }
-
-    fun addButtonAction(text: String, aim: Int = BUTTON_SIMPLE, action: () -> Unit){
-        val button = Button(context).apply {
+    fun addButtonAction(text: String, action: () -> Unit){
+        val button = Button(ContextThemeWrapper(context, R.style.ItemThemeTextView)).apply {
             if (text.isNotEmpty())
                 this.text = text
             setOnClickListener {
                 action()
             }
+            isAllCaps = false
+            setBackgroundResource(R.drawable.item_style)
+            elevation = 5f
             //typeface = Typeface.createFromAsset(context.assets, "Ubuntu-Light.ttf")
             textSize = 14f
-            setBackgroundColor(
-                when(aim){
-                    BUTTON_OK -> Color.parseColor("#F9A825")
-                    BUTTON_CANCEL -> Color.parseColor("#6295C3")
-                    BUTTON_SIMPLE -> Color.parseColor("#ACACAC")
-                    else -> Color.WHITE
-                }
-            )
-            layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT, 1f)
+            layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT, 1f).apply {
+                val dp5 = resources.getDimension(R.dimen.dp5).toInt()
+                val dp10 = resources.getDimension(R.dimen.dp10).toInt()
+                setMargins(dp5, dp10, dp5, dp10)
+            }
         }
         buttonsGroup.addView(button)
     }

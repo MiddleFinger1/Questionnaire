@@ -30,9 +30,7 @@ class ActivityQuestionnaire : AppCompatActivity() {
         try {
             var json = intent.getStringExtra("settings")
             val settings = Settings.createSettings(json)
-
             Log.e("json", json)
-
             json = Helper.converting(assets.open(settings.path))
             val questionnaire = Questionnaire.createQuestionnaire(json)
 
@@ -50,6 +48,7 @@ class ActivityQuestionnaire : AppCompatActivity() {
             }
         }
         catch (ex: Exception){
+            Log.e("ex", ex.toString())
             Toast.makeText(baseContext, ex.toString(), Toast.LENGTH_LONG).show()
         }
     }

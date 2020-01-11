@@ -8,40 +8,48 @@
         app:cardBackgroundColor="#FFFFFF"
         app:cardElevation="5dp"
         android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp">
+        android:layout_marginEnd="10dp"
+        app:cardCornerRadius="15dp">
     <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbarFadeDuration="100"
             android:scrollbarDefaultDelayBeforeFade="100"
-            android:fadingEdgeLength="@dimen/activity_horizontal_margin">
-        <ImageView
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:id="@+id/Settings.ImageView"
-                android:background="@drawable/ic_dashboard_black_24dp"/>
+            android:fadingEdgeLength="@dimen/activity_horizontal_margin"
+            android:padding="15dp">
+        <FrameLayout
+                android:id="@+id/Settings.FrameLayout"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentStart="true"
+                android:layout_width="90dp"
+                android:layout_height="90dp">
+            <ImageView
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
+                    android:id="@+id/Settings.ImageView"
+                    android:background="@drawable/ic_dashboard_black_24dp"/>
+            <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/Settings.Privacy"
+                    android:layout_gravity="center"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:src="@drawable/ic_lock_outline_black_48dp"
+                    app:backgroundTint="#6DFFFFFF"/>
+        </FrameLayout>
         <TextView
                 android:text="TextView"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:id="@+id/Settings.Title"
-                android:padding="10dp"
-                android:layout_toStartOf="@+id/Settings.Privacy"
                 android:textColor="#000000"
                 android:textSize="18sp"
                 android:fontFamily="@font/ubuntu_medium"
-                android:layout_toEndOf="@id/Settings.ImageView"
                 android:layout_alignParentTop="true"
                 android:singleLine="true"
-                android:layout_marginTop="10dp"/>
-        <ImageView
-                android:layout_height="40dp"
-                app:srcCompat="@drawable/ic_lock_open_black_48dp"
-                android:id="@+id/Settings.Privacy"
+                android:layout_toEndOf="@id/Settings.FrameLayout"
                 android:layout_alignParentEnd="true"
-                android:layout_alignParentTop="true"
-                android:layout_width="40dp"
-                android:layout_margin="10dp"/>
+                android:gravity="center" android:paddingStart="10dp" android:paddingEnd="10dp"/>
         <TextView
                 android:text="TextView"
                 android:layout_width="match_parent"
@@ -52,10 +60,10 @@
                 android:textAlignment="textStart"
                 android:fontFamily="@font/ubuntu_light"
                 android:textSize="14sp"
-                android:layout_toEndOf="@id/Settings.ImageView"
                 android:singleLine="true"
                 android:layout_toStartOf="@id/Settings.Mark"
-                android:layout_margin="10dp"/>
+                android:layout_toEndOf="@id/Settings.FrameLayout"
+                android:padding="10dp"/>
         <TextView
                 android:text="TextView"
                 android:layout_width="wrap_content"
@@ -67,6 +75,6 @@
                 android:fontFamily="@font/ubuntu_light"
                 android:textAlignment="textEnd"
                 android:textSize="14sp"
-                android:layout_margin="10dp"/>
+                android:padding="10dp"/>
     </RelativeLayout>
 </android.support.v7.widget.CardView>

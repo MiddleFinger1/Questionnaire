@@ -11,6 +11,9 @@ import com.questionnaire.Question
 import com.questionnaire.Statements
 import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
+import android.text.Editable
+import android.text.TextWatcher
+import android.util.Log
 import android.view.*
 
 
@@ -20,7 +23,7 @@ class QuestionSession : Fragment() {
     lateinit var question: Question
     lateinit var contextQuestion: PresentativeQuestionnaire
 
-    private var answer = ""
+    private var answer = arrayListOf<Int>()
 
     private lateinit var views: View
     private lateinit var toolbar: Toolbar
@@ -56,8 +59,8 @@ class QuestionSession : Fragment() {
                     R.id.MenuQuestion_Back ->
                         contextQuestion.backQuestion()
                     R.id.MenuQuestion_Next -> {
-                        if (answer != "") contextQuestion.nextQuestion()
-                        if (answer == question.statements[question.truth]) {
+                        if (answer.isNotEmpty()) contextQuestion.nextQuestion()
+                        if (answer.toString() == question.truth.toString()) {
                             contextQuestion.points += question.cost
                             Toast.makeText(context, "+${question.cost}", Toast.LENGTH_SHORT).show()
                         }
@@ -68,63 +71,95 @@ class QuestionSession : Fragment() {
             true
         }
         questionTitle.text = question.question
-        descriptionView.text = question.decription
+        descriptionView.text = question.description
 
         createChoice(statementsLayout, question.statements)
-
         // statements and image soon must be add
         return views
     }
 
     private fun createChoice(layout: LinearLayout, statements: Statements){
-        when (statements.type){
-            Statements.SINGLE -> {
-                val groupButton = RadioGroup(context)
-                for (item in statements)
-                    groupButton.addView(RadioButton(ContextThemeWrapper(context, R.style.ItemThemeTextView)).apply {
-                        text = item
-                        setTextColor(Color.BLACK)
-                        highlightColor = Color.BLACK
-                        setBackgroundResource(R.drawable.item_style)
-                        elevation = 5f
-                        buttonTintList = ColorStateList(
-                            arrayOf(
-                                intArrayOf(-android.R.attr.state_enabled),
-                                intArrayOf(android.R.attr.state_enabled)
-                            ),
-                            intArrayOf(
-                                Color.BLACK,
-                                Color.parseColor("#008577")
-                            )
-                        )
-                        layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT).apply {
-                            val dp10 = resources.getDimension(R.dimen.dp10).toInt()
-                            val dp5 = resources.getDimension(R.dimen.dp5).toInt()
-                            bottomMargin = dp5
-                            marginStart = dp10
-                            marginEnd = dp10
-                            topMargin = dp5
-                        }
-                        setOnClickListener {
-                            if (!it.isActivated) answer = text.toString()
-                        }
-                    })
-                layout.addView(groupButton)
-            }
-            Statements.MULTI ->
-                for (item in statements)
-                    layout.addView(RadioButton(context).apply {
-                        text = item
-                        setOnClickListener {
+        val groupButton = RadioGroup(context)
+        for (item in statements){
+            val view: View
+            when (statements.type){
+                Statements.SINGLE -> {
+                    view = RadioButton(ContextThemeWrapper(context, R.style.ItemThemeTextView))
+                    view.text = item
+                    view.setTextColor(Color.BLACK)
+                    view.highlightColor = Color.BLACK
+                    view.buttonTintList = ColorStateList(
+                        arrayOf(
+                            intArrayOf(-android.R.attr.state_enabled),
+                            intArrayOf(android.R.attr.state_enabled)
+                        ),
+                        intArrayOf(Color.BLACK, Color.parseColor("#008577"))
+                    )
+                    view.setOnClickListener {
+                        try {
                             it as RadioButton
-                            if (!it.isActivated) answer = text.toString()
+                            if (!it.isActivated) {
+                                if (answer.isEmpty())
+                                    answer.add(groupButton.indexOfChild(it))
+                                else
+                                    answer[0] = groupButton.indexOfChild(it)
+                            }
+                        }
+                        catch (ex: Exception) {
+                            Log.e("ex", ex.toString())
+                        }
+                    }
+                    groupButton.addView(view)
+                }
+                Statements.MULTI -> {
+                    view = CheckBox(ContextThemeWrapper(context, R.style.ItemThemeTextView))
+                    view.text = item
+                    view.setTextColor(Color.BLACK)
+                    view.highlightColor = Color.BLACK
+                    view.setOnClickListener {
+                        it as CheckBox
+                        if (it.isChecked)
+                            answer.add(statements.indexOf(it.text.toString()))
+                        else
+                            answer.removeAt(answer.indexOf(statements.indexOf(it.text.toString())))
+                        Log.e("ex", answer.toString())
+                    }
+                    layout.addView(view)
+                }
+                Statements.ENTER -> {
+                    view = EditText(ContextThemeWrapper(context, R.style.ItemThemeTextView))
+                    view.hint = "Enter here"
+                    view.setTextColor(Color.BLACK)
+                    view.highlightColor = Color.BLACK
+                    view.addTextChangedListener(object: TextWatcher{
+                        override fun afterTextChanged(p0: Editable?) {}
+                        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+                        override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                            if (question.statements[0] == view.text.toString()) {
+                                if (answer.isEmpty())
+                                    answer.add(question.truth[0])
+                                else answer[0] = question.truth[0]
+                            }
                         }
                     })
-            Statements.ENTER -> {
-                layout.addView(EditText(context).apply {
-
-                })
+                    layout.addView(view)
+                }
+                else -> view = View(ContextThemeWrapper(context, R.style.ItemThemeTextView))
+            }
+            view.apply {
+                setBackgroundResource(R.drawable.item_style)
+                elevation = 5f
+                layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT).apply {
+                    val dp10 = resources.getDimension(R.dimen.dp10).toInt()
+                    val dp5 = resources.getDimension(R.dimen.dp5).toInt()
+                    bottomMargin = dp5
+                    marginStart = dp10
+                    marginEnd = dp10
+                    topMargin = dp5
+                }
             }
         }
+        if (statements.type == Statements.SINGLE)
+            layout.addView(groupButton)
     }
 }

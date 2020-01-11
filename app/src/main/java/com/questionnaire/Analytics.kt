@@ -1,5 +1,6 @@
 package com.questionnaire
 
+import android.util.Log
 import org.json.simple.JSONArray
 import org.json.simple.JSONObject
 import org.json.simple.parser.JSONParser
@@ -7,12 +8,14 @@ import org.json.simple.parser.JSONParser
 
 class Analytics: JsonObject {
 
-    var marks = mutableMapOf<Int, Double>()
+    val marks = arrayListOf<String>()
+    val points = arrayListOf<Double>()
 
     companion object {
 
         fun createAnalytics(json: String) =
             try {
+                Log.e("ex", json)
                 createAnalytics(JSONParser().parse(json) as JSONObject)
             }
             catch (ex: Exception){
@@ -21,33 +24,28 @@ class Analytics: JsonObject {
 
         fun createAnalytics(jsonObject: JSONObject) =
             try {
-                val analytics = Analytics()
-                val array = jsonObject[DESCRIBES] as? JSONArray
-                if (array != null){
-                    for (id in array){
-                        val got = id.toString().toInt()
-                        val mark = array[got].toString().toDouble()
-                        analytics.marks[got] = mark
+                Analytics().apply {
+                    val marks = jsonObject[MARKS] as? JSONArray
+                    val points = jsonObject[POINTS] as? JSONArray
+                    if (marks != null && points != null){
+                        for (id in 0..marks.lastIndex){
+                            this.marks += marks[id].toString()
+                            this.points += points[id].toString().toDouble()
+                        }
                     }
                 }
-                analytics
             }
             catch (ex: Exception){
+                Log.e("ex", ex.toString())
                 null
             }
     }
 
     override fun toJsonObject(): String {
-        var json = ""
-        for (got in marks.keys){
-            val mark = marks[got]
-            json += if (marks.size == marks.keys.indexOf(got))
-                "{$got: $mark}"
-                else "{$got: $mark}, "
-        }
         return """
             {
-                "$DESCRIBES": [$json]"
+                "$MARKS": $marks,
+                "$POINTS": $points
             }
         """
     }

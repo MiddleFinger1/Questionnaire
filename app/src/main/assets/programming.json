@@ -5,56 +5,60 @@
 			"id": 0,
 			"group": "programming",
 			"mark": 0.0,
-			"privacy": 0,
+			"isPrivate": false,
 			"userId": 0,
 			"path": "programming1.json",
 			"icon": {
 				"isInSd": true,
 				"path": "programming.png",
 				"type": 0
-			}
+			},
+			"password": " "
 		},
 		{
 			"title": "Циклы и условия",
 			"id": 1,
 			"group": "programming",
 			"mark": 0.0,
-			"privacy": 0,
+			"isPrivate": false,
 			"userId": 0,
 			"path": "programming2.json",
 			"icon": {
 				"isInSd": true,
 				"path": "programming.png",
 				"type": 0
-			}
+			},
+			"password": ""
 		},
 		{
 			"title": "Функции",
 			"id": 1,
 			"group": "programming",
 			"mark": 0.0,
-			"privacy": 0,
+			"isPrivate": false,
 			"userId": 0,
 			"path": "programming3.json",
 			"icon": {
 				"isInSd": true,
 				"path": "programming.png",
 				"type": 0
-			}
+			},
+			"password": ""
 		},
 		{
 			"title": "Функции. Часть 2",
 			"id": 1,
 			"group": "programming",
 			"mark": 0.0,
-			"privacy": 0,
+			"isPrivate": false,
 			"userId": 0,
 			"path": "programming4.json",
 			"icon": {
 				"isInSd": true,
 				"path": "programming.png",
 				"type": 0
-			}
+			},
+			"password": ""
 		}
 	]
 }

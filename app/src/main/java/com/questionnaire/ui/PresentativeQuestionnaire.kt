@@ -86,6 +86,7 @@ class PresentativeQuestionnaire : Fragment() {
 
             fabStart.setOnClickListener {
                 scene = -1
+                points = 0.0
                 nextQuestion()
             }
 
@@ -107,8 +108,9 @@ class PresentativeQuestionnaire : Fragment() {
                 activity.supportFragmentManager.beginTransaction().replace(R.id.MainQuestionnaireLayout, fragment).commit()
             }
             else {
-                val fragment = this
-                activity.supportFragmentManager.beginTransaction().replace(R.id.MainQuestionnaireLayout, fragment).commit()
+                val fragment = DialogAlert()
+                fragment.contextQuestionnaire = this
+                fragment.show(activity.supportFragmentManager, fragment.javaClass.name)
             }
         }
         catch (ex: Exception){

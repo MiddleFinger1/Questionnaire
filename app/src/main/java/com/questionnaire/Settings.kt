@@ -1,6 +1,5 @@
 package com.questionnaire
 
-import com.questionnaire.*
 import org.json.simple.JSONObject
 import org.json.simple.parser.JSONParser
 
@@ -12,15 +11,15 @@ class Settings(var title: String): JsonObject {
     val id = -1
     var mark: Double = 0.0
     private set(value) = Unit
-    var privacy = PUBLIC
+    var isPrivate = false
 	var userId = -1
 	var path = ""
     var isInSd = true
     var icon: Source? = null
+    var password = ""
 
     companion object {
-        const val PUBLIC = 0
-        const val PRIVATE = 1
+
         const val NONE_GROUP = "none group"
 
         fun createSettings(json: String) =
@@ -41,9 +40,9 @@ class Settings(var title: String): JsonObject {
                 if (jsonMark != null)
                     mark = jsonMark.toString().toDouble()
 
-                val jsonPrivacy = jsonObject[PRIVACY]
-                if (jsonPrivacy != null)
-                    privacy = jsonPrivacy.toString().toInt()
+                val jsonIsPrivacy = jsonObject[IS_PRIVATE]
+                if (jsonIsPrivacy != null)
+                    isPrivate = jsonIsPrivacy.toString().toBoolean()
 
                 val jsonPath = jsonObject[PATH]
                 if (jsonPath != null)
@@ -56,6 +55,10 @@ class Settings(var title: String): JsonObject {
                 val jsonIcon = jsonObject[ICON]
                 if (jsonIcon != null)
                     icon = Source.createSource(jsonIcon.toString())
+
+                val jsonPassword = jsonObject[PASSWORD]
+                if (jsonPassword != null)
+                    password = jsonPassword.toString()
             }
     }
 
@@ -78,10 +81,11 @@ class Settings(var title: String): JsonObject {
                 "$GROUP": "$group",
                 "$TITLE": "$title",
                 "$MARK": $mark,
-                "$IS_ANONYMOUS": $isAnonymous
-                "$PRIVACY": $privacy,
+                "$IS_ANONYMOUS": $isAnonymous,
+                "$IS_PRIVATE": $isPrivate,
 				"$PATH": "$path",
-                "$ICON": ${icon?.toJsonObject()}
+                "$ICON": ${icon?.toJsonObject()},
+                "$PASSWORD": "$password"
            }
         """
         /*

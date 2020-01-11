@@ -1,5 +1,6 @@
 package com.questionnaire
 
+import android.util.Log
 import org.json.simple.JSONArray
 import org.json.simple.JSONObject
 import org.json.simple.parser.JSONParser
@@ -31,7 +32,7 @@ class Questionnaire(var settings: Settings
                 Questionnaire(settings).apply {
                     description = jsonObject[DESCRIPTION].toString()
 
-                    val analytics = Analytics.createAnalytics(jsonObject[Analytics].toString())
+                    val analytics = Analytics.createAnalytics(jsonObject[ANALYTICS].toString())
                     if (analytics != null)
                         this.analytics = analytics
 
