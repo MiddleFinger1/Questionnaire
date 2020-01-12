@@ -8,8 +8,8 @@ import android.util.Log
 import android.view.WindowManager
 import android.widget.Toast
 import com.application.R
-import com.application.Helper
-import com.application.MainActivity
+import com.Helper
+import com.MainActivity
 import com.questionnaire.Questionnaire
 import com.questionnaire.Settings
 import java.lang.Exception

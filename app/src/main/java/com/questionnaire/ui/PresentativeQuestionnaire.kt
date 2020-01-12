@@ -15,17 +15,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import com.application.MainActivity
+import com.MainActivity
 import com.application.R
 import com.questionnaire.Questionnaire
+import com.users.ObResult
 
 
 class PresentativeQuestionnaire : Fragment() {
 
     lateinit var activity: AppCompatActivity
     lateinit var questionnaire: Questionnaire
-    private var checkSingleLine = true
+    lateinit var obResult: ObResult
 
+    private var checkSingleLine = true
     private lateinit var titleView: TextView
     private lateinit var fabStart: FloatingActionButton
     private lateinit var fabExit: FloatingActionButton
@@ -36,10 +38,13 @@ class PresentativeQuestionnaire : Fragment() {
     private lateinit var sourceLayout: LinearLayout
 
     var scene = -1
-    var points = 0.0
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
+        obResult = ObResult().apply {
+            isPresentedTruth = questionnaire.settings.isPresented
+        }
+
         views = inflater.inflate(R.layout.layout_presentive_questionnaire, container, false)
 
         views.apply {
@@ -86,7 +91,8 @@ class PresentativeQuestionnaire : Fragment() {
 
             fabStart.setOnClickListener {
                 scene = -1
-                points = 0.0
+                obResult = ObResult()
+                obResult.isPresentedTruth = questionnaire.settings.isPresented
                 nextQuestion()
             }
 
@@ -126,7 +132,7 @@ class PresentativeQuestionnaire : Fragment() {
                 fragment = QuestionSession()
                 fragment.question = questionnaire[scene]
                 fragment.contextQuestion = this
-                points -= questionnaire[scene].cost
+                obResult.cost -= questionnaire[scene].cost
             } else fragment = this
             activity.supportFragmentManager.beginTransaction().replace(R.id.MainQuestionnaireLayout, fragment).commit()
         }

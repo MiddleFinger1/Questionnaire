@@ -1,6 +1,8 @@
 package com.questionnaire
 
 import android.util.Log
+import com.MARKS
+import com.POINTS
 import org.json.simple.JSONArray
 import org.json.simple.JSONObject
 import org.json.simple.parser.JSONParser

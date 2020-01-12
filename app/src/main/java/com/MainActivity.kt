@@ -1,15 +1,15 @@
-package com.application
+package com
 
 import android.graphics.Color
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
-import android.view.View
 import android.view.WindowManager
-import com.application.fragments.GameOfflineSessions
-import com.application.fragments.GameOnlineSessions
-import com.application.fragments.HomeSettings
+import com.application.R
+import com.fragments.GameOfflineSessions
+import com.fragments.GameOnlineSessions
+import com.fragments.HomeSettings
 
 
 class MainActivity : AppCompatActivity() {

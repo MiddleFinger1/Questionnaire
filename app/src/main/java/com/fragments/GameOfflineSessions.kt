@@ -1,4 +1,4 @@
-package com.application.fragments
+package com.fragments
 
 
 import android.graphics.Color
@@ -10,7 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import com.application.Helper
+import com.Helper
 import com.application.R
 import org.json.simple.JSONArray
 import org.json.simple.JSONObject

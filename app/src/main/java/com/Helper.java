@@ -1,4 +1,4 @@
-package com.application;
+package com;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;

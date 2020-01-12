@@ -1,5 +1,7 @@
-package com.questionnaire
+package com
 
+const val EMAIL = "email"
+const val PHONE = "phone"
 const val ID = "id"
 const val USER_ID = "userId"
 const val TITLE = "title"
@@ -19,6 +21,8 @@ const val ANALYTICS = "analytics"
 const val IS_DEFAULT = "isDefault"
 const val IS_PRIVATE = "isPrivate"
 const val PASSWORD = "password"
+const val ANSWER = "answer"
+const val IS_PRESENTED = "isPresented"
 const val MARK = "mark"
 const val MARKS = "marks"
 const val POINTS = "points"

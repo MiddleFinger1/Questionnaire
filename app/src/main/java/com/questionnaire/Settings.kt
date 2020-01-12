@@ -1,5 +1,6 @@
 package com.questionnaire
 
+import com.*
 import org.json.simple.JSONObject
 import org.json.simple.parser.JSONParser
 
@@ -7,6 +8,7 @@ import org.json.simple.parser.JSONParser
 class Settings(var title: String): JsonObject {
 
     var isAnonymous = false
+    var isPresented = false
     var group = NONE_GROUP
     val id = -1
     var mark: Double = 0.0
@@ -59,6 +61,10 @@ class Settings(var title: String): JsonObject {
                 val jsonPassword = jsonObject[PASSWORD]
                 if (jsonPassword != null)
                     password = jsonPassword.toString()
+
+                val jsonIsPresented = jsonObject[IS_PRESENTED]
+                if (jsonIsPresented != null)
+                    isPresented = jsonIsPresented.toString().toBoolean()
             }
     }
 
@@ -82,6 +88,7 @@ class Settings(var title: String): JsonObject {
                 "$TITLE": "$title",
                 "$MARK": $mark,
                 "$IS_ANONYMOUS": $isAnonymous,
+                "$IS_PRESENTED": $isPresented,
                 "$IS_PRIVATE": $isPrivate,
 				"$PATH": "$path",
                 "$ICON": ${icon?.toJsonObject()},

@@ -59,13 +59,10 @@ class QuestionSession : Fragment() {
                     R.id.MenuQuestion_Back ->
                         contextQuestion.backQuestion()
                     R.id.MenuQuestion_Next -> {
-                        if (answer.isNotEmpty()) contextQuestion.nextQuestion()
-                        if (answer.toString() == question.truth.toString()) {
-                            contextQuestion.points += question.cost
-                            Toast.makeText(context, "+${question.cost}", Toast.LENGTH_SHORT).show()
+                        if (answer.isNotEmpty()) {
+                            contextQuestion.nextQuestion()
+                            contextQuestion.obResult.addAnswer(question, answer)
                         }
-                        else
-                            Toast.makeText(context, "false", Toast.LENGTH_SHORT).show()
                     }
                 }
             true
@@ -135,11 +132,14 @@ class QuestionSession : Fragment() {
                         override fun afterTextChanged(p0: Editable?) {}
                         override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
                         override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                            if (question.statements[0] == view.text.toString()) {
-                                if (answer.isEmpty())
-                                    answer.add(question.truth[0])
-                                else answer[0] = question.truth[0]
-                            }
+                            val print =
+                                if (question.statements[0] == view.text.toString())
+                                    question.truth[0]
+                                else -1
+                            if (answer.isEmpty())
+                                answer.add(print)
+                            else answer[0] = print
+                            Log.e("ex", answer.toString())
                         }
                     })
                     layout.addView(view)

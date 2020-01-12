@@ -3,6 +3,9 @@ package com.users
 import com.questionnaire.JsonObject
 import org.json.simple.JSONObject
 import org.json.simple.parser.JSONParser
+import com.EMAIL
+import com.PASSWORD
+import com.PHONE
 
 
 data class DataPrivacy(

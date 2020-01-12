@@ -6,7 +6,7 @@ import android.support.v7.widget.RecyclerView.ViewHolder
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
-import com.application.Helper
+import com.Helper
 import com.application.R
 import org.json.simple.JSONObject
 import org.json.simple.JSONArray

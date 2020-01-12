@@ -40,7 +40,7 @@ class Statements: ArrayList<String>(), JsonObject {
     override fun toJsonObject(): String {
         
         var statements = ""
-        for (i in 0..size) {
+        for (i in 0..lastIndex) {
             val statement = this[i]
             statements +=
                 if (i == lastIndex) "\"$statement\","
