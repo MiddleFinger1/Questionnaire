@@ -3,6 +3,7 @@ package com.users
 import android.util.Log
 import com.*
 import com.questionnaire.*
+import java.lang.Exception
 
 class ObResult: ArrayList<ObResult.ItemResult>(), JsonObject {
 
@@ -10,32 +11,32 @@ class ObResult: ArrayList<ObResult.ItemResult>(), JsonObject {
     var cost = 0.0
 
     inner class ItemResult(
-        val question: String, val answer: String, val truth: String
+        val question: String, val answer: ArrayList<Int>, val truth: ArrayList<Int>
     ) : JsonObject {
 
         override fun toJsonObject() =
             """
                 {
                     "$QUESTION": "$question",
-                    "$ANSWER": "$answer",
-                    "$TRUTH": "$truth"
+                    "$ANSWER": $answer,
+                    "$TRUTH": $truth
                 }
             """
     }
 
-    fun addAnswer(question: Question, answer: ArrayList<Int>){
-        var answerString = ""
-        var truth = ""
-        for (id in 0..question.truth.lastIndex)
-            truth += "${id + 1}) " + question.statements[id] + "\n"
+    fun addAnswer(id: Int, question: Question, answer: ArrayList<Int>){
+        Log.e("ex", id.toString())
 
+        try {
+            if (id >= size) {
+                add(ItemResult(question.question, answer, question.truth))
+            } else this[id] = ItemResult(question.question, answer, question.truth)
+        }
+        catch (ex: Exception){
+            Log.e("ex", ex.toString())
+        }
         Log.e("ex", question.toJsonObject())
-
-        for (id in 0..answer.lastIndex)
-            answerString += "${id + 1}) " + question.statements[id] + "\n"
-        add(ItemResult(question.question, answerString, truth))
-        Log.e("ex", this[lastIndex].toJsonObject())
-        cost += question.cost
+        //Log.e("ex", this[id].toJsonObject())
     }
 
     override fun toJsonObject(): String {

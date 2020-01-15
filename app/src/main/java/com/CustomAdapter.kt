@@ -4,31 +4,29 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView.ViewHolder
 import android.support.v7.widget.RecyclerView.Adapter
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
-import com.application.R
-import com.questionnaire.Settings
-import com.questionnaire.ui.SettingsHolder
 
 
-class CustomAdapter: Adapter<ViewHolder>() {
+class CustomAdapter<T>(
+    val layout: Int
 
+): Adapter<ViewHolder>() {
+
+    lateinit var onBindLambda: (holder: ViewHolder, item: T) -> Unit
+    lateinit var returnedClass: (view: View) -> ViewHolder
     lateinit var activity: AppCompatActivity
-    lateinit var groupSettings: ArrayList<Settings>
-    private lateinit var layoutInflater: LayoutInflater
+    lateinit var group: ArrayList<T>
 
-    override fun getItemCount() = groupSettings.size
+    override fun getItemCount() = group.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        if (holder is SettingsHolder) {
-            val settings = groupSettings[position]
-            holder.activity = activity
-            holder.downloadSettings(settings)
-        }
+        onBindLambda(holder, group[position])
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        layoutInflater = LayoutInflater.from(parent.context)
-        val view = layoutInflater.inflate(R.layout.settings_card_view, parent, false)
-        return SettingsHolder(view)
+        val layoutInflater = LayoutInflater.from(parent.context)
+        val view = layoutInflater.inflate(layout, parent, false)
+        return returnedClass(view)
     }
 }

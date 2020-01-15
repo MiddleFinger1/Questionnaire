@@ -26,6 +26,7 @@ class QuestionnaireGroup : Fragment() {
         val views = inflater.inflate(R.layout.fragment_questionnaire_group, container, false)
 
         views.apply {
+            activity = context as AppCompatActivity
 
             recyclerView = findViewById(R.id.Group_recyclerView)
             recyclerView.setHasFixedSize(true)
@@ -49,9 +50,6 @@ class QuestionnaireGroup : Fragment() {
             recyclerView.adapter = adapter
 
         }
-
         return views
     }
-
-
 }

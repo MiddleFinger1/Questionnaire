@@ -24,6 +24,7 @@ class QuestionSession : Fragment() {
     lateinit var contextQuestion: PresentativeQuestionnaire
 
     private var answer = arrayListOf<Int>()
+    private var textET = ""
 
     private lateinit var views: View
     private lateinit var toolbar: Toolbar
@@ -31,6 +32,7 @@ class QuestionSession : Fragment() {
     private lateinit var descriptionView: TextView
     private lateinit var questionImage: ImageView
     private lateinit var statementsLayout: LinearLayout
+    private lateinit var radioGroup: RadioGroup
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         setHasOptionsMenu(true)
@@ -47,7 +49,7 @@ class QuestionSession : Fragment() {
             if (icon is Drawable)
                 questionImage.background = icon
         }
-        toolbar.title = "${contextQuestion.scene + 1}/${contextQuestion.questionnaire.size}"
+        toolbar.title = "${contextQuestion.sceneInstance + 1}/${contextQuestion.questionnaire.maxQuestions}"
         toolbar.inflateMenu(R.menu.bottom_nav_questions)
         toolbar.setOnMenuItemClickListener {
                 menuItem: MenuItem? ->
@@ -60,8 +62,8 @@ class QuestionSession : Fragment() {
                         contextQuestion.backQuestion()
                     R.id.MenuQuestion_Next -> {
                         if (answer.isNotEmpty()) {
+                            contextQuestion.obResult.addAnswer(contextQuestion.sceneInstance, question, answer)
                             contextQuestion.nextQuestion()
-                            contextQuestion.obResult.addAnswer(question, answer)
                         }
                     }
                 }
@@ -72,11 +74,37 @@ class QuestionSession : Fragment() {
 
         createChoice(statementsLayout, question.statements)
         // statements and image soon must be add
+        setSaveChoice()
         return views
     }
 
+    private fun setSaveChoice(){
+        if (contextQuestion.sceneInstance >= contextQuestion.obResult.lastIndex)
+            return
+
+        Log.e("ex", contextQuestion.sceneInstance.toString())
+        val obItem = contextQuestion.obResult[contextQuestion.sceneInstance]
+        Log.e("ex", obItem.toJsonObject())
+
+        when (question.statements.type){
+            Statements.SINGLE ->
+                radioGroup.check(obItem.answer[0])
+            Statements.MULTI -> {
+                for (id in obItem.answer){
+                    val view = statementsLayout.getChildAt(id)
+                    view as CheckBox
+                    view.isChecked = true
+                }
+            }
+            Statements.ENTER -> {
+                val view = statementsLayout.getChildAt(0) as EditText
+                view.text.append(textET)
+            }
+        }
+    }
+
     private fun createChoice(layout: LinearLayout, statements: Statements){
-        val groupButton = RadioGroup(context)
+        radioGroup = RadioGroup(context)
         for (item in statements){
             val view: View
             when (statements.type){
@@ -97,16 +125,16 @@ class QuestionSession : Fragment() {
                             it as RadioButton
                             if (!it.isActivated) {
                                 if (answer.isEmpty())
-                                    answer.add(groupButton.indexOfChild(it))
+                                    answer.add(radioGroup.indexOfChild(it))
                                 else
-                                    answer[0] = groupButton.indexOfChild(it)
+                                    answer[0] = radioGroup.indexOfChild(it)
                             }
                         }
                         catch (ex: Exception) {
                             Log.e("ex", ex.toString())
                         }
                     }
-                    groupButton.addView(view)
+                    radioGroup.addView(view)
                 }
                 Statements.MULTI -> {
                     view = CheckBox(ContextThemeWrapper(context, R.style.ItemThemeTextView))
@@ -160,6 +188,6 @@ class QuestionSession : Fragment() {
             }
         }
         if (statements.type == Statements.SINGLE)
-            layout.addView(groupButton)
+            layout.addView(radioGroup)
     }
 }

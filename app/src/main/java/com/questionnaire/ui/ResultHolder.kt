@@ -24,13 +24,13 @@ class ResultHolder(val view: View): RecyclerView.ViewHolder(view) {
 
     fun downloadResult(itemResult: ItemResult, showTruth: Boolean){
         questionView.text = itemResult.question
-        answerView.text = itemResult.answer
+        answerView.text = itemResult.answer.toString()
         truthBooleanView.text =
             if (itemResult.answer == itemResult.truth)
                 "Ответ правильный"
             else "Ответ неправильный"
         if (showTruth)
-            truthView.text = itemResult.truth
+            truthView.text = itemResult.truth.toString()
     }
 
 

@@ -19,6 +19,10 @@ import com.MainActivity
 import com.application.R
 import com.questionnaire.Questionnaire
 import com.users.ObResult
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlin.random.Random
 
 
 class PresentativeQuestionnaire : Fragment() {
@@ -28,6 +32,7 @@ class PresentativeQuestionnaire : Fragment() {
     lateinit var obResult: ObResult
 
     private var checkSingleLine = true
+    private val idQuestions = arrayListOf<Int>()
     private lateinit var titleView: TextView
     private lateinit var fabStart: FloatingActionButton
     private lateinit var fabExit: FloatingActionButton
@@ -36,8 +41,7 @@ class PresentativeQuestionnaire : Fragment() {
     private lateinit var imagePresents: ImageView
     private lateinit var descriptionView: TextView
     private lateinit var sourceLayout: LinearLayout
-
-    var scene = -1
+    var sceneInstance = -1
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -45,9 +49,15 @@ class PresentativeQuestionnaire : Fragment() {
             isPresentedTruth = questionnaire.settings.isPresented
         }
 
+        CoroutineScope(Dispatchers.Main).launch {
+            setArray()
+        }
+
         views = inflater.inflate(R.layout.layout_presentive_questionnaire, container, false)
 
         views.apply {
+            activity = context as AppCompatActivity
+
             titleView = findViewById(R.id.Questionnaire_Title)
             fabStart = findViewById(R.id.Questionnaire_FABStart)
             fabExit = findViewById(R.id.Questionnaire_FABExit)
@@ -58,7 +68,7 @@ class PresentativeQuestionnaire : Fragment() {
         }
 
         titleView.setOnClickListener {
-            if (it is TextView){
+            if (it is TextView) {
                 checkSingleLine = !checkSingleLine
                 it.setSingleLine(checkSingleLine)
             }
@@ -90,7 +100,7 @@ class PresentativeQuestionnaire : Fragment() {
             if (resources.isEmpty()) sourceLayout.addView(TextView(context).apply { text = "Нет ресурсов" })
 
             fabStart.setOnClickListener {
-                scene = -1
+                sceneInstance = -1
                 obResult = ObResult()
                 obResult.isPresentedTruth = questionnaire.settings.isPresented
                 nextQuestion()
@@ -103,41 +113,54 @@ class PresentativeQuestionnaire : Fragment() {
         return views
     }
 
+    private fun setArray(){
+        if (questionnaire.isRandom){
+            val range = arrayListOf<Int>()
+            range.addAll(0.until(questionnaire.size))
+            while (idQuestions.size != questionnaire.maxQuestions){
+                val int = Random(System.currentTimeMillis()).nextInt(range.size)
+                idQuestions.add(range[int])
+                range.removeAt(int)
+            }
+        }
+        else idQuestions.addAll(0..questionnaire.lastIndex)
+        Log.e("ex", idQuestions.toString())
+    }
+
     fun nextQuestion() {
         try {
-            if (scene < questionnaire.lastIndex) {
-                scene += 1
+            if (sceneInstance < idQuestions.size) {
+                sceneInstance += 1
                 val fragment = QuestionSession().apply {
-                    question = questionnaire[scene]
+                    question = questionnaire[idQuestions[sceneInstance]]
                     contextQuestion = this@PresentativeQuestionnaire
                 }
                 activity.supportFragmentManager.beginTransaction().replace(R.id.MainQuestionnaireLayout, fragment).commit()
-            }
-            else {
+            } else {
                 val fragment = DialogAlert()
                 fragment.contextQuestionnaire = this
                 fragment.show(activity.supportFragmentManager, fragment.javaClass.name)
             }
-        }
-        catch (ex: Exception){
+        } catch (ex: Exception) {
             Log.e("ex", ex.toString())
         }
     }
 
-    fun backQuestion(){
+    fun backQuestion() {
         try {
             val fragment: Fragment
-            if (scene > 0) {
-                scene -= 1
+            if (sceneInstance > 0) {
+                sceneInstance -= 1
                 fragment = QuestionSession()
-                fragment.question = questionnaire[scene]
+                fragment.question = questionnaire[idQuestions[sceneInstance]]
                 fragment.contextQuestion = this
-                obResult.cost -= questionnaire[scene].cost
+                obResult.cost -= questionnaire[idQuestions[sceneInstance]].cost
             } else fragment = this
-            activity.supportFragmentManager.beginTransaction().replace(R.id.MainQuestionnaireLayout, fragment).commit()
-        }
-        catch (ex: Exception){
+            activity.supportFragmentManager.beginTransaction().replace(R.id.MainQuestionnaireLayout, fragment)
+                .commit()
+        } catch (ex: Exception) {
             Toast.makeText(context, ex.toString(), Toast.LENGTH_LONG).show()
         }
     }
 }
+

@@ -33,6 +33,7 @@ class GameOfflineSessions : Fragment() {
         views = inflater.inflate(R.layout.layout_game_offline_sessions, container, false)
 
         return views.apply {
+            activity = context as AppCompatActivity
 
             toolbar = findViewById(R.id.offLine_Toolbar)
             toolbar.title = "Прохождение анкет"

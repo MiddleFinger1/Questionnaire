@@ -1,5 +1,8 @@
 package com.questionnaire
 
+import com.IS_RANDOM
+import com.STATEMENTS
+import com.TYPE
 import org.json.simple.JSONArray
 import org.json.simple.JSONObject
 import org.json.simple.parser.JSONParser
@@ -8,6 +11,7 @@ import org.json.simple.parser.JSONParser
 class Statements: ArrayList<String>(), JsonObject {
 
     var type = SINGLE
+    var isRandom = false
 
     companion object {
 
@@ -19,11 +23,19 @@ class Statements: ArrayList<String>(), JsonObject {
                 null
             }
 
-        fun createStatements(Object: JSONObject): Statements? {
+        fun createStatements(jsonObject: JSONObject): Statements? {
             return try {
                  Statements().apply {
-                    type = Object["type"].toString().toInt()
-                    for (statement in Object["statements"] as JSONArray)
+
+                     val jsonType = jsonObject[TYPE]
+                     if (jsonType != null)
+                         type = jsonType.toString().toInt()
+
+                     val jsonIsRandom = jsonObject[IS_RANDOM]
+                     if (jsonIsRandom != null)
+                         isRandom = jsonIsRandom.toString().toBoolean()
+
+                     for (statement in jsonObject[STATEMENTS] as JSONArray)
                         add(statement.toString())
                 }
             }
@@ -48,8 +60,9 @@ class Statements: ArrayList<String>(), JsonObject {
         }
         return """
            {
-                "type": $type,
-                "statements": [$statements]
+                "$TYPE": $type,
+                "$IS_RANDOM": $isRandom,
+                "$STATEMENTS": [$statements]
            }
         """
     }

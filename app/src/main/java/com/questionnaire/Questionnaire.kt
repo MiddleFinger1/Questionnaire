@@ -1,5 +1,6 @@
 package com.questionnaire
 
+import android.util.Log
 import com.*
 import org.json.simple.JSONArray
 import org.json.simple.JSONObject
@@ -13,6 +14,8 @@ class Questionnaire(var settings: Settings
     var description = ""
     var analytics = Analytics()
     var resources = arrayListOf<Source>()
+    var isRandom = false
+    var maxQuestions = 0
 
     companion object {
 
@@ -21,8 +24,8 @@ class Questionnaire(var settings: Settings
                 createQuestionnaire(JSONParser().parse(json) as JSONObject)
             }
             catch (ex: Exception){
-                println(ex.toString())
-                println(ex.stackTrace)
+                Log.e("ex", ex.toString())
+                Log.e("ex", ex.stackTrace.toString())
                 null
             }
 
@@ -31,6 +34,10 @@ class Questionnaire(var settings: Settings
                 val settings = Settings.createSettings(jsonObject[SETTINGS].toString())
                 Questionnaire(settings).apply {
                     description = jsonObject[DESCRIPTION].toString()
+
+                    val jsonIsRandom = jsonObject[IS_RANDOM]
+                    if (jsonIsRandom != null)
+                        isRandom = jsonIsRandom.toString().toBoolean()
 
                     val analytics = Analytics.createAnalytics(jsonObject[ANALYTICS].toString())
                     if (analytics != null)
@@ -49,6 +56,11 @@ class Questionnaire(var settings: Settings
                             add(question)
                         }
                     }
+                    val jsonMaxQuestions = jsonObject[MAX_QUESTIONS]
+                    maxQuestions =
+                        if (jsonMaxQuestions != null)
+                            jsonMaxQuestions.toString().toInt()
+                        else size
                 }
             }
             catch (ex: Exception){
@@ -80,7 +92,9 @@ class Questionnaire(var settings: Settings
                 "$QUESTIONS": "[$questions]",
                 "$RESOURCES": [$resources]
                 "$SETTINGS": {${settings.toJsonObject()}}
-                "$ANALYTICS": {${analytics.toJsonObject()}}
+                "$ANALYTICS": {${analytics.toJsonObject()}},
+                "$IS_RANDOM": $isRandom,
+                "$MAX_QUESTIONS": $maxQuestions
             }
         """
     }

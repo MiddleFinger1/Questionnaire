@@ -5,6 +5,7 @@ import com.*
 import org.json.simple.JSONArray
 import org.json.simple.JSONObject
 import org.json.simple.parser.JSONParser
+import kotlin.random.Random
 
 
 class Question(
@@ -26,6 +27,7 @@ class Question(
                 createQuestion(JSONParser().parse(json) as JSONObject)
             }
             catch (ex: Exception){
+                Log.e("ex", ex.toString())
                 null
            }
 
@@ -34,6 +36,7 @@ class Question(
                 val question = jsonObject[QUESTION]
                 val statements = Statements.createStatements(jsonObject[STATEMENTS].toString())
                 val jsonTruth = jsonObject[TRUTH] as? JSONArray
+
                 return if (question != null && statements != null && jsonTruth != null){
                     Question(question.toString(), statements).apply {
                         try {
@@ -43,6 +46,8 @@ class Question(
                         catch (ex: Exception){
                             Log.e("ex", ex.toString())
                         }
+                        if (statements.isRandom && statements.size > 1)
+                            random()
                         description = jsonObject[DESCRIPTION].toString()
 
                         val jsonIsDefault = jsonObject[IS_DEFAULT]
@@ -65,7 +70,26 @@ class Question(
             }
         }
     }
-	
+
+    private fun random(){
+        val trues = arrayListOf<Int>()
+        val array = arrayListOf<String>()
+        val range = arrayListOf<Int>()
+        range.addAll(0..statements.lastIndex)
+        while (range.isNotEmpty()){
+            val int = Random(System.currentTimeMillis()).nextInt(range.size)
+            array.add(statements[range[int]])
+            if (truth.indexOf(range[int]) >= 0)
+                trues.add(array.lastIndex)
+            range.removeAt(int)
+        }
+        statements.clear()
+        truth.clear()
+        statements.addAll(array)
+        truth.addAll(trues)
+        Log.e("ex", statements.toString())
+    }
+
     override fun toJsonObject(): String {
         return """
             {
@@ -74,7 +98,7 @@ class Question(
                 "$IS_DEFAULT": $isDefault,
                 "$STATEMENTS": ${statements.toJsonObject()},
                 "$TRUTH": $truth,
-                "$ICON": "$icon",
+                "$ICON": "${icon?.toJsonObject()}",
 				"$COST": $cost
             }
         """
