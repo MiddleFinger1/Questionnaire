@@ -129,7 +129,7 @@ class PresentativeQuestionnaire : Fragment() {
 
     fun nextQuestion() {
         try {
-            if (sceneInstance < idQuestions.size) {
+            if (sceneInstance < idQuestions.lastIndex) {
                 sceneInstance += 1
                 val fragment = QuestionSession().apply {
                     question = questionnaire[idQuestions[sceneInstance]]
@@ -163,4 +163,3 @@ class PresentativeQuestionnaire : Fragment() {
         }
     }
 }
-

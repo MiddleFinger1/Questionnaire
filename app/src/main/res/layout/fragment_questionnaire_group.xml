@@ -18,7 +18,6 @@
             android:elevation="8dp"
             android:fitsSystemWindows="true"
             app:navigationIcon="@drawable/ic_exit_to_app_black_36dp"/>
-
     <android.support.v7.widget.RecyclerView
             android:id="@+id/Group.recyclerView"
             android:layout_width="match_parent"

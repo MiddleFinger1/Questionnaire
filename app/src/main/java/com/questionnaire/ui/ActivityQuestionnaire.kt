@@ -20,6 +20,7 @@ class ActivityQuestionnaire : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_questionnaire)
+        window.setBackgroundDrawable(null)
 
         if (android.os.Build.VERSION.SDK_INT >= 21){
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)

@@ -17,4 +17,5 @@
     <string name="title_activity_questionnaire">ActivityQuestionnaire</string>
     <string name="back_question">Back</string>
     <string name="questionnaire_sourse">questionnaire sourse</string>
+    <string name="title_activity_constructor">ConstructorActivity</string>
 </resources>

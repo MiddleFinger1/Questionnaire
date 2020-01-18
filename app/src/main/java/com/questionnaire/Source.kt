@@ -1,6 +1,8 @@
 package com.questionnaire
 
+import android.util.Log
 import com.IS_IN_SD
+import com.JsonObject
 import com.PATH
 import com.TYPE
 import org.json.simple.JSONObject
@@ -23,6 +25,7 @@ class Source(val path: String, val type: Int = TYPE_IMAGE): JsonObject {
 				createSource(JSONParser().parse(json) as JSONObject)
 			}
 			catch(ex: Exception){
+				Log.e("ex", ex.toString())
 				null
 			}
 			
@@ -30,9 +33,17 @@ class Source(val path: String, val type: Int = TYPE_IMAGE): JsonObject {
 			return try {
 				val jsonPath = jsonObject[PATH]
 				val jsonType = jsonObject[TYPE]
+				val jsonIsInSd = jsonObject[IS_IN_SD]
+
+				Log.e("json", jsonPath.toString())
+				Log.e("json", jsonType.toString())
+				Log.e("json", jsonIsInSd.toString())
 
 				if (jsonPath != null && jsonType != null)
-					Source(jsonPath.toString(), jsonType.toString().toInt())
+					Source(jsonPath.toString(), jsonType.toString().toInt()).apply {
+						if (jsonIsInSd != null)
+							isInSd = jsonIsInSd.toString().toBoolean()
+					}
 				else null
 			}
 			catch (ex: Exception){

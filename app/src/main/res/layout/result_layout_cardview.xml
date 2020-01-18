@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
         <TextView
-                android:text="TextView"
+                android:text=""
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/Result.Question"
@@ -24,7 +24,7 @@
                 android:singleLine="true"
                 android:textColor="#000000"/>
         <TextView
-                android:text="TextView"
+                android:text=""
                 android:layout_width="match_parent"
                 android:id="@+id/Result.Answer"
                 android:layout_height="wrap_content"
@@ -41,7 +41,7 @@
                 android:layout_below="@id/Result.Answer"
                 android:layout_height="wrap_content">
             <TextView
-                    android:text="TextView"
+                    android:text=""
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/Result.Truth"
@@ -51,7 +51,7 @@
                     android:textAlignment="textStart"
                     android:textColor="#000000"/>
             <TextView
-                    android:text="TextView"
+                    android:text=""
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/Result.TruthBoolean"

@@ -1,4 +1,4 @@
-package com.questionnaire
+package com
 
 interface JsonObject {
 

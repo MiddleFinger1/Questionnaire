@@ -1,10 +1,11 @@
 package com.questionnaire.ui
 
+import android.graphics.Color
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.TextView
 import com.application.R
-import com.users.ObResult.ItemResult
+import com.users.ItemResult
 
 class ResultHolder(val view: View): RecyclerView.ViewHolder(view) {
 
@@ -26,9 +27,14 @@ class ResultHolder(val view: View): RecyclerView.ViewHolder(view) {
         questionView.text = itemResult.question
         answerView.text = itemResult.answer.toString()
         truthBooleanView.text =
-            if (itemResult.answer == itemResult.truth)
+            if (itemResult.answer == itemResult.truth) {
+                truthBooleanView.setTextColor(Color.parseColor("#008577"))
                 "Ответ правильный"
-            else "Ответ неправильный"
+            }
+            else {
+                truthBooleanView.setTextColor(Color.parseColor("#C75450"))
+                "Ответ неправильный"
+            }
         if (showTruth)
             truthView.text = itemResult.truth.toString()
     }

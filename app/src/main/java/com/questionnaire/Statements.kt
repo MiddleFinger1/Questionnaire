@@ -1,6 +1,7 @@
 package com.questionnaire
 
 import com.IS_RANDOM
+import com.JsonObject
 import com.STATEMENTS
 import com.TYPE
 import org.json.simple.JSONArray
@@ -12,6 +13,7 @@ class Statements: ArrayList<String>(), JsonObject {
 
     var type = SINGLE
     var isRandom = false
+    var entered = ""
 
     companion object {
 

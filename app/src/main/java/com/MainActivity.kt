@@ -5,19 +5,55 @@ import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.view.WindowManager
 import com.application.R
 import com.fragments.GameOfflineSessions
 import com.fragments.GameOnlineSessions
 import com.fragments.HomeSettings
+import com.users.User
 
 
 class MainActivity : AppCompatActivity() {
 
-    private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
+    lateinit var user: User
+    lateinit var navView: BottomNavigationView
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        window.setBackgroundDrawable(null)
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+        window.statusBarColor = Color.parseColor("#ACACAC")
+
+        navView = findViewById(R.id.nav_view)
+
+        downloadUser()
+        switchFragment(R.id.navigation_home)
+    }
+
+    private fun downloadUser(){
+        // загрузка пользователя производится из assets
+
+        val inputStream = assets.open("user.json")
+        val json = Helper.converting(inputStream)
+
+        val user = User.createUser(json)
+        if (user != null)
+            this.user = user
+
+        Log.e("user", this.user.toJsonObject())
+    }
+
+    private fun switchFragment(id: Int){
+        val item = navView.menu.findItem(id)
+        item.isChecked = true
+
         val fragment: Fragment? = when (item.itemId) {
             R.id.navigation_home ->
-                HomeSettings()
+                HomeSettings().apply { activity = this@MainActivity}
             R.id.navigation_dashboard ->
                 GameOfflineSessions().apply { activity = this@MainActivity}
             R.id.navigation_notifications -> {
@@ -27,20 +63,5 @@ class MainActivity : AppCompatActivity() {
         }
         if (fragment != null)
             supportFragmentManager.beginTransaction().replace(R.id.MainLayout, fragment).commit()
-        true
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        val navView: BottomNavigationView = findViewById(R.id.nav_view)
-
-        navView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
-
-        if (android.os.Build.VERSION.SDK_INT >= 21){
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-            window.statusBarColor = Color.parseColor("#ACACAC")
-        }
     }
 }

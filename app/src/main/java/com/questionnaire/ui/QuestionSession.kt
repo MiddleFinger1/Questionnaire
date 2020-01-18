@@ -24,7 +24,6 @@ class QuestionSession : Fragment() {
     lateinit var contextQuestion: PresentativeQuestionnaire
 
     private var answer = arrayListOf<Int>()
-    private var textET = ""
 
     private lateinit var views: View
     private lateinit var toolbar: Toolbar
@@ -79,16 +78,21 @@ class QuestionSession : Fragment() {
     }
 
     private fun setSaveChoice(){
-        if (contextQuestion.sceneInstance >= contextQuestion.obResult.lastIndex)
+        if (contextQuestion.sceneInstance > contextQuestion.obResult.lastIndex)
             return
 
         Log.e("ex", contextQuestion.sceneInstance.toString())
         val obItem = contextQuestion.obResult[contextQuestion.sceneInstance]
         Log.e("ex", obItem.toJsonObject())
 
+        answer = obItem.answer
+
         when (question.statements.type){
-            Statements.SINGLE ->
-                radioGroup.check(obItem.answer[0])
+            Statements.SINGLE -> {
+                val view = radioGroup.getChildAt(obItem.answer[0])
+                view as RadioButton
+                view.isChecked = true
+            }
             Statements.MULTI -> {
                 for (id in obItem.answer){
                     val view = statementsLayout.getChildAt(id)
@@ -98,7 +102,7 @@ class QuestionSession : Fragment() {
             }
             Statements.ENTER -> {
                 val view = statementsLayout.getChildAt(0) as EditText
-                view.text.append(textET)
+                view.text.append(question.statements.entered)
             }
         }
     }
@@ -160,8 +164,9 @@ class QuestionSession : Fragment() {
                         override fun afterTextChanged(p0: Editable?) {}
                         override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
                         override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                            question.statements.entered = view.text.toString()
                             val print =
-                                if (question.statements[0] == view.text.toString())
+                                if (question.statements[0] == question.statements.entered)
                                     question.truth[0]
                                 else -1
                             if (answer.isEmpty())

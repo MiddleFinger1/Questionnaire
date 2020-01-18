@@ -1,6 +1,20 @@
 {
 	"description": "Перед тем как проходить анкету, предлагаем прочитать этот ресурс",
 	"questions": [
+        {
+            "question": "В каком году появилась первый релиз Kotlin?",
+            "description": "Введите год",
+            "type": 0,
+            "statements": {
+            "type": 2,
+            "statements": [
+                "2016"
+            ]
+        },
+          "truth": [0],
+          "icon": {},
+          "cost": 4.0
+        },
 		{
 			"question": "Что называют переменной?",
 			"description": "необходимо выбрать один ответ",
@@ -111,20 +125,6 @@
 				]
 			},
 			"truth": [1, 2, 5],
-			"icon": {},
-			"cost": 4.0
-		},
-		{
-			"question": "В каком году появилась первый релиз Kotlin?",
-			"description": "Введите год",
-			"type": 0,
-			"statements": {
-				"type": 2,
-				"statements": [
-					"2016"
-				]
-			},
-			"truth": [0],
 			"icon": {},
 			"cost": 4.0
 		}

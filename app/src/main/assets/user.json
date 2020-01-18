@@ -1,0 +1,21 @@
+{
+    "isLogIn": false,
+    "theme": "lightTheme",
+    "questionnaires": {},
+    "settings": {
+        "login": "user",
+        "icon": {
+            "isInSd": true,
+            "path": "programming.png",
+            "type": 0
+        },
+        "userID": -1
+    },
+    "dataPrivacy": {
+        "email": "",
+        "password": "",
+        "phone": "",
+        "userID": -1
+    },
+    "analytics": []
+}
