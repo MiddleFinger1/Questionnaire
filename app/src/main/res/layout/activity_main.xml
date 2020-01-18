@@ -8,6 +8,7 @@
         android:background="#FFFFFF"
         tools:context="com.MainActivity">
     <FrameLayout
+            android:fitsSystemWindows="true"
             android:id="@+id/MainLayout"
             android:layout_above="@id/nav_view"
             android:layout_width="match_parent"
@@ -15,6 +16,7 @@
     </FrameLayout>
     <android.support.design.widget.BottomNavigationView
             android:id="@+id/nav_view"
+            android:fitsSystemWindows="true"
             android:layout_alignParentBottom="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

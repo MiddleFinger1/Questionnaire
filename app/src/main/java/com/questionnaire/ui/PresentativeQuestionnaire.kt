@@ -107,7 +107,14 @@ class PresentativeQuestionnaire : Fragment() {
             }
 
             fabExit.setOnClickListener {
-                activity.startActivity(Intent(context, MainActivity::class.java))
+                try {
+                    val intent = Intent(context, MainActivity::class.java)
+                    intent.putExtra("obResult", obResult.toString())
+                    activity.startActivity(intent)
+                }
+                catch (ex: Exception){
+                    Log.e("ex", ex.toString())
+                }
             }
         }
         return views

@@ -1,5 +1,6 @@
 package com
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
@@ -29,9 +30,32 @@ class MainActivity : AppCompatActivity() {
         window.statusBarColor = Color.parseColor("#ACACAC")
 
         navView = findViewById(R.id.nav_view)
+        navView.setOnNavigationItemSelectedListener {
+            try{
+                switchFragment(it.itemId)
+                true
+            }
+            catch (ex: Exception){
+                Log.e("ex", ex.toString())
+                false
+            }
+        }
 
         downloadUser()
         switchFragment(R.id.navigation_home)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (data != null && requestCode == 0 && resultCode == RESULT_OK){
+
+            val obResult = data.getStringExtra("obResult")
+            if (obResult != null){
+
+            }
+            Log.e("obResult", obResult.toString())
+        }
+        Log.e("result", data.toString())
     }
 
     private fun downloadUser(){
