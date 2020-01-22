@@ -19,6 +19,7 @@ data class Settings(
             }
             catch (ex: Exception){
                 Log.e("ex_settings", ex.toString())
+                Log.e("ex_settings", json)
                 null
             }
 
@@ -38,7 +39,7 @@ data class Settings(
             {
                 "$ICON": ${icon.toJsonObject()},
                 "$LOGIN": "$login",
-                "$ID": $userID"
+                "$USER_ID": $userID
             }
         """
     }

@@ -9,7 +9,7 @@ import android.support.v7.widget.Toolbar
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.application.R
+import com.R
 import com.questionnaire.constructor.ConstructorActivity
 
 

@@ -4,7 +4,7 @@ import android.graphics.Color
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.TextView
-import com.application.R
+import com.R
 import com.users.ItemResult
 
 class ResultHolder(val view: View): RecyclerView.ViewHolder(view) {
@@ -38,7 +38,4 @@ class ResultHolder(val view: View): RecyclerView.ViewHolder(view) {
         if (showTruth)
             truthView.text = itemResult.truth.toString()
     }
-
-
-
 }

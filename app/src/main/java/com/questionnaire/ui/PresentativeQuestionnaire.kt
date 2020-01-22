@@ -1,6 +1,5 @@
 package com.questionnaire.ui
 
-
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.Drawable
@@ -16,12 +15,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import com.MainActivity
-import com.application.R
+import com.R
 import com.questionnaire.Questionnaire
 import com.users.ObResult
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.io.File
 import kotlin.random.Random
 
 
@@ -32,6 +32,7 @@ class PresentativeQuestionnaire : Fragment() {
     lateinit var obResult: ObResult
 
     private var checkSingleLine = true
+    private var isCompleted = false
     private val idQuestions = arrayListOf<Int>()
     private lateinit var titleView: TextView
     private lateinit var fabStart: FloatingActionButton
@@ -45,10 +46,6 @@ class PresentativeQuestionnaire : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        obResult = ObResult().apply {
-            isPresentedTruth = questionnaire.settings.isPresented
-        }
-
         CoroutineScope(Dispatchers.Main).launch {
             setArray()
         }
@@ -85,22 +82,34 @@ class PresentativeQuestionnaire : Fragment() {
             }
             for (path in resources) {
                 val source = openSource(activity, path)
-                sourceLayout.addView(when {
-                    (source is String) -> TextView(context).apply {
+                sourceLayout.addView(
+                    TextView(context).apply {
                         setTextColor(Color.parseColor("#6295C3"))
                         text = path.path
                         setOnClickListener {
-                            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(source)))
+                            when {
+                                (source is String) -> startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(source)))
+                                (source is File) -> {
+                                    try {
+                                        val intent = Intent(Intent.EXTRA_TEXT, Uri.parse(source.absolutePath))
+                                        //intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(source.absoluteFile))
+
+                                        startActivity(intent)
+                                    }
+                                    catch (ex: Exception) {
+                                        Log.e("ex", ex.toString())
+                                    }
+                                }
+                            }
                         }
-                    }
-                    else -> null
-                })
+                    })
             }
 
             if (resources.isEmpty()) sourceLayout.addView(TextView(context).apply { text = "Нет ресурсов" })
 
             fabStart.setOnClickListener {
                 sceneInstance = -1
+                isCompleted = true
                 obResult = ObResult()
                 obResult.isPresentedTruth = questionnaire.settings.isPresented
                 nextQuestion()
@@ -109,11 +118,15 @@ class PresentativeQuestionnaire : Fragment() {
             fabExit.setOnClickListener {
                 try {
                     val intent = Intent(context, MainActivity::class.java)
-                    intent.putExtra("obResult", obResult.toString())
+                    if (isCompleted){
+                        val ob = obResult.toJsonObject()
+                        Log.e("ob", ob)
+                        intent.putExtra("obResult", ob)
+                    }
                     activity.startActivity(intent)
                 }
                 catch (ex: Exception){
-                    Log.e("ex", ex.toString())
+                    Log.e("exObResult", ex.toString())
                 }
             }
         }

@@ -9,7 +9,8 @@ import android.support.v7.widget.Toolbar
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.application.R
+import com.CustomAdapter
+import com.R
 import com.fragments.GameOfflineSessions
 import com.questionnaire.Settings
 
@@ -42,12 +43,23 @@ class QuestionnaireGroup : Fragment() {
             val layoutManager = LinearLayoutManager(context)
             layoutManager.orientation = LinearLayoutManager.VERTICAL
 
-            val adapter = SettingsAdapter()
-            adapter.activity = activity
-            adapter.groupSettings = settings
+            val customAdapter = CustomAdapter<Settings, SettingsHolder>(R.layout.settings_card_view)
+                customAdapter.activity = activity
+                customAdapter.group = settings
+                customAdapter.onBindLambda = { holder, item ->
+                    holder.activity = activity
+                    holder.downloadSettings(item)
+                }
+                customAdapter.returnedClass = { view ->
+                    SettingsHolder(view)
+                }
+
+            //val adapter = SettingsAdapter()
+            //adapter.activity = activity
+            //adapter.groupSettings = settings
 
             recyclerView.layoutManager = layoutManager
-            recyclerView.adapter = adapter
+            recyclerView.adapter = customAdapter
 
         }
         return views

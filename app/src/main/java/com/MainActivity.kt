@@ -3,22 +3,29 @@ package com
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.os.Environment
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.WindowManager
-import com.application.R
 import com.fragments.GameOfflineSessions
 import com.fragments.GameOnlineSessions
 import com.fragments.HomeSettings
+import com.users.ObResult
 import com.users.User
+import java.io.*
 
 
 class MainActivity : AppCompatActivity() {
 
     lateinit var user: User
     lateinit var navView: BottomNavigationView
+
+	private val rootDirectory = Environment.getExternalStorageDirectory().absolutePath
+	private val appDirectory = "Questionnaire"
+    private val userFileName = "user.json"
+    private val fileInstanceUser = "$rootDirectory/$appDirectory/$userFileName"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,44 +38,93 @@ class MainActivity : AppCompatActivity() {
 
         navView = findViewById(R.id.nav_view)
         navView.setOnNavigationItemSelectedListener {
-            try{
-                switchFragment(it.itemId)
-                true
-            }
-            catch (ex: Exception){
-                Log.e("ex", ex.toString())
-                false
-            }
+            switchFragment(it.itemId)
+            true
         }
 
         downloadUser()
+        if (intent != null)
+            getObResult(intent)
         switchFragment(R.id.navigation_home)
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (data != null && requestCode == 0 && resultCode == RESULT_OK){
+    private fun create(name: String): File {
+        val baseDir: File? = Environment.getExternalStorageDirectory()
 
-            val obResult = data.getStringExtra("obResult")
-            if (obResult != null){
-
-            }
-            Log.e("obResult", obResult.toString())
-        }
-        Log.e("result", data.toString())
+        val folder = File(baseDir, name)
+        if (folder.exists())
+            return folder
+        if (folder.isFile)
+            folder.delete()
+        return if (folder.mkdirs()) {
+            folder
+        } else Environment.getExternalStorageDirectory()
     }
 
-    private fun downloadUser(){
+    private fun getObResult(data: Intent) {
+        try {
+            val json = data.getStringExtra("obResult")
+            if (json != null){
+                //Log.e("obResult", json)
+
+                val obResult = ObResult.createObResult(json)
+
+                if (obResult != null) {
+                    Log.e("obResult", obResult.toJsonObject())
+                    user.analytics.add(obResult)
+                    Log.e("analytics", user.analytics.toJsonObject())
+                }
+
+                val jsonObject = user.toJsonObject()
+                Log.e("jsonObject", user.toJsonObject())
+
+                val root = Environment.getExternalStorageDirectory()
+                val folder = File(root, appDirectory)
+                val file = File(folder, userFileName)
+
+                val bufferedWriter = BufferedWriter(FileWriter(file))
+                bufferedWriter.write(jsonObject)
+                bufferedWriter.close()
+
+                val check = Helper.converting(FileInputStream(file))
+                Log.e("check", check)
+            }
+        }
+        catch (ex: Exception) {
+            Log.e("exGetObResult", ex.toString())
+
+        }
+    }
+
+    private fun downloadUser() {
         // загрузка пользователя производится из assets
-
-        val inputStream = assets.open("user.json")
-        val json = Helper.converting(inputStream)
-
-        val user = User.createUser(json)
-        if (user != null)
+        Log.e("path", fileInstanceUser)
+        val user: User? = try {
+            val file = File(fileInstanceUser)
+            val input = FileInputStream(file)
+            val json = Helper.converting(input)
+            Log.e("json", json)
+            val jsonUser = User.createUser(json)
+            Log.e("jsonUser", jsonUser.toString())
+            if (jsonUser != null)
+                Log.e("jsonUser", jsonUser.toJsonObject())
+            jsonUser
+        } catch (ex: Exception) {
+            Log.e("exDownloadUser", ex.toString())
+            val folder = create(appDirectory)
+            val file = File(folder, userFileName)
+            val bufferedWriter = BufferedWriter(FileWriter(file))
+            Log.e("instanceJson", "is empty")
+            val inputStream = assets.open(userFileName)
+            val json = Helper.converting(inputStream)
+            bufferedWriter.write(json)
+            bufferedWriter.close()
+            User.createUser(json)
+        }
+        if (user != null) {
             this.user = user
-
-        Log.e("user", this.user.toJsonObject())
+            Log.e("finalUser", this.user.toJsonObject())
+        }
     }
 
     private fun switchFragment(id: Int){

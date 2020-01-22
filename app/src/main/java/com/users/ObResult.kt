@@ -20,11 +20,11 @@ class ObResult: ArrayList<ItemResult>(), JsonObject {
                 createObResult(JSONParser().parse(json) as JSONObject)
             }
             catch (ex: Exception){
-                Log.e("ex", ex.toString())
+                Log.e("exCreateResult", ex.toString())
                 null
             }
 
-        fun createObResult(jsonObject: JSONObject) =
+        private fun createObResult(jsonObject: JSONObject) =
             ObResult().apply {
                 val jsonIsPresented = jsonObject[IS_PRESENTED]
                 if (jsonIsPresented != null)
@@ -32,9 +32,9 @@ class ObResult: ArrayList<ItemResult>(), JsonObject {
                 val jsonCost = jsonObject[COST]
                 if (jsonCost != null)
                     cost = jsonCost.toString().toDouble()
-                val jsonArray = jsonObject[QUESTIONS]
+                val jsonArray = jsonObject[QUESTIONS] as? JSONArray
                 if (jsonArray != null){
-                    for (item in jsonArray as JSONArray) {
+                    for (item in jsonArray) {
                         val itemResult = ItemResult.createItemResult(item.toString())
                         if (itemResult != null)
                             add(itemResult)
@@ -59,7 +59,7 @@ class ObResult: ArrayList<ItemResult>(), JsonObject {
 
     override fun toJsonObject(): String {
         var jsonItems = ""
-        for (id in 0..this.size) {
+        for (id in 0..this.lastIndex) {
             val item = this[id]
             jsonItems +=
                 if (id != lastIndex) "${item.toJsonObject()},"

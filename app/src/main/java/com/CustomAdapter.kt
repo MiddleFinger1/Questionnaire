@@ -8,23 +8,20 @@ import android.view.View
 import android.view.ViewGroup
 
 
-class CustomAdapter<T>(
-    val layout: Int
+class CustomAdapter<T, Holder: ViewHolder>(val layout: Int): Adapter<Holder>() {
 
-): Adapter<ViewHolder>() {
-
-    lateinit var onBindLambda: (holder: ViewHolder, item: T) -> Unit
-    lateinit var returnedClass: (view: View) -> ViewHolder
+    lateinit var onBindLambda: (holder: Holder, item: T) -> Unit
+    lateinit var returnedClass: (view: View) -> Holder
     lateinit var activity: AppCompatActivity
     lateinit var group: ArrayList<T>
 
     override fun getItemCount() = group.size
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: Holder, position: Int) {
         onBindLambda(holder, group[position])
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val view = layoutInflater.inflate(layout, parent, false)
         return returnedClass(view)

@@ -6,7 +6,6 @@ import android.support.v4.app.Fragment
 import android.widget.*
 import android.widget.RadioGroup.LayoutParams
 import android.support.v7.widget.Toolbar
-import com.application.R
 import com.questionnaire.Question
 import com.questionnaire.Statements
 import android.content.res.ColorStateList
@@ -15,6 +14,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.*
+import com.R
 
 
 class QuestionSession : Fragment() {

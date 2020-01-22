@@ -1,7 +1,7 @@
 {
     "isLogIn": false,
     "theme": "lightTheme",
-    "questionnaires": {},
+    "questions": [],
     "settings": {
         "login": "user",
         "icon": {

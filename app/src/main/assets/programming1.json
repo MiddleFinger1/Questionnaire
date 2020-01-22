@@ -1,20 +1,6 @@
 {
 	"description": "Перед тем как проходить анкету, предлагаем прочитать этот ресурс",
 	"questions": [
-        {
-            "question": "В каком году появилась первый релиз Kotlin?",
-            "description": "Введите год",
-            "type": 0,
-            "statements": {
-            "type": 2,
-            "statements": [
-                "2016"
-            ]
-        },
-          "truth": [0],
-          "icon": {},
-          "cost": 4.0
-        },
 		{
 			"question": "Что называют переменной?",
 			"description": "необходимо выбрать один ответ",
@@ -83,7 +69,7 @@
 			"cost": 1.5
 		},
 		{
-			"question": "Что дает оператор \"%\"?",
+			"question": "Что дает оператор <<%>>?",
 			"description": "необходимо выбрать один ответ",
 			"type": 0,
 			"statements": {
@@ -112,21 +98,6 @@
 			"truth": [3],
 			"icon": "",
 			"cost": 2.0
-		},
-		{
-			"question": "Какие основные понятия входят в ООП?",
-			"description": "необходимо выбрать один или несколько вариантов",
-			"type": 0,
-			"statements": {
-				"type": 1,
-				"isRandom": true,
-				"statements": [
-					"Абстракция", "Полиморфизм", "Наследование", "Операторы", "Функции", "Инкапсуляция"
-				]
-			},
-			"truth": [1, 2, 5],
-			"icon": {},
-			"cost": 4.0
 		}
 	],
 	"resources": [
@@ -139,6 +110,11 @@
 			"isInSd": false,
 			"path": "http://vk.com",
 			"type": 3
+		},
+		{
+			"isInSd": true,
+			"path": "MathCalculator.kt",
+			"type": 1
 		}
 	],
 	"settings": {},

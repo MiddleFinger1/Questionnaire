@@ -27,7 +27,8 @@ class User: JsonObject {
                 createUser(JSONParser().parse(json) as JSONObject)
             }
             catch (ex: Exception) {
-                Log.e("ex", ex.toString())
+                Log.e("exUser", ex.toString())
+                Log.e("exUser", json)
                 null
             }
 
@@ -44,6 +45,8 @@ class User: JsonObject {
                 val jsonAnalytics = Analytics.createAnalytics(jsonObject[ANALYTICS].toString())
                 if (jsonAnalytics != null)
                     analytics = jsonAnalytics
+
+                Log.e("analyticsCreater", analytics.toJsonObject())
 
                 if (jsonSettings != null)
                     settings = jsonSettings
@@ -77,7 +80,7 @@ class User: JsonObject {
                 "$IS_LOG_IN": $isLogIn,
                 "$APP_CONFIG": "$theme",
                 "$DATA_PRIVACY": ${privacy.toJsonObject()},
-                "$ANALYTICS": $analytics,
+                "$ANALYTICS": ${analytics.toJsonObject()},
                 "$SETTINGS": ${settings.toJsonObject()},
                 "$QUESTIONS": [$jsonArray]
             }

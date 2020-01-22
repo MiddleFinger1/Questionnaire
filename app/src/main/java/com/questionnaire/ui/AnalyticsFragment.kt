@@ -1,6 +1,5 @@
 package com.questionnaire.ui
 
-
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -11,7 +10,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import com.application.R
+import com.CustomAdapter
+import com.R
+import com.users.ItemResult
 
 
 class AnalyticsFragment : Fragment() {
@@ -51,12 +52,17 @@ class AnalyticsFragment : Fragment() {
         val layoutManager = LinearLayoutManager(context)
         layoutManager.orientation = LinearLayoutManager.VERTICAL
 
-        val adapter = ResultAdapter()
-        adapter.activity = contextQuestionnaire.activity
-        adapter.groupResults = contextQuestionnaire.obResult
+        val customAdapter = CustomAdapter<ItemResult, ResultHolder>(R.layout.result_layout_cardview)
+            customAdapter.group = contextQuestionnaire.obResult
+            customAdapter.onBindLambda = { holder, item ->
+                holder.downloadResult(item, contextQuestionnaire.obResult.isPresentedTruth)
+            }
+            customAdapter.returnedClass = { view ->
+                ResultHolder(view)
+            }
 
         recyclerView.layoutManager = layoutManager
-        recyclerView.adapter = adapter
+        recyclerView.adapter = customAdapter
 
         return views
     }

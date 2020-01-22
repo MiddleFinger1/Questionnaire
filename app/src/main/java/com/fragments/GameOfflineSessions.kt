@@ -11,14 +11,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.Helper
-import com.application.R
 import org.json.simple.JSONArray
 import org.json.simple.JSONObject
 import org.json.simple.parser.JSONParser
 import com.questionnaire.game.Subject
-import com.questionnaire.game.SubjectAdapter
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.Toolbar
+import com.CustomAdapter
+import com.R
+import com.questionnaire.game.SubjectHolder
 
 
 class GameOfflineSessions : Fragment() {
@@ -42,15 +43,22 @@ class GameOfflineSessions : Fragment() {
             recyclerView = findViewById(R.id.OfflineSessions_RecyclerView)
             recyclerView.setHasFixedSize(true)
 
-            val adapter = SubjectAdapter()
-            adapter.activity = activity
-            adapter.subjects = create()
+            val customAdapter = CustomAdapter<Subject, SubjectHolder>(R.layout.subject_card_view)
+                customAdapter.activity = activity
+                customAdapter.group = create()
+                customAdapter.onBindLambda = { holder, item ->
+                    holder.activity = activity
+                    holder.downloadResources(item)
+                }
+                customAdapter.returnedClass = { view ->
+                    SubjectHolder(view)
+                }
 
             val layoutManager = LinearLayoutManager(context)
             layoutManager.orientation = LinearLayoutManager.VERTICAL
 
             recyclerView.layoutManager = layoutManager
-            recyclerView.adapter = adapter
+            recyclerView.adapter = customAdapter
         }
     }
 

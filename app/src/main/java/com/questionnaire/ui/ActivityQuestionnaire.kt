@@ -7,9 +7,9 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.WindowManager
 import android.widget.Toast
-import com.application.R
 import com.Helper
 import com.MainActivity
+import com.R
 import com.questionnaire.Questionnaire
 import com.questionnaire.Settings
 import java.lang.Exception

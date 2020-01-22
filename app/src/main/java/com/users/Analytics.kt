@@ -8,15 +8,22 @@ import org.json.simple.parser.JSONParser
 
 class Analytics: ArrayList<ObResult>(), JsonObject {
 
-    fun addElements(json: String) =
+    fun addElements(json: String) {
         addElements(JSONParser().parse(json) as JSONArray)
+    }
 
-    fun addElements(jsonArray: JSONArray) {
+    private fun addElements(jsonArray: JSONArray) {
         for (item in jsonArray){
-            val obResult = ObResult.createObResult(item.toString())
-            if (obResult != null)
-                add(obResult)
+            addElement(item.toString())
         }
+    }
+
+    fun addElement(json: String){
+        val obResult = ObResult.createObResult(json)
+        if (obResult != null)
+            add(obResult)
+        if (size > 20)
+            removeAt(0)
     }
 
     companion object {
@@ -38,7 +45,7 @@ class Analytics: ArrayList<ObResult>(), JsonObject {
         for (id in 0..lastIndex){
             val item = this[id]
             jsonItems +=
-                if (id == lastIndex)
+                if (id != lastIndex)
                     "${item.toJsonObject()},"
                 else item.toJsonObject()
         }

@@ -11,7 +11,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.MainActivity
-import com.application.R
+import com.R
 import com.questionnaire.ui.openSource
 
 

@@ -4,9 +4,8 @@ import android.content.Context
 import android.database.Cursor
 import android.net.Uri
 import android.provider.MediaStore
-import java.io.BufferedInputStream
-import java.io.ByteArrayOutputStream
-import java.io.InputStream
+import org.apache.commons.io.IOUtils
+import java.io.*
 
 
 object Helper {
@@ -38,4 +37,12 @@ object Helper {
             cursor?.close()
         }
     }
+	
+	@Throws(IOException::class)
+	fun stream2file(`in`: InputStream?): File? {
+		val tempFile = File.createTempFile("text", ".txt")
+		tempFile.deleteOnExit()
+		FileOutputStream(tempFile).use { out -> IOUtils.copy(`in`, out) }
+		return tempFile
+	}
 }
