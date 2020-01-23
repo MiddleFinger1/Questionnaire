@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import com.CustomModalWindow
 import com.R
 import com.questionnaire.Settings
 
@@ -49,8 +50,23 @@ class SettingsHolder(val view: View): ViewHolder(view){
         view.setOnClickListener {
             if (!settings.isPrivate)
                 openQuestionnaire(activity, settings)
-            else 
-                Toast.makeText(activity.baseContext, "Closed", Toast.LENGTH_SHORT).show()
+            else {
+                val modal = CustomModalWindow()
+                modal.setTitle = "Недоступен!"
+                modal.setDescription = "Используйте пароль для доступа к анкете"
+                modal.action = {
+                    addTextEdit("Enter here!")
+                    addButtonAction("Cancel"){
+                        dismiss()
+                    }
+                    addButtonAction("Ok") {
+                        if (entered == settings.password)
+                            openQuestionnaire(this@SettingsHolder.activity, settings)
+                        else Toast.makeText(context, "Неправильный пароль", Toast.LENGTH_SHORT).show()
+                    }
+                }
+                modal.show(activity.supportFragmentManager, modal.javaClass.name)
+            }
         }
     }
 }

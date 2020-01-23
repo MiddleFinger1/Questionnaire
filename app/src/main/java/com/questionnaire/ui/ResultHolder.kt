@@ -25,9 +25,9 @@ class ResultHolder(val view: View): RecyclerView.ViewHolder(view) {
 
     fun downloadResult(itemResult: ItemResult, showTruth: Boolean){
         questionView.text = itemResult.question
-        answerView.text = itemResult.answer.toString()
+        answerView.text = itemResult.answer
         truthBooleanView.text =
-            if (itemResult.answer == itemResult.truth) {
+            if (itemResult.truth) {
                 truthBooleanView.setTextColor(Color.parseColor("#008577"))
                 "Ответ правильный"
             }
@@ -35,7 +35,7 @@ class ResultHolder(val view: View): RecyclerView.ViewHolder(view) {
                 truthBooleanView.setTextColor(Color.parseColor("#C75450"))
                 "Ответ неправильный"
             }
-        if (showTruth)
-            truthView.text = itemResult.truth.toString()
+        if (showTruth && !itemResult.truth)
+            truthView.text = itemResult.thuthAnswer.toString()
     }
 }

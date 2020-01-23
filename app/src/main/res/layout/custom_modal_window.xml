@@ -3,13 +3,14 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" android:background="#FFFFFF">
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF">
     <TextView
             android:layout_alignParentTop="true"
             android:text="TextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/DialogAlert.Title"
+            android:id="@+id/CModal.Title"
             android:textColor="#000000"
             android:textSize="24sp"
             android:fontFamily="@font/ubuntu_medium"
@@ -18,22 +19,32 @@
             android:padding="10dp"
             android:background="#FFFFFF"/>
     <TextView
-            android:layout_below="@id/DialogAlert.Title"
-            android:layout_above="@id/DialogAlert.ButtonsGroup"
+            android:layout_below="@id/CModal.Title"
             android:text="TextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/DialogAlert.Description"
+            android:id="@+id/CModal.Description"
             android:textColor="#ACACAC"
             android:fontFamily="@font/ubuntu_light"
-            android:padding="10dp" android:gravity="center" android:textSize="18sp"
-    />
+            android:padding="10dp"
+            android:gravity="center"
+            android:textSize="18sp"/>
+    <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:id="@+id/CModal.EditEntered"
+            android:textAlignment="center" android:layout_below="@id/CModal.Description"
+            style="@style/ItemThemeTextView" android:textColor="#000000" android:singleLine="true"
+            android:visibility="gone"/>
     <LinearLayout
             android:layout_alignParentBottom="true"
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:padding="5dp"
-            android:id="@+id/DialogAlert.ButtonsGroup">
+            android:id="@+id/CModal.ButtonsGroup" android:layout_below="@id/CModal.EditEntered"
+            android:gravity="bottom">
     </LinearLayout>
 </RelativeLayout>

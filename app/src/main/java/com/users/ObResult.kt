@@ -45,11 +45,40 @@ class ObResult: ArrayList<ItemResult>(), JsonObject {
 
     fun addAnswer(id: Int, question: Question, answer: ArrayList<Int>){
         Log.e("ex", id.toString())
+
+        //сбор текста ответов
+        var answerString = ""
+        for (item in answer)
+            answerString += when (question.statements.type){
+                Statements.ENTER -> question.statements.entered
+                Statements.MULTI -> "$item) ${question.statements[item]}\n"
+                Statements.SINGLE -> question.statements[item]
+                else -> ""
+            }
+        var truthString = ""
+        if (isPresentedTruth){
+            for (item in question.truth)
+                truthString += when (question.statements.type){
+                    Statements.ENTER -> question.statements[item]
+                    Statements.MULTI -> "$item) ${question.statements[item]}\n"
+                    Statements.SINGLE -> question.statements[item]
+                    else -> ""
+                }
+        }
+        //проверка на схожесть ответа на правильность
+        var truth = true
+        for (item in question.truth)
+            if (answer.indexOf(item) < 0)
+                truth = false
+        if (question.truth.size != answer.size)
+            truth = false
         try {
+            val item = ItemResult(question.question, answerString, truth, truthString)
             if (id >= size) {
-                add(ItemResult(question.question, answer, question.truth))
-            } else this[id] = ItemResult(question.question, answer, question.truth)
-            cost += question.cost
+                add(item)
+            } else this[id] = item
+            if (item.truth)
+                cost += question.cost
         }
         catch (ex: Exception){
             Log.e("ex", ex.toString())

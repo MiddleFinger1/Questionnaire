@@ -16,6 +16,7 @@ class Questionnaire(var settings: Settings
     var resources = arrayListOf<Source>()
     var isRandom = false
     var maxQuestions = 0
+    var version = 0.0
 
     companion object {
 
@@ -43,6 +44,10 @@ class Questionnaire(var settings: Settings
                     if (analytics != null)
                         this.analytics = analytics
 
+                    val jsonVersion = jsonObject[VERSION]
+                    if (jsonVersion != null)
+                        version = jsonVersion.toString().toDouble()
+
                     for (item in jsonObject[RESOURCES] as JSONArray) {
                         val source = Source.createSource(item.toString())
                         if (source is Source)
@@ -57,10 +62,7 @@ class Questionnaire(var settings: Settings
                         }
                     }
                     val jsonMaxQuestions = jsonObject[MAX_QUESTIONS]
-                    maxQuestions =
-                        if (jsonMaxQuestions != null)
-                            jsonMaxQuestions.toString().toInt()
-                        else size
+                    maxQuestions = (jsonMaxQuestions ?: size).toString().toInt()
                 }
             }
             catch (ex: Exception){
@@ -94,7 +96,8 @@ class Questionnaire(var settings: Settings
                 "$SETTINGS": {${settings.toJsonObject()}}
                 "$ANALYTICS": {${analytics.toJsonObject()}},
                 "$IS_RANDOM": $isRandom,
-                "$MAX_QUESTIONS": $maxQuestions
+                "$MAX_QUESTIONS": $maxQuestions,
+                "$VERSION": $version
             }
         """
     }

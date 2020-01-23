@@ -5,7 +5,8 @@
 			"id": 0,
 			"group": "programming",
 			"mark": 0.0,
-			"isPrivate": false,
+			"isPrivate": true,
+			"isPresented": true,
 			"userId": 0,
 			"path": "programming1.json",
 			"icon": {
@@ -13,7 +14,7 @@
 				"path": "programming.png",
 				"type": 0
 			},
-			"password": ""
+			"password": "123"
 		},
 		{
 			"title": "Циклы и условия",

@@ -14,6 +14,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import com.CustomModalWindow
 import com.MainActivity
 import com.R
 import com.questionnaire.Questionnaire
@@ -134,6 +135,7 @@ class PresentativeQuestionnaire : Fragment() {
     }
 
     private fun setArray(){
+        idQuestions.clear()
         if (questionnaire.isRandom){
             val range = arrayListOf<Int>()
             range.addAll(0.until(questionnaire.size))
@@ -157,9 +159,31 @@ class PresentativeQuestionnaire : Fragment() {
                 }
                 activity.supportFragmentManager.beginTransaction().replace(R.id.MainQuestionnaireLayout, fragment).commit()
             } else {
-                val fragment = DialogAlert()
-                fragment.contextQuestionnaire = this
-                fragment.show(activity.supportFragmentManager, fragment.javaClass.name)
+
+                val transaction = {
+                    val fragment = AnalyticsFragment()
+                    fragment.contextQuestionnaire = this@PresentativeQuestionnaire
+                    activity.supportFragmentManager?.beginTransaction()?.replace(R.id.MainQuestionnaireLayout, fragment)?.commit()
+                }
+
+                val fragment = CustomModalWindow().apply {
+                    setTitle = "Завершить тестирование!"
+                    setDescription = "Вы хотите завершить анкету и узнать свой результат?"
+                    action = {
+                        addButtonAction("Cancel") {
+                            dismiss()
+                        }
+                        addButtonAction("Ok"){
+                            transaction()
+                            dismiss()
+                        }
+                    }
+                }
+                fragment.show(activity.supportFragmentManager, javaClass.name)
+
+                //val fragment = DialogAlert()
+                //fragment.contextQuestionnaire = this
+                //fragment.show(activity.supportFragmentManager, fragment.javaClass.name)
             }
         } catch (ex: Exception) {
             Log.e("ex", ex.toString())

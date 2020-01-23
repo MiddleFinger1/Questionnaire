@@ -39,13 +39,20 @@
                     android:minWidth="100dp"
                     android:layout_margin="10dp"/>
             <TextView
+                    android:text="TextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:id="@+id/Question.Timer" android:textSize="18sp"
+                    android:fontFamily="@font/ubuntu_medium" android:textColor="#000000"
+                    android:textAlignment="textStart" android:layout_below="@id/Question.Image" android:padding="10dp"
+                    android:layout_marginStart="10dp" android:layout_marginEnd="10dp"/>
+            <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/Question.Question"
                     android:text="@string/the_question"
                     android:textAlignment="center"
                     android:textSize="24sp"
-                    android:layout_below="@id/Question.Image"
+                    android:layout_below="@id/Question.Timer"
                     android:textColor="#000000"
                     android:fontFamily="@font/ubuntu_medium"/>
             <TextView

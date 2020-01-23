@@ -1,10 +1,7 @@
 package com.users
 
 import android.util.Log
-import com.ANSWER
-import com.JsonObject
-import com.QUESTION
-import com.TRUTH
+import com.*
 import org.json.simple.JSONArray
 import org.json.simple.JSONObject
 import org.json.simple.parser.JSONParser
@@ -12,7 +9,7 @@ import java.lang.Exception
 
 
 class ItemResult(
-    val question: String, val answer: ArrayList<Int>, val truth: ArrayList<Int>
+    val question: String, val answer: String, val truth: Boolean, val thuthAnswer: String = ""
 ) : JsonObject {
 
     companion object {
@@ -26,18 +23,16 @@ class ItemResult(
 
         fun createItemResult(jsonObject: JSONObject): ItemResult? {
             val jsonQuestion = jsonObject[QUESTION]
-            val jsonAnswer = jsonObject[ANSWER] as? JSONArray
-            val jsonTruth = jsonObject[TRUTH] as? JSONArray
+            val jsonAnswer = jsonObject[ANSWER]
+            val jsonTruth = jsonObject[TRUTH]
+            val jsonTruthString = jsonObject[TRUTH_STRING]
 
-            return if (jsonQuestion != null && jsonAnswer != null && jsonTruth != null){
-                val answer = arrayListOf<Int>()
-                for (item in jsonAnswer)
-                    answer.add(item.toString().toInt())
-                val truth = arrayListOf<Int>()
-                for (item in jsonTruth)
-                    truth.add(item.toString().toInt())
-                ItemResult(jsonQuestion.toString(), answer, truth)
-            }
+            return if (jsonQuestion != null && jsonAnswer != null && jsonTruth != null && jsonTruthString != null)
+                ItemResult(
+                    jsonQuestion.toString(),
+                    jsonAnswer.toString(),
+                    jsonTruth.toString().toBoolean(),
+                    jsonTruthString.toString())
             else null
         }
     }
@@ -46,7 +41,8 @@ class ItemResult(
         """
             {
                 "$QUESTION": "$question",
-                "$ANSWER": $answer,
+                "$ANSWER": "$answer",
+                "$TRUTH_STRING": "$thuthAnswer",
                 "$TRUTH": $truth
             }
         """

@@ -15,6 +15,9 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.*
 import com.R
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 class QuestionSession : Fragment() {
@@ -29,6 +32,7 @@ class QuestionSession : Fragment() {
     private lateinit var toolbar: Toolbar
     private lateinit var questionTitle: TextView
     private lateinit var descriptionView: TextView
+    private lateinit var timer: TextView
     private lateinit var questionImage: ImageView
     private lateinit var statementsLayout: LinearLayout
     private lateinit var radioGroup: RadioGroup
@@ -40,6 +44,7 @@ class QuestionSession : Fragment() {
             toolbar = findViewById(R.id.Question_Toolbar)
             questionTitle = findViewById(R.id.Question_Question)
             descriptionView = findViewById(R.id.Question_Description)
+            timer = findViewById(R.id.Question_Timer)
             questionImage = findViewById(R.id.Question_Image)
             statementsLayout = findViewById(R.id.Question_Statements)
         }
@@ -52,20 +57,23 @@ class QuestionSession : Fragment() {
         toolbar.inflateMenu(R.menu.bottom_nav_questions)
         toolbar.setOnMenuItemClickListener {
                 menuItem: MenuItem? ->
-            if (menuItem is MenuItem)
-                when (menuItem.itemId){
-                    R.id.MenuQuestion_Exit ->
-                        contextQuestion.activity.supportFragmentManager.beginTransaction()
-                            .replace(R.id.MainQuestionnaireLayout, contextQuestion).commit()
-                    R.id.MenuQuestion_Back ->
-                        contextQuestion.backQuestion()
-                    R.id.MenuQuestion_Next -> {
-                        if (answer.isNotEmpty()) {
-                            contextQuestion.obResult.addAnswer(contextQuestion.sceneInstance, question, answer)
-                            contextQuestion.nextQuestion()
-                        }
+            if (menuItem == null)
+                return@setOnMenuItemClickListener false
+            when (menuItem.itemId){
+                R.id.MenuQuestion_Exit ->
+                    contextQuestion.activity.supportFragmentManager.beginTransaction()
+                        .replace(R.id.MainQuestionnaireLayout, contextQuestion).commit()
+                R.id.MenuQuestion_Back ->
+                    contextQuestion.backQuestion()
+                R.id.MenuQuestion_Next -> {
+                    if (answer.isNotEmpty()) {
+                        question.answer.clear()
+                        question.answer.addAll(answer)
+                        contextQuestion.obResult.addAnswer(contextQuestion.sceneInstance, question, answer)
+                        contextQuestion.nextQuestion()
                     }
                 }
+            }
             true
         }
         questionTitle.text = question.question
@@ -74,6 +82,11 @@ class QuestionSession : Fragment() {
         createChoice(statementsLayout, question.statements)
         // statements and image soon must be add
         setSaveChoice()
+
+        CoroutineScope(Dispatchers.Main).launch {
+
+        }
+
         return views
     }
 
@@ -85,16 +98,16 @@ class QuestionSession : Fragment() {
         val obItem = contextQuestion.obResult[contextQuestion.sceneInstance]
         Log.e("ex", obItem.toJsonObject())
 
-        answer = obItem.answer
+        answer = question.answer
 
         when (question.statements.type){
             Statements.SINGLE -> {
-                val view = radioGroup.getChildAt(obItem.answer[0])
+                val view = radioGroup.getChildAt(question.answer[0])
                 view as RadioButton
                 view.isChecked = true
             }
             Statements.MULTI -> {
-                for (id in obItem.answer){
+                for (id in question.answer){
                     val view = statementsLayout.getChildAt(id)
                     view as CheckBox
                     view.isChecked = true
