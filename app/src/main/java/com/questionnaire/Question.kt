@@ -17,6 +17,7 @@ class Question(
     var description = ""
     var icon: Source? = null
     var isDefault = true
+	var time = 0L
     lateinit var context: Questionnaire
 	var cost = 1.0
 
@@ -55,6 +56,10 @@ class Question(
                         val jsonIsDefault = jsonObject[IS_DEFAULT]
                         if (jsonIsDefault != null)
                             isDefault = jsonIsDefault.toString().toBoolean()
+							
+						val jsonTime = jsonObject[TIME]
+						if (jsonTime != null)
+							time = jsonTime.toString().toLong()
 
                         val jsonIcon = jsonObject[ICON]
                         if (jsonIcon != null)
@@ -100,6 +105,7 @@ class Question(
                 "$IS_DEFAULT": $isDefault,
                 "$STATEMENTS": ${statements.toJsonObject()},
                 "$TRUTH": $truth,
+				"$TIME": $time,
                 "$ICON": "${icon?.toJsonObject()}",
 				"$COST": $cost
             }

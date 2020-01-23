@@ -74,6 +74,7 @@ class ObResult: ArrayList<ItemResult>(), JsonObject {
             truth = false
         try {
             val item = ItemResult(question.question, answerString, truth, truthString)
+            item.array = answer
             if (id >= size) {
                 add(item)
             } else this[id] = item

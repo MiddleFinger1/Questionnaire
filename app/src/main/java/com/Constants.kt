@@ -10,6 +10,7 @@ const val TYPE = "type"
 
 const val ICON = "icon"
 const val TRUTH = "truth"
+const val TIME = "time"
 const val TRUTH_STRING = "truthString"
 const val LOGIN = "login"
 const val STATEMENTS = "statements"

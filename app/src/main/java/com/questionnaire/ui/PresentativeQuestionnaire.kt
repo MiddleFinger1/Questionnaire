@@ -34,7 +34,7 @@ class PresentativeQuestionnaire : Fragment() {
 
     private var checkSingleLine = true
     private var isCompleted = false
-    private val idQuestions = arrayListOf<Int>()
+    val idQuestions = arrayListOf<Int>()
     private lateinit var titleView: TextView
     private lateinit var fabStart: FloatingActionButton
     private lateinit var fabExit: FloatingActionButton

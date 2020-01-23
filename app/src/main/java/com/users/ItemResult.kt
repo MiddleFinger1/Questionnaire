@@ -12,6 +12,8 @@ class ItemResult(
     val question: String, val answer: String, val truth: Boolean, val thuthAnswer: String = ""
 ) : JsonObject {
 
+    var array = arrayListOf<Int>()
+
     companion object {
         fun createItemResult(json: String) =
             try {

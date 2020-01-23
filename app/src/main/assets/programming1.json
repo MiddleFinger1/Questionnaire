@@ -5,6 +5,8 @@
 			"question": "В каком году появилась первый релиз Kotlin?",
 			"description": "Введите год",
 			"type": 0,
+			"isDefault": false,
+            "time": 40,
 			"statements": {
 				"type": 2,
 				"statements": [

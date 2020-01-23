@@ -5,7 +5,6 @@
 			"id": 0,
 			"group": "programming",
 			"mark": 0.0,
-			"isPrivate": true,
 			"isPresented": true,
 			"userId": 0,
 			"path": "programming1.json",
@@ -13,8 +12,7 @@
 				"isInSd": true,
 				"path": "programming.png",
 				"type": 0
-			},
-			"password": "123"
+			}
 		},
 		{
 			"title": "Циклы и условия",
