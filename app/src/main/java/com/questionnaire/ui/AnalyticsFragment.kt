@@ -58,7 +58,8 @@ class AnalyticsFragment : Fragment() {
             customAdapter.onBindLambda = { holder, item ->
                 holder.downloadResult(item, obResult.isPresentedTruth)
             }
-            customAdapter.returnedClass = { view ->
+            customAdapter.returnedClass = { inFlater, parent ->
+                val view = inFlater.inflate(customAdapter.layout, parent, false)
                 ResultHolder(view)
             }
 

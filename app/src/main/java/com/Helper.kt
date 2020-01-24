@@ -6,6 +6,9 @@ import android.net.Uri
 import android.provider.MediaStore
 import org.apache.commons.io.IOUtils
 import java.io.*
+import java.util.Calendar
+import java.util.GregorianCalendar
+import java.util.Calendar.*
 
 
 object Helper {
@@ -14,7 +17,6 @@ object Helper {
         try {
             val bis = BufferedInputStream(inputStream)
             val buf = ByteArrayOutputStream()
-
             var result = bis.read()
             while (result != -1) {
                 buf.write(result.toByte().toInt())
@@ -37,7 +39,38 @@ object Helper {
             cursor?.close()
         }
     }
-	
+
+    infix operator fun Calendar.plus(calendar: Calendar): Calendar {
+        this[SECOND] += calendar[SECOND]
+        this[MINUTE] += calendar[MINUTE]
+        this[HOUR] += calendar[HOUR]
+        this[DAY_OF_MONTH] += calendar[DAY_OF_MONTH]
+        this[MONTH] += calendar[MONTH]
+        this[YEAR] += calendar[YEAR]
+        return this
+    }
+
+    fun calendarToString(calendar: Calendar?) =
+        if (calendar != null) "${calendar[SECOND]}.${calendar[MINUTE]}.${calendar[HOUR]}." +
+                "${calendar[DAY_OF_MONTH]}.${calendar[MONTH]}.${calendar[YEAR]}"
+        else ""
+
+    fun stringToCalendar(string: String) =
+        GregorianCalendar().apply {
+            val measures = string.split(".")
+            if (measures.size == 6) {
+                try {
+                    this[SECOND] = measures[0].toInt()
+                    this[MINUTE] = measures[1].toInt()
+                    this[HOUR] = measures[2].toInt()
+                    this[DAY_OF_MONTH] = measures[3].toInt()
+                    this[MONTH] = measures[4].toInt()
+                    this[YEAR] = measures[5].toInt()
+                }
+                catch (ex: Exception){}
+            }
+        }
+
 	@Throws(IOException::class)
 	fun stream2file(`in`: InputStream?): File? {
 		val tempFile = File.createTempFile("text", ".txt")

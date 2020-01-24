@@ -120,6 +120,9 @@ class PresentativeQuestionnaire : Fragment() {
                 obResult = ObResult()
                 obResult.id = questionnaire.settings.id
                 obResult.isPresentedTruth = questionnaire.settings.isPresented
+                if (laterObResult != null)
+                    obResult.tries = ++laterObResult!!.tries
+                else obResult.tries += 1
                 nextQuestion()
             }
 
@@ -187,10 +190,6 @@ class PresentativeQuestionnaire : Fragment() {
                     }
                 }
                 fragment.show(activity.supportFragmentManager, javaClass.name)
-
-                //val fragment = DialogAlert()
-                //fragment.contextQuestionnaire = this
-                //fragment.show(activity.supportFragmentManager, fragment.javaClass.name)
             }
         } catch (ex: Exception) {
             Log.e("ex", ex.toString())

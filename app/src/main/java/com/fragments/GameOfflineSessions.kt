@@ -48,7 +48,8 @@ class GameOfflineSessions : Fragment() {
                     holder.activity = activity
                     holder.downloadResources(item)
                 }
-                customAdapter.returnedClass = { view ->
+                customAdapter.returnedClass = { inflater, parent ->
+                    val view = inflater.inflate(customAdapter.layout, parent, false)
                     SubjectHolder(view)
                 }
 

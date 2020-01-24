@@ -11,7 +11,7 @@ import android.view.ViewGroup
 class CustomAdapter<T, Holder: ViewHolder>(val layout: Int): Adapter<Holder>() {
 
     lateinit var onBindLambda: (holder: Holder, item: T) -> Unit
-    lateinit var returnedClass: (view: View) -> Holder
+    lateinit var returnedClass: (inflater: LayoutInflater, parent: ViewGroup) -> Holder
     lateinit var activity: AppCompatActivity
     lateinit var group: ArrayList<T>
 
@@ -23,7 +23,6 @@ class CustomAdapter<T, Holder: ViewHolder>(val layout: Int): Adapter<Holder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val view = layoutInflater.inflate(layout, parent, false)
-        return returnedClass(view)
+        return returnedClass(layoutInflater, parent)
     }
 }

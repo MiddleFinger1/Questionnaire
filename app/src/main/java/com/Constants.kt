@@ -24,6 +24,8 @@ const val MAX_QUESTIONS = "maxQuestions"
 const val DATA_PRIVACY = "dataPrivacy"
 const val APP_CONFIG = "appConfig"
 const val VERSION = "version"
+const val TRIES = "tries"
+const val DATE_TRY = "dateTry"
 
 const val IS_LOG_IN = "isLogIn"
 const val IS_RANDOM = "isRandom"

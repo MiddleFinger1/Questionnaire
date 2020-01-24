@@ -48,7 +48,8 @@ class QuestionnaireGroup : Fragment() {
                     holder.activity = activity
                     holder.downloadSettings(item)
                 }
-                customAdapter.returnedClass = { view ->
+                customAdapter.returnedClass = { inflater, parent ->
+                    val view = inflater.inflate(customAdapter.layout, parent, false)
                     SettingsHolder(view)
                 }
 

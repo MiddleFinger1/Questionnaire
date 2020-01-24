@@ -3,6 +3,7 @@ package com.questionnaire
 import com.*
 import org.json.simple.JSONObject
 import org.json.simple.parser.JSONParser
+import java.util.Calendar
 
 
 class Settings(var title: String): JsonObject {
@@ -19,6 +20,8 @@ class Settings(var title: String): JsonObject {
     var isInSd = true
     var icon: Source? = null
     var password = ""
+    var tries = -1
+    var dateTry: Calendar? = null
 
     companion object {
 
@@ -65,6 +68,14 @@ class Settings(var title: String): JsonObject {
                 val jsonIsPresented = jsonObject[IS_PRESENTED]
                 if (jsonIsPresented != null)
                     isPresented = jsonIsPresented.toString().toBoolean()
+
+                val triesJson = jsonObject[TRIES]
+                if (triesJson != null)
+                    tries = triesJson.toString().toInt()
+
+                val dateTriesJson = jsonObject[DATE_TRY]
+                if (dateTriesJson != null)
+                    dateTry = Helper.stringToCalendar(dateTriesJson.toString())
             }
     }
 
@@ -92,7 +103,9 @@ class Settings(var title: String): JsonObject {
                 "$IS_PRIVATE": $isPrivate,
 				"$PATH": "$path",
                 "$ICON": ${icon?.toJsonObject()},
-                "$PASSWORD": "$password"
+                "$PASSWORD": "$password",
+                "$TRIES": $tries,
+                "$DATE_TRY": "${Helper.calendarToString(dateTry)}"
            }
         """
         /*

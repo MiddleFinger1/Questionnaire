@@ -3,6 +3,7 @@ package com.questionnaire.ui
 import android.graphics.drawable.Drawable
 import android.support.design.widget.FloatingActionButton
 import android.support.v7.widget.RecyclerView.ViewHolder
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -12,6 +13,9 @@ import com.MainActivity
 import com.R
 import com.questionnaire.Settings
 import com.users.ObResult
+import com.helper.compareDate
+import com.helper.plus
+import java.util.*
 
 
 class SettingsHolder(val view: View): ViewHolder(view){
@@ -53,6 +57,20 @@ class SettingsHolder(val view: View): ViewHolder(view){
             for (item in activity.user.analytics)
                 if (item.id == settings.id)
                     obItem = item
+
+            val boolean = obItem != null && obItem.tries == settings.tries
+            var int = 0
+            Log.e("boolean", boolean.toString())
+            if (obItem != null && obItem.dateTry != null && settings.dateTry != null){
+                Log.e("triesObItem", obItem.tries.toString())
+                Log.e("tries.Settings", settings.tries.toString())
+                int = obItem.dateTry!!.compareDate(settings.dateTry!! + Calendar.getInstance())
+                Log.e("int", int.toString())
+            }
+            if (int == -1 || boolean) {
+                Toast.makeText(activity.baseContext, "Пока нельзя", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
             if (!settings.isPrivate)
                 openQuestionnaire(activity, settings, obItem)
             else {
