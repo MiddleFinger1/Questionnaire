@@ -18,8 +18,7 @@
     <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/Question.Toolbar"
-    >
+            android:layout_below="@id/Question.Toolbar">
         <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -39,12 +38,19 @@
                     android:minWidth="100dp"
                     android:layout_margin="10dp"/>
             <TextView
-                    android:text="TextView"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" android:id="@+id/Question.Timer" android:textSize="18sp"
-                    android:fontFamily="@font/ubuntu_medium" android:textColor="#000000"
-                    android:textAlignment="textStart" android:layout_below="@id/Question.Image" android:padding="10dp"
-                    android:layout_marginStart="10dp" android:layout_marginEnd="10dp" android:visibility="gone"/>
+                    android:layout_height="48dp"
+                    android:id="@+id/Question.Timer"
+                    android:textSize="18sp"
+                    android:fontFamily="@font/ubuntu_medium"
+                    android:textColor="#000000"
+                    android:layout_below="@id/Question.Image"
+                    android:padding="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:visibility="gone"
+                    android:drawableStart="@drawable/access_time_48dp"
+                    android:gravity="center_vertical"/>
             <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -71,7 +77,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:id="@+id/Question.Statements"
-                    android:layout_below="@id/Question.Description" android:paddingBottom="30dp">
+                    android:layout_below="@id/Question.Description"
+                    android:paddingBottom="30dp">
             </LinearLayout>
         </RelativeLayout>
     </android.support.v4.widget.NestedScrollView>

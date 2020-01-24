@@ -8,7 +8,6 @@ import com.questionnaire.Source.Companion.TYPE_DOCUMENT
 import com.questionnaire.Source.Companion.TYPE_IMAGE
 import com.questionnaire.Source.Companion.TYPE_LINK
 import com.questionnaire.Source.Companion.TYPE_SONG
-import java.io.File
 import java.io.InputStream
 
 

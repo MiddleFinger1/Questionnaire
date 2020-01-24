@@ -31,6 +31,7 @@ class PresentativeQuestionnaire : Fragment() {
     lateinit var activity: AppCompatActivity
     lateinit var questionnaire: Questionnaire
     lateinit var obResult: ObResult
+    var laterObResult: ObResult? = null
 
     private var checkSingleLine = true
     private var isCompleted = false
@@ -42,6 +43,7 @@ class PresentativeQuestionnaire : Fragment() {
     private lateinit var toolbar: Toolbar
     private lateinit var imagePresents: ImageView
     private lateinit var descriptionView: TextView
+    private lateinit var laterResult: TextView
     private lateinit var sourceLayout: LinearLayout
     var sceneInstance = -1
 
@@ -50,19 +52,24 @@ class PresentativeQuestionnaire : Fragment() {
         CoroutineScope(Dispatchers.Main).launch {
             setArray()
         }
-
         views = inflater.inflate(R.layout.layout_presentive_questionnaire, container, false)
 
         views.apply {
             activity = context as AppCompatActivity
-
             titleView = findViewById(R.id.Questionnaire_Title)
             fabStart = findViewById(R.id.Questionnaire_FABStart)
             fabExit = findViewById(R.id.Questionnaire_FABExit)
             toolbar = findViewById(R.id.Questionnaire_Toolbar)
             imagePresents = findViewById(R.id.Questionnaire_Image)
             descriptionView = findViewById(R.id.Questionnaire_Description)
+            laterResult = findViewById(R.id.Questionnaire_LaterResult)
             sourceLayout = findViewById(R.id.Questionnaire_SourseLayout)
+        }
+
+        laterResult.setOnClickListener {
+            if (laterObResult is ObResult)
+                openAnalytics(laterObResult!!)
+            else Toast.makeText(context, "Пока нет результатов", Toast.LENGTH_SHORT).show()
         }
 
         titleView.setOnClickListener {
@@ -94,7 +101,6 @@ class PresentativeQuestionnaire : Fragment() {
                                     try {
                                         val intent = Intent(Intent.EXTRA_TEXT, Uri.parse(source.absolutePath))
                                         //intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(source.absoluteFile))
-
                                         startActivity(intent)
                                     }
                                     catch (ex: Exception) {
@@ -112,6 +118,7 @@ class PresentativeQuestionnaire : Fragment() {
                 sceneInstance = -1
                 isCompleted = true
                 obResult = ObResult()
+                obResult.id = questionnaire.settings.id
                 obResult.isPresentedTruth = questionnaire.settings.isPresented
                 nextQuestion()
             }
@@ -132,6 +139,13 @@ class PresentativeQuestionnaire : Fragment() {
             }
         }
         return views
+    }
+
+    private fun openAnalytics(obResult: ObResult){
+        val fragment = AnalyticsFragment()
+        fragment.obResult = obResult
+        fragment.contextQuestionnaire = this@PresentativeQuestionnaire
+        activity.supportFragmentManager?.beginTransaction()?.replace(R.id.MainQuestionnaireLayout, fragment)?.commit()
     }
 
     private fun setArray(){
@@ -159,13 +173,6 @@ class PresentativeQuestionnaire : Fragment() {
                 }
                 activity.supportFragmentManager.beginTransaction().replace(R.id.MainQuestionnaireLayout, fragment).commit()
             } else {
-
-                val transaction = {
-                    val fragment = AnalyticsFragment()
-                    fragment.contextQuestionnaire = this@PresentativeQuestionnaire
-                    activity.supportFragmentManager?.beginTransaction()?.replace(R.id.MainQuestionnaireLayout, fragment)?.commit()
-                }
-
                 val fragment = CustomModalWindow().apply {
                     setTitle = "Завершить тестирование!"
                     setDescription = "Вы хотите завершить анкету и узнать свой результат?"
@@ -174,7 +181,7 @@ class PresentativeQuestionnaire : Fragment() {
                             dismiss()
                         }
                         addButtonAction("Ok"){
-                            transaction()
+                            openAnalytics(obResult)
                             dismiss()
                         }
                     }

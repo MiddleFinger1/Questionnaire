@@ -6,17 +6,17 @@
         android:layout_height="match_parent"
         tools:context="com.questionnaire.ui.AnalyticsFragment"
         android:background="#FFFFFF">
-
     <android.support.v7.widget.Toolbar
             android:id="@+id/Analytics.Toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:layout_alignParentTop="true"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             android:background="#FFFFFF"
-            app:titleTextColor="#000000"
             android:elevation="8dp"
-            app:navigationIcon="@drawable/ic_exit_to_app_black_36dp"/>
+            app:title="Результаты"
+            app:titleTextColor="#000000"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:navigationIcon="@drawable/svg_arrow_left_48dp"/>
     <TextView
             android:text="TextView"
             android:layout_width="wrap_content"

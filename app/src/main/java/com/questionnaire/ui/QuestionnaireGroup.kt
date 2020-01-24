@@ -2,7 +2,6 @@ package com.questionnaire.ui
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
@@ -10,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.CustomAdapter
+import com.MainActivity
 import com.R
 import com.fragments.GameOfflineSessions
 import com.questionnaire.Settings
@@ -17,7 +17,7 @@ import com.questionnaire.Settings
 
 class QuestionnaireGroup : Fragment() {
 
-    lateinit var activity: AppCompatActivity
+    lateinit var activity: MainActivity
     lateinit var settings: ArrayList<Settings>
     private lateinit var recyclerView: RecyclerView
     private lateinit var toolbar: Toolbar
@@ -27,8 +27,6 @@ class QuestionnaireGroup : Fragment() {
         val views = inflater.inflate(R.layout.fragment_questionnaire_group, container, false)
 
         views.apply {
-            activity = context as AppCompatActivity
-
             recyclerView = findViewById(R.id.Group_recyclerView)
             recyclerView.setHasFixedSize(true)
 

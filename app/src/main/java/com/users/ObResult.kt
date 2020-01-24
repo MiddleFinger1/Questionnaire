@@ -8,8 +8,10 @@ import org.json.simple.JSONArray
 import org.json.simple.parser.JSONParser
 import java.lang.Exception
 
+
 class ObResult: ArrayList<ItemResult>(), JsonObject {
 
+    var id = -1
     var isPresentedTruth = false
     var cost = 0.0
 
@@ -32,6 +34,9 @@ class ObResult: ArrayList<ItemResult>(), JsonObject {
                 val jsonCost = jsonObject[COST]
                 if (jsonCost != null)
                     cost = jsonCost.toString().toDouble()
+                val jsonId = jsonObject[ID]
+                if (jsonId != null)
+                    id = jsonId.toString().toInt()
                 val jsonArray = jsonObject[QUESTIONS] as? JSONArray
                 if (jsonArray != null){
                     for (item in jsonArray) {
@@ -75,9 +80,8 @@ class ObResult: ArrayList<ItemResult>(), JsonObject {
         try {
             val item = ItemResult(question.question, answerString, truth, truthString)
             item.array = answer
-            if (id >= size) {
-                add(item)
-            } else this[id] = item
+            if (id in 0..size)
+                add(id, item)
             if (item.truth)
                 cost += question.cost
         }
@@ -97,6 +101,7 @@ class ObResult: ArrayList<ItemResult>(), JsonObject {
         }
         return """
             {
+                "$ID": $id,
                 "$IS_PRESENTED": $isPresentedTruth,
                 "$QUESTIONS": [$jsonItems],
                 "$COST": $cost

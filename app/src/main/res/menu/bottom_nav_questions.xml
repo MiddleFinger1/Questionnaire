@@ -11,10 +11,10 @@
             android:id="@+id/MenuQuestion.Back"
             android:title="@string/back_question"
             app:showAsAction="ifRoom"
-            android:icon="@drawable/ic_keyboard_arrow_left_black_48dp"/>
+            android:icon="@drawable/svg_arrow_left_48dp"/>
     <item
             android:id="@+id/MenuQuestion.Next"
             android:title="@string/next_question"
             app:showAsAction="ifRoom"
-            android:icon="@drawable/ic_keyboard_arrow_right_black_48dp"/>
+            android:icon="@drawable/svg_arrow_right_48dp"/>
 </menu>

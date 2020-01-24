@@ -1,12 +1,12 @@
 package com.questionnaire.game
 
 import android.graphics.drawable.Drawable
-import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView.ViewHolder
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import com.Helper
+import com.MainActivity
 import com.R
 import org.json.simple.JSONObject
 import org.json.simple.JSONArray
@@ -17,7 +17,7 @@ import com.questionnaire.ui.QuestionnaireGroup
 
 class SubjectHolder(val view: View): ViewHolder(view){
 
-    lateinit var activity: AppCompatActivity
+    lateinit var activity: MainActivity
     private val titleSubject: TextView
     private val keysCount: TextView
     private val countCompleted: TextView

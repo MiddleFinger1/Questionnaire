@@ -2,20 +2,21 @@ package com.questionnaire.ui
 
 import android.graphics.drawable.Drawable
 import android.support.design.widget.FloatingActionButton
-import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView.ViewHolder
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import com.CustomModalWindow
+import com.MainActivity
 import com.R
 import com.questionnaire.Settings
+import com.users.ObResult
 
 
 class SettingsHolder(val view: View): ViewHolder(view){
 
-    lateinit var activity: AppCompatActivity
+    lateinit var activity: MainActivity
     private val titleSettings: TextView
     private val privacySettings: FloatingActionButton
     private val groupSettings: TextView
@@ -48,8 +49,12 @@ class SettingsHolder(val view: View): ViewHolder(view){
             markSettings.text = mark.toString()
         }
         view.setOnClickListener {
+            var obItem: ObResult? = null
+            for (item in activity.user.analytics)
+                if (item.id == settings.id)
+                    obItem = item
             if (!settings.isPrivate)
-                openQuestionnaire(activity, settings)
+                openQuestionnaire(activity, settings, obItem)
             else {
                 val modal = CustomModalWindow()
                 modal.setTitle = "Недоступен!"
@@ -61,7 +66,7 @@ class SettingsHolder(val view: View): ViewHolder(view){
                     }
                     addButtonAction("Ok") {
                         if (entered == settings.password)
-                            openQuestionnaire(this@SettingsHolder.activity, settings)
+                            openQuestionnaire(this@SettingsHolder.activity, settings, obItem)
                         else Toast.makeText(context, "Неправильный пароль", Toast.LENGTH_SHORT).show()
                     }
                 }

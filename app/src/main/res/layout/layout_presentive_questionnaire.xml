@@ -122,6 +122,15 @@
                         android:layout_weight="1"
                         android:background="@android:drawable/btn_star_big_off"/>
             </LinearLayout>
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/Questionnaire.LaterResult"
+                    style="@style/ItemThemeTextView"
+                    android:layout_below="@id/markLayout"
+                    android:layout_margin="10dp"
+                    android:fontFamily="@font/ubuntu_light"
+                    android:text="Show Results"/>
         </RelativeLayout>
     </android.support.v4.widget.NestedScrollView>
     <android.support.design.widget.FloatingActionButton

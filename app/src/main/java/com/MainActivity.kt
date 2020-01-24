@@ -20,7 +20,7 @@ import java.io.*
 class MainActivity : AppCompatActivity() {
 
     lateinit var user: User
-    lateinit var navView: BottomNavigationView
+    private lateinit var navView: BottomNavigationView
 
 	private val rootDirectory = Environment.getExternalStorageDirectory().absolutePath
 	private val appDirectory = "Questionnaire"
@@ -71,6 +71,11 @@ class MainActivity : AppCompatActivity() {
 
                 if (obResult != null) {
                     Log.e("obResult", obResult.toJsonObject())
+                    for (id in 0..user.analytics.lastIndex){
+                        val item = user.analytics[id]
+                        if (item.id == obResult.id)
+                            user.analytics[id] = obResult
+                    }
                     user.analytics.add(obResult)
                     Log.e("analytics", user.analytics.toJsonObject())
                 }
@@ -130,7 +135,6 @@ class MainActivity : AppCompatActivity() {
     private fun switchFragment(id: Int){
         val item = navView.menu.findItem(id)
         item.isChecked = true
-
         val fragment: Fragment? = when (item.itemId) {
             R.id.navigation_home ->
                 HomeSettings().apply { activity = this@MainActivity}

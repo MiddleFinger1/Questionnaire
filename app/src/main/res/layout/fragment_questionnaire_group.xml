@@ -5,7 +5,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
-        tools:context="com.questionnaire.ui.QuestionnaireGroup">
+        tools:context="com.questionnaire.ui.QuestionnaireGroup" android:background="#FFFFFF">
     <android.support.design.widget.AppBarLayout
             android:fitsSystemWindows="true"
             android:layout_width="match_parent"
@@ -22,13 +22,12 @@
                 app:titleTextColor="#000000"
                 android:elevation="8dp"
                 android:fitsSystemWindows="true"
-                app:navigationIcon="@drawable/ic_exit_to_app_black_36dp"/>
+                app:navigationIcon="@drawable/svg_arrow_left_48dp"/>
     </android.support.design.widget.AppBarLayout>
     <android.support.v7.widget.RecyclerView
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:id="@+id/Group.recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="10dp"
             android:layout_below="@id/Group.Toolbar"/>
 </android.support.design.widget.CoordinatorLayout>

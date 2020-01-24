@@ -35,8 +35,11 @@
             android:inputType="textPersonName"
             android:ems="10"
             android:id="@+id/CModal.EditEntered"
-            android:textAlignment="center" android:layout_below="@id/CModal.Description"
-            style="@style/ItemThemeTextView" android:textColor="#000000" android:singleLine="true"
+            android:textAlignment="center"
+            android:layout_below="@id/CModal.Description"
+            style="@style/ItemThemeTextView"
+            android:textColor="#000000"
+            android:singleLine="true"
             android:visibility="gone"/>
     <LinearLayout
             android:layout_alignParentBottom="true"
@@ -44,7 +47,8 @@
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:padding="5dp"
-            android:id="@+id/CModal.ButtonsGroup" android:layout_below="@id/CModal.EditEntered"
+            android:id="@+id/CModal.ButtonsGroup"
+            android:layout_below="@id/CModal.EditEntered"
             android:gravity="bottom">
     </LinearLayout>
 </RelativeLayout>

@@ -12,6 +12,7 @@ import com.MainActivity
 import com.R
 import com.questionnaire.Questionnaire
 import com.questionnaire.Settings
+import com.users.ObResult
 import java.lang.Exception
 
 
@@ -20,13 +21,11 @@ class ActivityQuestionnaire : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_questionnaire)
-        window.setBackgroundDrawable(null)
 
-        if (android.os.Build.VERSION.SDK_INT >= 21){
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-            window.statusBarColor = Color.parseColor("#ACACAC")
-        }
+        window.setBackgroundDrawable(null)
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+        window.statusBarColor = Color.parseColor("#ACACAC")
 
         try {
             var json = intent.getStringExtra("settings")
@@ -35,12 +34,17 @@ class ActivityQuestionnaire : AppCompatActivity() {
             json = Helper.converting(assets.open(settings.path))
             val questionnaire = Questionnaire.createQuestionnaire(json)
 
+            val obResultJson: String? = intent.getStringExtra("obResult")
+            Log.e("laterObResult", obResultJson.toString())
+            val obResult = ObResult.createObResult(obResultJson.toString())
+
             if (questionnaire is Questionnaire){
                 questionnaire.settings = settings
                 val fragment = PresentativeQuestionnaire()
                 fragment.activity = this
                 fragment.questionnaire = questionnaire
-
+                if (obResult != null)
+                    fragment.laterObResult = obResult
                 supportFragmentManager.beginTransaction().replace(R.id.MainQuestionnaireLayout, fragment).commit()
             }
             else {

@@ -4,7 +4,6 @@ package com.fragments
 import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -18,13 +17,14 @@ import com.questionnaire.game.Subject
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.Toolbar
 import com.CustomAdapter
+import com.MainActivity
 import com.R
 import com.questionnaire.game.SubjectHolder
 
 
 class GameOfflineSessions : Fragment() {
 
-    lateinit var activity: AppCompatActivity
+    lateinit var activity: MainActivity
     private lateinit var views: View
     private lateinit var recyclerView: RecyclerView
     private lateinit var toolbar: Toolbar
@@ -34,8 +34,6 @@ class GameOfflineSessions : Fragment() {
         views = inflater.inflate(R.layout.layout_game_offline_sessions, container, false)
 
         return views.apply {
-            activity = context as AppCompatActivity
-
             toolbar = findViewById(R.id.offLine_Toolbar)
             toolbar.title = "Прохождение анкет"
             toolbar.setTitleTextColor(Color.BLACK)
