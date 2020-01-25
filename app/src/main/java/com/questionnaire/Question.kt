@@ -17,6 +17,7 @@ class Question(
     var description = ""
     var icon: Source? = null
     var isDefault = true
+	var isBlocked = false
 	var time = 0L
     lateinit var context: Questionnaire
 	var cost = 1.0
@@ -56,7 +57,11 @@ class Question(
                         val jsonIsDefault = jsonObject[IS_DEFAULT]
                         if (jsonIsDefault != null)
                             isDefault = jsonIsDefault.toString().toBoolean()
-							
+						
+						val jsonIsBlocked = jsonObject[IS_BLOCKED]
+						if (jsonIsBlocked != null)
+							isBlocked = jsonIsBlocked.toString().toBoolean()
+						
 						val jsonTime = jsonObject[TIME]
 						if (jsonTime != null)
 							time = jsonTime.toString().toLong()
@@ -103,6 +108,7 @@ class Question(
                 "$QUESTION": "$question",
                 "$DESCRIPTION": "$description",
                 "$IS_DEFAULT": $isDefault,
+				"$IS_BLOCKED": $isBlocked,
                 "$STATEMENTS": ${statements.toJsonObject()},
                 "$TRUTH": $truth,
 				"$TIME": $time,

@@ -151,6 +151,7 @@ class PresentativeQuestionnaire : Fragment() {
         activity.supportFragmentManager?.beginTransaction()?.replace(R.id.MainQuestionnaireLayout, fragment)?.commit()
     }
 
+    //
     private fun setArray(){
         idQuestions.clear()
         if (questionnaire.isRandom){

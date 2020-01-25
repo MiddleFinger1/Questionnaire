@@ -57,7 +57,7 @@ class ObResult: ArrayList<ItemResult>(), JsonObject {
                 }
             }
     }
-
+    //
     fun addAnswer(id: Int, question: Question, answer: ArrayList<Int>){
         Log.e("ex", id.toString())
 
