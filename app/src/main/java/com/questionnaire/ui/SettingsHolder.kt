@@ -57,7 +57,6 @@ class SettingsHolder(val view: View): ViewHolder(view){
             for (item in activity.user.analytics)
                 if (item.id == settings.id)
                     obItem = item
-
             val boolean = obItem != null && obItem.tries == settings.tries
             var int = 0
             Log.e("boolean", boolean.toString())

@@ -13,17 +13,36 @@ import kotlin.random.Random
 class XEngine {
 
     var timer = 0
-    var isFinished = false
+    private set
+    var isExit = false
+    var isInLast = false
+    var isInFirst = false
     lateinit var question: Question
 
-    private var sceneInstance = -1
+    var sceneInstance = -1
+    private set
+
     private val sceneArray = arrayListOf<Int>()
-    private lateinit var countDownTime: CountDownTimer
-    private lateinit var questionnaire: Questionnaire
     private lateinit var obResult: ObResult
-    private lateinit var onActionTimeTick: CountDownTimer.() -> Unit
-    private lateinit var onActionTimeFinish: CountDownTimer.() -> Unit
+    private lateinit var countDownTime: XCountDownTimer
+    private lateinit var questionnaire: Questionnaire
+    private lateinit var onActionTimeTick: (XCountDownTimer) -> Unit
+    private lateinit var onActionTimeFinish: (XCountDownTimer) -> Unit
     private lateinit var onActionEndEvent: () -> Unit
+
+    inner class XCountDownTimer(time: Long, interval: Long): CountDownTimer(time, interval){
+        override fun onFinish() {
+            onActionTimeFinish(this)
+        }
+
+        override fun onTick(p0: Long) {
+            if (!isExit) {
+                onActionTimeTick(this)
+                timer += 1
+            }
+            else cancel()
+        }
+    }
 
     private var lastObResult: ObResult? = null
 
@@ -41,11 +60,11 @@ class XEngine {
         else sceneArray.addAll(0..questionnaire.lastIndex)
     }
 
-    fun setOnActionTimeTick(action: CountDownTimer.() -> Unit){
+    fun setOnActionTimeTick(action: (XCountDownTimer) -> Unit){
         onActionTimeTick = action
     }
 
-    fun setOnActionTimeFinish(action: CountDownTimer.() -> Unit){
+    fun setOnActionTimeFinish(action: (XCountDownTimer) -> Unit){
         onActionTimeFinish = action
     }
 
@@ -53,7 +72,7 @@ class XEngine {
         onActionEndEvent = action
     }
 
-    fun beginEvent(questionnaire: Questionnaire, lastObResult: ObResult?){
+    fun createEvent(questionnaire: Questionnaire, lastObResult: ObResult? = null){
         this.questionnaire = questionnaire
         this.lastObResult = lastObResult
         obResult = ObResult()
@@ -63,10 +82,9 @@ class XEngine {
             obResult.tries = ++lastObResult.tries
         else obResult.tries += 1
         fillArray()
-        next()
     }
 
-    fun endEvent() = ObResult.apply {
+    fun endEvent() = obResult.apply {
         while (sceneInstance != questionnaire.lastIndex){
             next()
             getAnswer(arrayListOf())
@@ -74,20 +92,12 @@ class XEngine {
         onActionEndEvent()
     }
 
-    fun start() {
+    fun startQuestion() {
         if (question.isDefault)
             return
-
-        countDownTime = object : CountDownTimer(question.time*1000, 1000L) {
-            override fun onFinish() {
-                onActionTimeFinish(this)
-            }
-
-            override fun onTick(p0: Long) {
-                timer += 1
-                onActionTimeTick(this)
-            }
-        }.start()
+        countDownTime = XCountDownTimer(question.time * 1000, 1000L)
+        countDownTime.start()
+        isExit = false
     }
 
     // проверяет ответ на правильность
@@ -142,15 +152,16 @@ class XEngine {
     fun next() =
         if (sceneInstance < sceneArray.lastIndex){
             sceneInstance += 1
+            isInFirst = false
             question = questionnaire[sceneArray[sceneInstance]]
         }
-        else isFinished = true
+        else isInLast = true
 
     fun back() =
         if (sceneInstance > 0) {
             sceneInstance -= 1
-            isFinished = false
+            isInLast = false
             question = questionnaire[sceneArray[sceneInstance]]
         }
-        else Unit
+        else isInFirst = true
 }

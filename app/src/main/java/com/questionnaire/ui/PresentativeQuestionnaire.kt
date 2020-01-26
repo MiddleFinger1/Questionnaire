@@ -17,25 +17,24 @@ import android.widget.*
 import com.CustomModalWindow
 import com.MainActivity
 import com.R
+import com.XEngine
 import com.questionnaire.Questionnaire
 import com.users.ObResult
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import java.io.File
-import kotlin.random.Random
 
 
 class PresentativeQuestionnaire : Fragment() {
 
+    lateinit var xEngine: XEngine
     lateinit var activity: AppCompatActivity
     lateinit var questionnaire: Questionnaire
     lateinit var obResult: ObResult
     var laterObResult: ObResult? = null
 
+    lateinit var fragment: QuestionSession
+
     private var checkSingleLine = true
     private var isCompleted = false
-    val idQuestions = arrayListOf<Int>()
     private lateinit var titleView: TextView
     private lateinit var fabStart: FloatingActionButton
     private lateinit var fabExit: FloatingActionButton
@@ -45,13 +44,10 @@ class PresentativeQuestionnaire : Fragment() {
     private lateinit var descriptionView: TextView
     private lateinit var laterResult: TextView
     private lateinit var sourceLayout: LinearLayout
-    var sceneInstance = -1
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        CoroutineScope(Dispatchers.Main).launch {
-            setArray()
-        }
+
         views = inflater.inflate(R.layout.layout_presentive_questionnaire, container, false)
 
         views.apply {
@@ -115,14 +111,24 @@ class PresentativeQuestionnaire : Fragment() {
             if (resources.isEmpty()) sourceLayout.addView(TextView(context).apply { text = "Нет ресурсов" })
 
             fabStart.setOnClickListener {
-                sceneInstance = -1
-                isCompleted = true
-                obResult = ObResult()
-                obResult.id = questionnaire.settings.id
-                obResult.isPresentedTruth = questionnaire.settings.isPresented
-                if (laterObResult != null)
-                    obResult.tries = ++laterObResult!!.tries
-                else obResult.tries += 1
+                xEngine = XEngine()
+                xEngine.createEvent(questionnaire, laterObResult)
+                xEngine.setOnActionEndEvent {
+                    val fragment = CustomModalWindow().apply {
+                        setTitle = "Завершить тестирование!"
+                        setDescription = "Вы хотите завершить анкету и узнать свой результат?"
+                        action = {
+                            addButtonAction("Cancel") {
+                                dismiss()
+                            }
+                            addButtonAction("Ok"){
+                                openAnalytics(obResult)
+                                dismiss()
+                            }
+                        }
+                    }
+                    fragment.show(activity.supportFragmentManager, javaClass.name)
+                }
                 nextQuestion()
             }
 
@@ -151,46 +157,17 @@ class PresentativeQuestionnaire : Fragment() {
         activity.supportFragmentManager?.beginTransaction()?.replace(R.id.MainQuestionnaireLayout, fragment)?.commit()
     }
 
-    //
-    private fun setArray(){
-        idQuestions.clear()
-        if (questionnaire.isRandom){
-            val range = arrayListOf<Int>()
-            range.addAll(0.until(questionnaire.size))
-            while (idQuestions.size != questionnaire.maxQuestions){
-                val int = Random(System.currentTimeMillis()).nextInt(range.size)
-                idQuestions.add(range[int])
-                range.removeAt(int)
-            }
-        }
-        else idQuestions.addAll(0..questionnaire.lastIndex)
-        Log.e("ex", idQuestions.toString())
-    }
-
     fun nextQuestion() {
         try {
-            if (sceneInstance < idQuestions.lastIndex) {
-                sceneInstance += 1
+            if (xEngine.isInLast)
+                obResult = xEngine.endEvent()
+            else {
+                xEngine.next()
                 val fragment = QuestionSession().apply {
-                    question = questionnaire[idQuestions[sceneInstance]]
+                    question = xEngine.question
                     contextQuestion = this@PresentativeQuestionnaire
                 }
                 activity.supportFragmentManager.beginTransaction().replace(R.id.MainQuestionnaireLayout, fragment).commit()
-            } else {
-                val fragment = CustomModalWindow().apply {
-                    setTitle = "Завершить тестирование!"
-                    setDescription = "Вы хотите завершить анкету и узнать свой результат?"
-                    action = {
-                        addButtonAction("Cancel") {
-                            dismiss()
-                        }
-                        addButtonAction("Ok"){
-                            openAnalytics(obResult)
-                            dismiss()
-                        }
-                    }
-                }
-                fragment.show(activity.supportFragmentManager, javaClass.name)
             }
         } catch (ex: Exception) {
             Log.e("ex", ex.toString())
@@ -199,18 +176,18 @@ class PresentativeQuestionnaire : Fragment() {
 
     fun backQuestion() {
         try {
-            val fragment: Fragment
-            if (sceneInstance > 0) {
-                sceneInstance -= 1
-                fragment = QuestionSession()
-                fragment.question = questionnaire[idQuestions[sceneInstance]]
-                fragment.contextQuestion = this
-                obResult.cost -= questionnaire[idQuestions[sceneInstance]].cost
-            } else fragment = this
-            activity.supportFragmentManager.beginTransaction().replace(R.id.MainQuestionnaireLayout, fragment)
-                .commit()
+            val fragment: Fragment = if (xEngine.isInFirst)
+                this
+            else {
+                xEngine.back()
+                QuestionSession().apply {
+                    question = xEngine.question
+                    contextQuestion = this@PresentativeQuestionnaire
+                }
+            }
+            activity.supportFragmentManager.beginTransaction().replace(R.id.MainQuestionnaireLayout, fragment).commit()
         } catch (ex: Exception) {
-            Toast.makeText(context, ex.toString(), Toast.LENGTH_LONG).show()
+            Log.e("ex", ex.toString())
         }
     }
 }

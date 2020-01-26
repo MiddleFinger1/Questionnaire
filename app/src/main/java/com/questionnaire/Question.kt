@@ -22,8 +22,6 @@ class Question(
     lateinit var context: Questionnaire
 	var cost = 1.0
 
-    val answer = arrayListOf<Int>()
-
     companion object {
 
         fun createQuestion(json: String) =
