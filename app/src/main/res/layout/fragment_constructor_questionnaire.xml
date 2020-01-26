@@ -171,7 +171,7 @@
             app:layout_anchorGravity="center_vertical|end"
             app:backgroundTint="#F9A825"
             android:src="@drawable/ic_add_black_48dp"
-            android:id="@+id/Questionnaire.FABStart"
+            android:id="@+id/Constructor.FABAddImage"
             android:elevation="5dp"/>
     <android.support.design.widget.FloatingActionButton
             android:layout_height="wrap_content"
@@ -181,6 +181,6 @@
             app:layout_anchorGravity="bottom|end"
             app:backgroundTint="#ACACAC"
             android:src="@drawable/ic_exit_to_app_black_48dp"
-            android:id="@+id/Questionnaire.FABExit"
+            android:id="@+id/Constructor.FABExit"
             android:elevation="5dp"/>
 </android.support.design.widget.CoordinatorLayout>

@@ -25,6 +25,7 @@ class MainActivity : AppCompatActivity() {
 	private val rootDirectory = Environment.getExternalStorageDirectory().absolutePath
 	private val appDirectory = "Questionnaire"
     private val userFileName = "user.json"
+    private val constructorFileName = "constructor.json"
     private val fileInstanceUser = "$rootDirectory/$appDirectory/$userFileName"
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,8 +44,16 @@ class MainActivity : AppCompatActivity() {
         }
 
         downloadUser()
-        if (intent != null)
-            getObResult(intent)
+        if (intent != null) {
+            val type: String? = intent.getStringExtra("type")
+            if (type != null) {
+                Log.e("typeIntent", type)
+                when (type) {
+                    "constructor" -> getConstructor(intent)
+                    "obResult" -> getObResult(intent)
+                }
+            }
+        }
         switchFragment(R.id.navigation_home)
     }
 
@@ -61,12 +70,29 @@ class MainActivity : AppCompatActivity() {
         } else Environment.getExternalStorageDirectory()
     }
 
+    private fun getConstructor(data: Intent){
+        try {
+            val json: String? = data.getStringExtra("questionnaire")
+            Log.e("questionnaire", json.toString())
+            if (json != null){
+                Log.e("questionnaire", json)
+                val root = Environment.getExternalStorageDirectory()
+                val folder = File(root, appDirectory)
+                val file = File(folder, constructorFileName)
+                val bufferedWriter = BufferedWriter(FileWriter(file))
+                bufferedWriter.write(json)
+                bufferedWriter.close()
+            }
+        }
+        catch (ex: Exception){
+            Log.e("getConstructor", ex.toString())
+        }
+    }
+
     private fun getObResult(data: Intent) {
         try {
             val json = data.getStringExtra("obResult")
             if (json != null){
-                //Log.e("obResult", json)
-
                 val obResult = ObResult.createObResult(json)
 
                 if (obResult != null) {
@@ -97,7 +123,6 @@ class MainActivity : AppCompatActivity() {
         }
         catch (ex: Exception) {
             Log.e("exGetObResult", ex.toString())
-
         }
     }
 

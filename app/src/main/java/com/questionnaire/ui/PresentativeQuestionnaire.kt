@@ -139,6 +139,7 @@ class PresentativeQuestionnaire : Fragment() {
                         val ob = obResult.toJsonObject()
                         Log.e("ob", ob)
                         intent.putExtra("obResult", ob)
+                        intent.putExtra("type", "obResult")
                     }
                     activity.startActivity(intent)
                 }

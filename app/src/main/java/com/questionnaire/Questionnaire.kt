@@ -75,14 +75,14 @@ class Questionnaire(var settings: Settings
 	
     override fun toJsonObject(): String {
         var questions = ""
-        for (i in 0..this.size) {
+        for (i in 0..this.lastIndex) {
             val question = this[i]
             questions +=
                 if (i < lastIndex) "{${question.toJsonObject()}},\n"
                 else "{${question.toJsonObject()}}"
         }
         var resources = ""
-        for (i in 0..this.resources.size){
+        for (i in 0..this.resources.lastIndex){
             val resource = this.resources[i]
             resources +=
                 if (i < lastIndex) "\"${resource.toJsonObject()}\","
