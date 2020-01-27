@@ -3,7 +3,7 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:background="#FFFFFF">
     <TextView
             android:layout_alignParentTop="true"
@@ -22,13 +22,12 @@
             android:layout_below="@id/CModal.Title"
             android:text="TextView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:id="@+id/CModal.Description"
             android:textColor="#ACACAC"
             android:fontFamily="@font/ubuntu_light"
             android:padding="10dp"
             android:gravity="center"
-            android:textSize="18sp"/>
+            android:textSize="18sp" android:visibility="visible" android:layout_height="wrap_content"/>
     <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -42,13 +41,20 @@
             android:singleLine="true"
             android:visibility="gone"/>
     <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/CModal.LayoutGroup"
+            android:layout_above="@id/CModal.ButtonsGroup"
+            android:layout_below="@id/CModal.EditEntered"
+            android:padding="10dp">
+    </LinearLayout>
+    <LinearLayout
             android:layout_alignParentBottom="true"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:padding="5dp"
             android:id="@+id/CModal.ButtonsGroup"
             android:layout_below="@id/CModal.EditEntered"
-            android:gravity="bottom">
-    </LinearLayout>
+            android:gravity="bottom"/>
 </RelativeLayout>

@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.CustomModalWindow
+import com.MEngine
 import com.MainActivity
 import com.R
 import com.questionnaire.ui.openSource
@@ -36,7 +37,7 @@ class HomeSettings : Fragment() {
             userIdView = findViewById(R.id.USERS_IdView)
             fabFindUsers = findViewById(R.id.USERS_fabFindUsers)
         }
-        val user = activity.user
+        val user = MEngine.user
         val icon = openSource(activity, user.settings.icon)
         if (icon is Drawable)
             logoView.background = icon

@@ -13,7 +13,7 @@ class Settings(var title: String): JsonObject {
     var group = NONE_GROUP
     val id = -1
     var mark: Double = 0.0
-    private set(value) = Unit
+    private set
     var isPrivate = false
 	var userId = -1
 	var path = ""

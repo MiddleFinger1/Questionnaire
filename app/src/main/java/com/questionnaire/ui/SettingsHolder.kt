@@ -9,6 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import com.CustomModalWindow
+import com.MEngine
 import com.MainActivity
 import com.R
 import com.questionnaire.Settings
@@ -54,7 +55,7 @@ class SettingsHolder(val view: View): ViewHolder(view){
         }
         view.setOnClickListener {
             var obItem: ObResult? = null
-            for (item in activity.user.analytics)
+            for (item in MEngine.user.analytics)
                 if (item.id == settings.id)
                     obItem = item
             val boolean = obItem != null && obItem.tries == settings.tries

@@ -1,16 +1,22 @@
 package com.fragments
 
-
 import android.content.Intent
 import android.os.Bundle
+import android.os.Environment
 import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.Fragment
 import android.support.v7.widget.Toolbar
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.Helper
+import com.MEngine
+import com.MainActivity
 import com.R
 import com.questionnaire.constructor.ConstructorActivity
+import java.io.File
+import java.io.FileInputStream
 
 
 class GameOnlineSessions : Fragment() {
@@ -28,7 +34,15 @@ class GameOnlineSessions : Fragment() {
         }
 
         fab.setOnClickListener {
-            startActivity(Intent(context, ConstructorActivity::class.java))
+            try {
+                val json = MEngine.readFile(MEngine.constructorFileName)
+                val intent = Intent(context, ConstructorActivity::class.java)
+                intent.putExtra("questionnaire", json)
+                startActivity(intent)
+            }
+            catch (ex: Exception) {
+                Log.e("openConstructor", ex.toString())
+            }
         }
 
         return views

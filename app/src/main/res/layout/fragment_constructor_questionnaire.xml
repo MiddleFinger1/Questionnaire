@@ -16,7 +16,6 @@
         <android.support.design.widget.CollapsingToolbarLayout
                 app:contentScrim="#FFFFFF"
                 app:title="Constructor"
-                android:fitsSystemWindows="true"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed"
@@ -30,6 +29,7 @@
                     android:layout_gravity="center"
                     app:layout_collapseMode="parallax"/>
             <android.support.v7.widget.Toolbar
+                    android:fitsSystemWindows="true"
                     android:id="@+id/Constructor.toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
@@ -123,25 +123,25 @@
                     android:text="Show answers"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/checkBox"
+                    android:id="@+id/Constructor.isShownAnswers"
                     style="@style/ItemThemeTextView"/>
             <CheckBox
                     android:text="Set anonymous"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/checkBox2"
+                    android:id="@+id/Constructor.isAnonymous"
                     style="@style/ItemThemeTextView"/>
             <CheckBox
                     android:text="Set random appear questions"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/checkBox3"
+                    android:id="@+id/Constructor.IsRandom"
                     style="@style/ItemThemeTextView"/>
             <CheckBox
                     android:text="Set private access"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/checkBox4"
+                    android:id="@+id/Constructor.IsPrivate"
                     style="@style/ItemThemeTextView"/>
             <Button
                     android:text="Add question"
@@ -155,12 +155,32 @@
                     android:layout_height="wrap_content"
                     android:textAlignment="textStart"
                     android:layout_margin="10dp"/>
+            <TextView
+                    android:text="press question in order to delete it"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#ACACAC"
+                    android:textSize="18sp"
+                    android:layout_margin="10dp"
+                    android:fontFamily="@font/ubuntu_light"/>
             <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:id="@+id/Constructor.LayoutQuestions">
+                    android:id="@+id/Constructor.LayoutQuestions"
+                    android:layout_marginBottom="10dp">
             </LinearLayout>
+            <Button
+                    android:text="Create"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/Constructor.Create"
+                    android:textSize="18sp"
+                    android:textColor="#000000"
+                    style="@style/ItemThemeTextView"
+                    android:textAllCaps="false"
+                    android:layout_gravity="end"
+                    android:elevation="5dp"/>
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
     <android.support.design.widget.FloatingActionButton

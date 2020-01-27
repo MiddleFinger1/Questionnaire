@@ -78,8 +78,8 @@ class Questionnaire(var settings: Settings
         for (i in 0..this.lastIndex) {
             val question = this[i]
             questions +=
-                if (i < lastIndex) "{${question.toJsonObject()}},\n"
-                else "{${question.toJsonObject()}}"
+                if (i < lastIndex) "${question.toJsonObject()},\n"
+                else question.toJsonObject()
         }
         var resources = ""
         for (i in 0..this.resources.lastIndex){
@@ -91,10 +91,10 @@ class Questionnaire(var settings: Settings
         return """
             {
                 "$DESCRIPTION": "$description",
-                "$QUESTIONS": "[$questions]",
-                "$RESOURCES": [$resources]
-                "$SETTINGS": {${settings.toJsonObject()}}
-                "$ANALYTICS": {${analytics.toJsonObject()}},
+                "$QUESTIONS": [$questions],
+                "$RESOURCES": [$resources],
+                "$SETTINGS": ${settings.toJsonObject()},
+                "$ANALYTICS": ${analytics.toJsonObject()},
                 "$IS_RANDOM": $isRandom,
                 "$MAX_QUESTIONS": $maxQuestions,
                 "$VERSION": $version

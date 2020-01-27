@@ -16,7 +16,9 @@ class XEngine {
     private set
     var isExit = false
     var isInLast = false
+	private set
     var isInFirst = false
+	private set
     lateinit var question: Question
 
     var sceneInstance = -1

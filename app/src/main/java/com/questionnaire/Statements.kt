@@ -57,8 +57,8 @@ class Statements: ArrayList<String>(), JsonObject {
         for (i in 0..lastIndex) {
             val statement = this[i]
             statements +=
-                if (i == lastIndex) "\"$statement\","
-                else "\"$statement\""
+                if (i == lastIndex) "\"$statement\""
+                else "\"$statement\","
         }
         return """
            {
