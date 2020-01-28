@@ -118,10 +118,10 @@ class PresentativeQuestionnaire : Fragment() {
                         setTitle = "Завершить тестирование!"
                         setDescription = "Вы хотите завершить анкету и узнать свой результат?"
                         action = {
-                            addButtonAction("Cancel") {
+                            addButtonAction("Cancel", CustomModalWindow.BUTTON_CANCEL) {
                                 dismiss()
                             }
-                            addButtonAction("Ok"){
+                            addButtonAction("Ok", CustomModalWindow.BUTTON_OK){
                                 openAnalytics(obResult)
                                 dismiss()
                             }

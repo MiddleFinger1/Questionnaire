@@ -49,7 +49,7 @@ class HomeSettings : Fragment() {
                 fragment.setTitle = "WARNING!!"
                 fragment.setDescription = "IT IS MODAL WINDOW!"
                 fragment.action = {
-                    addButtonAction("Ok") {
+                    addButtonAction("Ok", CustomModalWindow.BUTTON_OK) {
                         dismiss()
                     }
                 }

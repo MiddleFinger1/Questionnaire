@@ -111,7 +111,7 @@ class QuestionSession : Fragment() {
             modalWindow.setTitle = "Задание на время"
             modalWindow.setDescription = "Выполняя задание, вы должны управиться за отведенного время, иначе, увы!"
             modalWindow.action = {
-                addButtonAction("Ok"){
+                addButtonAction("Ok", CustomModalWindow.BUTTON_OK){
                     dismiss()
                     contextQuestion.xEngine.startQuestion()
                 }

@@ -21,10 +21,16 @@ class CustomModalWindow: DialogFragment() {
     var isSmall = true
     private lateinit var titleView: TextView
     private lateinit var descriptionView: TextView
-    private lateinit var buttonsGroup: LinearLayout
     private lateinit var editEntered: EditText
     private lateinit var componentsLayout: LinearLayout
+    private lateinit var buttonOk: Button
+    private lateinit var buttonCancel: Button
     lateinit var action: CustomModalWindow.() -> Unit
+
+    companion object {
+        const val BUTTON_OK = "buttonOk"
+        const val BUTTON_CANCEL = "buttonCancel"
+    }
 
     override fun onResume() {
         val params = dialog.window!!.attributes
@@ -50,9 +56,10 @@ class CustomModalWindow: DialogFragment() {
         views.apply {
             titleView = findViewById(R.id.CModal_Title)
             descriptionView = findViewById(R.id.CModal_Description)
-            buttonsGroup = findViewById(R.id.CModal_ButtonsGroup)
             editEntered = findViewById(R.id.CModal_EditEntered)
             componentsLayout = findViewById(R.id.CModal_LayoutGroup)
+            buttonOk = findViewById(R.id.CModal_ButtonActive)
+            buttonCancel = findViewById(R.id.CModal_ButtonNegative)
         }
         if (setTitle != "") titleView.text = setTitle
         if (setDescription != "")
@@ -68,8 +75,8 @@ class CustomModalWindow: DialogFragment() {
         return views
     }
 
-    fun addCheckBox(text: String, action: CheckBox.() -> Unit){
-        CheckBox(ContextThemeWrapper(buttonsGroup.context, R.style.ItemThemeTextView)).apply {
+    fun addCheckBox(text: String, state: Boolean = false, action: CheckBox.() -> Unit){
+        CheckBox(ContextThemeWrapper(componentsLayout.context, R.style.ItemThemeTextView)).apply {
             if (text.isNotEmpty())
                 this.text = text
             setOnClickListener {
@@ -77,6 +84,7 @@ class CustomModalWindow: DialogFragment() {
             }
             val dp10 = resources.getDimension(R.dimen.dp10).toInt()
             isAllCaps = false
+            isChecked = state
             setBackgroundResource(R.drawable.item_style)
             elevation = 5f
             //typeface = Typeface.createFromAsset(context.assets, "Ubuntu-Light.ttf")
@@ -100,25 +108,18 @@ class CustomModalWindow: DialogFragment() {
         }
     }
 
-    fun addButtonAction(text: String, action: () -> Unit){
-        val button = Button(ContextThemeWrapper(buttonsGroup.context, R.style.ItemThemeTextView)).apply {
-            if (text.isNotEmpty())
-                this.text = text
-            setOnClickListener {
+    fun addButtonAction(text: String, buttonType: String, action: () -> Unit){
+        val button: Button? = when(buttonType){
+            BUTTON_OK -> buttonOk
+            BUTTON_CANCEL -> buttonCancel
+            else -> null
+        }
+        if (button != null){
+            button.visibility = View.VISIBLE
+            button.text = text
+            button.setOnClickListener {
                 action()
             }
-            val dp10 = resources.getDimension(R.dimen.dp10).toInt()
-            isAllCaps = false
-            setBackgroundResource(R.drawable.item_style)
-            elevation = 5f
-            //typeface = Typeface.createFromAsset(context.assets, "Ubuntu-Light.ttf")
-            textSize = 14f
-            layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, dp10*4, 1f
-            ).apply {
-                val dp5 = resources.getDimension(R.dimen.dp5).toInt()
-                setMargins(dp5, dp10, dp5, dp10)
-            }
         }
-        buttonsGroup.addView(button)
     }
 }

@@ -1,20 +1,19 @@
 package com.questionnaire.constructor
 
 
+import android.graphics.Color
 import android.os.Bundle
-import android.support.design.widget.TextInputEditText
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.support.v7.widget.Toolbar
 import android.util.Log
-import android.widget.Button
 import android.widget.CheckBox
-import android.widget.LinearLayout
 import android.widget.LinearLayout.*
+import android.widget.Toast
 import com.CustomModalWindow
 import com.R
+import com.databinding.ConstructorQuestionBinding
 import com.helper.createItemTextView
 import com.helper.setOnTextChange
 import com.questionnaire.Question
@@ -24,136 +23,173 @@ class ConstructorQuestion : Fragment() {
 
     lateinit var question: Question
     lateinit var contextConstructor: ConstructorQuestionnaire
-    private var isConstructed = false
-    private lateinit var views: View
-    private lateinit var toolbar: Toolbar
-    private lateinit var questionView: TextInputEditText
-    private lateinit var descriptionView: TextInputEditText
-    private lateinit var timeTextEdit: TextInputEditText
-    private lateinit var checkIsBlocked: CheckBox
-    private lateinit var addStatement: Button
-    private lateinit var layoutStatements: LinearLayout
-    private lateinit var markEditText: TextInputEditText
+    private lateinit var binding: ConstructorQuestionBinding
+    private val array = arrayListOf<String>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        views = inflater.inflate(R.layout.fragment_constructor_question, container, false)
-        views.apply {
-            toolbar = findViewById(R.id.ConstQuestion_toolbar)
-            questionView = findViewById(R.id.ConstQuestion_question)
-            descriptionView = findViewById(R.id.ConstQuestion_Description)
-            timeTextEdit = findViewById(R.id.ConstQuestion_isDefault)
-            checkIsBlocked = findViewById(R.id.ConstQuestion_isBlocked)
-            addStatement = findViewById(R.id.ConstQuestion_AddStatement)
-            layoutStatements = findViewById(R.id.ConstQuestion_LayoutStatements)
-            markEditText = findViewById(R.id.ConstQuestion_MarkCost)
-        }
-        for (id in 0..question.statements.lastIndex)
-            createStatement(question.statements[id])
-
-        questionView.text!!.append(question.question)
-        timeTextEdit.text!!.append(question.time.toString())
-        checkIsBlocked.isChecked = question.isBlocked
-        descriptionView.text!!.append(question.description)
-
-        toolbar.setNavigationOnClickListener {
-            contextConstructor.activity.supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.MainConstructor, contextConstructor)
-                .commit()
-        }
-        questionView.setOnTextChange {
-            question.question = text.toString()
-        }
-        descriptionView.setOnTextChange {
-            question.description = text.toString()
-        }
-        timeTextEdit.setOnTextChange {
-            try {
-                val time = text.toString().toLong()
-                if (time in 30..180){
-                    question.isDefault = false
-                    question.time = time
+        binding = ConstructorQuestionBinding.inflate(inflater)
+        binding.question = question
+        binding.apply {
+            val question = this@ConstructorQuestion.question
+            array.addAll(question.statements)
+            for (id in 0..question.statements.lastIndex)
+                createStatement(question.statements[id])
+            ConstQuestionToolbar.setNavigationOnClickListener {
+                question.statements.clear()
+                question.statements.addAll(array)
+                contextConstructor.activity.supportFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.MainConstructor, contextConstructor)
+                    .commit()
+            }
+            ConstQuestionRandomStates.setOnClickListener {
+                question.statements.isRandom = (it as CheckBox).isChecked
+            }
+            ConstQuestionQuestion.setOnTextChange {
+                question.question = text.toString()
+            }
+            ConstQuestionDescription.setOnTextChange {
+                question.description = text.toString()
+            }
+            ConstQuestionIsDefault.setOnTextChange {
+                try {
+                    val time = text.toString().toLong()
+                    if (time in 30..180){
+                        question.isDefault = false
+                        question.time = time
+                    }
+                    else {
+                        question.isDefault = true
+                    }
                 }
-                else {
-                    question.isDefault = true
+                catch(ex: Exception){
+                    Log.e("setTime", ex.toString())
                 }
             }
-            catch(ex: Exception){
-                Log.e("setTime", ex.toString())
+            ConstQuestionIsBlocked.setOnClickListener {
+                question.isBlocked = ConstQuestionIsBlocked.isChecked
             }
-        }
-        checkIsBlocked.setOnClickListener {
-            question.isBlocked = checkIsBlocked.isChecked
-        }
-        addStatement.setOnClickListener {
-            val modalWindow = CustomModalWindow()
+            ConstQuestionAddStatement.setOnClickListener {
+                val modalWindow = CustomModalWindow()
                 modalWindow.setTitle = "Создать ответ"
                 modalWindow.setDescription = "Введи текст для создания ответа"
                 modalWindow.action = {
                     addTextEdit()
                     addCheckBox("Установить как правильный ответ"){
                         if (isChecked)
-                            question.truth.add(question.statements.count())
-                        else question.truth.removeAt(question.truth.indexOf(question.statements.count()))
+                            question.truth.add(array.count())
+                        else question.truth.removeAt(question.truth.indexOf(array.count()))
                     }
-                    addButtonAction("Отмена"){
+                    addButtonAction("Отмена", CustomModalWindow.BUTTON_CANCEL){
                         dismiss()
                     }
-                    addButtonAction("Создать"){
-                        dismiss()
-                        createStatement(entered)
+                    addButtonAction("Создать", CustomModalWindow.BUTTON_OK){
+                        if (array.indexOf(entered) < 0) {
+                            array.add(entered)
+                            dismiss()
+                            createStatement(entered)
+                        }
+                        else Toast.makeText(context, "Есть уже такой ответ", Toast.LENGTH_SHORT).show()
                     }
                 }
-            modalWindow.show(contextConstructor.activity.supportFragmentManager, modalWindow.javaClass.name)
-        }
-        markEditText.setOnTextChange {
-            try {
-                val mark = text.toString().toDouble()
-                if (mark != 0.0)
-                    question.cost = mark
+                modalWindow.show(contextConstructor.activity.supportFragmentManager, modalWindow.javaClass.name)
             }
-            catch(ex: Exception){
-                Log.e("setTime", ex.toString())
+            ConstQuestionAddStatement.setOnClickListener {
+                val modalWindow = CustomModalWindow()
+                modalWindow.setTitle = "Создать ответ"
+                modalWindow.setDescription = "Введи текст для создания ответа"
+                modalWindow.action = {
+                    addTextEdit()
+                    addCheckBox("Установить как правильный ответ"){
+                        if (isChecked)
+                            question.truth.add(array.count())
+                        else question.truth.removeAt(question.truth.indexOf(array.count()))
+                    }
+                    addButtonAction("Отмена", CustomModalWindow.BUTTON_CANCEL){
+                        dismiss()
+                    }
+                    addButtonAction("Создать", CustomModalWindow.BUTTON_OK){
+                        if (array.indexOf(entered) < 0) {
+                            array.add(entered)
+                            dismiss()
+                            createStatement(entered)
+                        }
+                        else Toast.makeText(context, "Есть уже такой ответ", Toast.LENGTH_SHORT).show()
+                    }
+                }
+                modalWindow.show(contextConstructor.activity.supportFragmentManager, modalWindow.javaClass.name)
+            }
+            ConstQuestionMarkCost.setOnTextChange {
+                try {
+                    val mark = text.toString().toDouble()
+                    if (mark != 0.0)
+                        question.cost = mark
+                }
+                catch(ex: Exception){
+                    Log.e("setTime", ex.toString())
+                }
             }
         }
-        return views
+        return binding.root
     }
 
     private fun createStatement(string: String){
         val textView = createItemTextView(
-            layoutStatements.context,
+            binding.ConstQuestionLayoutStatements.context,
             LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, 1f)
         )
         textView.text = string
         textView.setOnLongClickListener {
-            question.statements.removeAt(layoutStatements.indexOfChild(it))
-            layoutStatements.removeView(it)
+           array.removeAt(array.indexOf(string))
+
+            Log.e("indexStatement", array.indexOf(string).toString())
+            binding.ConstQuestionLayoutStatements.removeView(it)
+            Log.e("deleteStatement", array.toString())
             true
         }
+        textView.setTextColor(
+            if (question.truth.indexOf(array.indexOf(string)) >= 0)
+                Color.parseColor("#6295C3")
+            else Color.BLACK
+        )
         textView.setOnClickListener {
             val modalWindow = CustomModalWindow()
             modalWindow.entered = string
             modalWindow.setTitle = "Создать ответ"
             modalWindow.setDescription = "Введи текст для создания ответа"
             modalWindow.action = {
+                var index = question.truth.indexOf(array.indexOf(string))
                 addTextEdit()
-                addCheckBox("Установить как правильный ответ"){
-                    if (isChecked)
-                        question.truth.add(question.statements.count())
-                    else question.truth.removeAt(question.truth.indexOf(question.statements.count()))
+                addCheckBox("Установить как правильный ответ", index >= 0){
+                    try {
+                        if (index < 0){
+                            question.truth.add(array.indexOf(string))
+                            index = question.truth[question.truth.lastIndex]
+                        }
+                        else question.truth.removeAt(index)
+                    }
+                    catch (ex: Exception) {
+                        Log.e("removingFromTruth", ex.toString())
+                        Log.e("indexRemoving", index.toString())
+                    }
                 }
-                addButtonAction("Отмена"){
+                addButtonAction("Отмена", CustomModalWindow.BUTTON_CANCEL){
                     dismiss()
                 }
-                addButtonAction("Изменить"){
+                addButtonAction("Изменить", CustomModalWindow.BUTTON_CANCEL){
+                    array[binding.ConstQuestionLayoutStatements.indexOfChild(it)] = entered
+                    textView.text = entered
+                    textView.setTextColor(
+                        if (question.truth.indexOf(array.indexOf(string)) >= 0)
+                            Color.parseColor("#6295C3")
+                        else Color.BLACK
+                    )
                     dismiss()
-                    question.statements[layoutStatements.indexOfChild(it)] = entered
                 }
             }
             modalWindow.show(contextConstructor.activity.supportFragmentManager, modalWindow.javaClass.name)
         }
-        question.statements.add(string)
-        layoutStatements.addView(textView)
+        binding.ConstQuestionLayoutStatements.addView(textView)
     }
 }

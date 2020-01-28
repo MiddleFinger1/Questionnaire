@@ -45,6 +45,7 @@ class MainActivity : AppCompatActivity() {
                         val json: String? = intent.getStringExtra("questionnaire")
                         if (json != null){
                             MEngine.writeFile(constructorFileName, json)
+
                         }
                     }
                     "obResult" -> {

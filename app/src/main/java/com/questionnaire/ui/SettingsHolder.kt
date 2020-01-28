@@ -79,10 +79,10 @@ class SettingsHolder(val view: View): ViewHolder(view){
                 modal.setDescription = "Используйте пароль для доступа к анкете"
                 modal.action = {
                     addTextEdit("Enter here!")
-                    addButtonAction("Cancel"){
+                    addButtonAction("Cancel", CustomModalWindow.BUTTON_CANCEL){
                         dismiss()
                     }
-                    addButtonAction("Ok") {
+                    addButtonAction("Ok", CustomModalWindow.BUTTON_CANCEL) {
                         if (entered == settings.password)
                             openQuestionnaire(this@SettingsHolder.activity, settings, obItem)
                         else Toast.makeText(context, "Неправильный пароль", Toast.LENGTH_SHORT).show()
