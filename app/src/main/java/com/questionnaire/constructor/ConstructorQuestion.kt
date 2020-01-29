@@ -1,22 +1,25 @@
 package com.questionnaire.constructor
 
-
+import android.app.Activity.RESULT_OK
+import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.util.Log
-import android.widget.CheckBox
 import android.widget.LinearLayout.*
 import android.widget.Toast
 import com.CustomModalWindow
+import com.Helper.getRealPathFromURI
 import com.R
 import com.databinding.ConstructorQuestionBinding
 import com.helper.createItemTextView
 import com.helper.setOnTextChange
 import com.questionnaire.Question
+import com.questionnaire.Source
 
 
 class ConstructorQuestion : Fragment() {
@@ -30,12 +33,15 @@ class ConstructorQuestion : Fragment() {
         // Inflate the layout for this fragment
         binding = ConstructorQuestionBinding.inflate(inflater)
         binding.question = question
+        binding.time = question.time.toString()
+        binding.cost = question.cost.toString()
         binding.apply {
             val question = this@ConstructorQuestion.question
             array.addAll(question.statements)
             for (id in 0..question.statements.lastIndex)
                 createStatement(question.statements[id])
             ConstQuestionToolbar.setNavigationOnClickListener {
+                contextConstructor.setConstructed(question)
                 question.statements.clear()
                 question.statements.addAll(array)
                 contextConstructor.activity.supportFragmentManager
@@ -43,14 +49,12 @@ class ConstructorQuestion : Fragment() {
                     .replace(R.id.MainConstructor, contextConstructor)
                     .commit()
             }
-            ConstQuestionRandomStates.setOnClickListener {
-                question.statements.isRandom = (it as CheckBox).isChecked
-            }
-            ConstQuestionQuestion.setOnTextChange {
-                question.question = text.toString()
-            }
-            ConstQuestionDescription.setOnTextChange {
-                question.description = text.toString()
+            if (question.icon != null)
+                ConstQuestionImage.setImageURI(Uri.parse(question.icon?.path))
+            ConstQuestionAddImage.setOnClickListener {
+                val intent = Intent(Intent.ACTION_PICK)
+                intent.type = "image/image"
+                startActivityForResult(intent, 0)
             }
             ConstQuestionIsDefault.setOnTextChange {
                 try {
@@ -95,31 +99,6 @@ class ConstructorQuestion : Fragment() {
                 }
                 modalWindow.show(contextConstructor.activity.supportFragmentManager, modalWindow.javaClass.name)
             }
-            ConstQuestionAddStatement.setOnClickListener {
-                val modalWindow = CustomModalWindow()
-                modalWindow.setTitle = "Создать ответ"
-                modalWindow.setDescription = "Введи текст для создания ответа"
-                modalWindow.action = {
-                    addTextEdit()
-                    addCheckBox("Установить как правильный ответ"){
-                        if (isChecked)
-                            question.truth.add(array.count())
-                        else question.truth.removeAt(question.truth.indexOf(array.count()))
-                    }
-                    addButtonAction("Отмена", CustomModalWindow.BUTTON_CANCEL){
-                        dismiss()
-                    }
-                    addButtonAction("Создать", CustomModalWindow.BUTTON_OK){
-                        if (array.indexOf(entered) < 0) {
-                            array.add(entered)
-                            dismiss()
-                            createStatement(entered)
-                        }
-                        else Toast.makeText(context, "Есть уже такой ответ", Toast.LENGTH_SHORT).show()
-                    }
-                }
-                modalWindow.show(contextConstructor.activity.supportFragmentManager, modalWindow.javaClass.name)
-            }
             ConstQuestionMarkCost.setOnTextChange {
                 try {
                     val mark = text.toString().toDouble()
@@ -134,6 +113,24 @@ class ConstructorQuestion : Fragment() {
         return binding.root
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        //super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 0 && resultCode == RESULT_OK && data != null){
+            try {
+                val path = getRealPathFromURI(contextConstructor.activity.baseContext, data.data!!)
+                Log.e("pathToImage", path)
+                val uri: Uri = Uri.parse(path)
+                binding.ConstQuestionImage.setImageURI(uri)
+                question.icon = Source(path).apply {
+                    isInSd = true
+                }
+            }
+            catch (ex: Exception){
+                Log.e("getResultQuestionImage", ex.toString())
+            }
+        }
+    }
+
     private fun createStatement(string: String){
         val textView = createItemTextView(
             binding.ConstQuestionLayoutStatements.context,
@@ -141,8 +138,7 @@ class ConstructorQuestion : Fragment() {
         )
         textView.text = string
         textView.setOnLongClickListener {
-           array.removeAt(array.indexOf(string))
-
+            array.removeAt(array.indexOf(string))
             Log.e("indexStatement", array.indexOf(string).toString())
             binding.ConstQuestionLayoutStatements.removeView(it)
             Log.e("deleteStatement", array.toString())

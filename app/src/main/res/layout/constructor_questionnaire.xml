@@ -4,6 +4,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable name="questionnaire" type="com.questionnaire.Questionnaire"/>
+        <variable name="maxQuestions" type="java.lang.String"/>
     </data>
     <android.support.design.widget.CoordinatorLayout
             android:layout_width="match_parent"
@@ -74,7 +75,7 @@
                             android:textCursorDrawable="@color/colorPrimary"
                             android:textColorHint="#000000"
                             android:inputType="text"
-                            android:text="@{questionnaire.settings.title}"
+                            android:text="@={questionnaire.settings.title}"
                             android:fontFamily="@font/ubuntu_medium"
                             android:id="@+id/Constructor_Name"/>
                 </android.support.design.widget.TextInputLayout>
@@ -99,7 +100,7 @@
                             android:textColorLink="@color/colorPrimary"
                             android:textColor="#000000"
                             android:textCursorDrawable="@color/colorPrimary"
-                            android:text="@{questionnaire.settings.group}"
+                            android:text="@={questionnaire.settings.group}"
                             android:textColorHint="#000000"
                             android:inputType="text"
                             android:fontFamily="@font/ubuntu_medium"
@@ -119,7 +120,7 @@
                             android:textColor="#000000"
                             android:textCursorDrawable="@color/colorPrimary"
                             android:textColorHint="#000000"
-                            android:text="@{questionnaire.description}"
+                            android:text="@={questionnaire.description}"
                             android:inputType="text"
                             android:fontFamily="@font/ubuntu_medium"
                             android:id="@+id/Constructor_Description"
@@ -130,30 +131,50 @@
                         android:text="Show answers"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:checked="@{questionnaire.settings.presented}"
+                        android:checked="@={questionnaire.settings.presented}"
                         android:id="@+id/Constructor_isShownAnswers"
                         style="@style/ItemThemeTextView"/>
                 <CheckBox
                         android:text="Set anonymous"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:checked="@{questionnaire.settings.anonymous}"
+                        android:checked="@={questionnaire.settings.anonymous}"
                         android:id="@+id/Constructor_isAnonymous"
                         style="@style/ItemThemeTextView"/>
                 <CheckBox
                         android:text="Set random appear questions"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:checked="@{questionnaire.random}"
+                        android:checked="@={questionnaire.random}"
                         android:id="@+id/Constructor_IsRandom"
                         style="@style/ItemThemeTextView"/>
                 <CheckBox
                         android:text="Set private access"
-                        android:checked="@{questionnaire.settings.private}"
+                        android:checked="@={questionnaire.settings.private}"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/Constructor_IsPrivate"
                         style="@style/ItemThemeTextView"/>
+                <android.support.design.widget.TextInputLayout
+                        android:elevation="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/ItemThemeTextView"
+                        android:hint="Max questions"
+                        android:textColorHint="#000000"
+                        app:helperTextTextAppearance="@style/TextAppearance.AppCompat.Small">
+                    <android.support.design.widget.TextInputEditText
+                            android:layout_height="match_parent"
+                            android:layout_width="match_parent"
+                            android:textColorLink="@color/colorPrimary"
+                            android:textColor="#000000"
+                            android:textCursorDrawable="@color/colorPrimary"
+                            android:textColorHint="#000000"
+                            android:inputType="text"
+                            android:text="@{maxQuestions}"
+                            android:fontFamily="@font/ubuntu_medium"
+                            android:id="@+id/Constructor_MaxQuests"/>
+                </android.support.design.widget.TextInputLayout>
                 <Button
                         android:text="Add question"
                         android:layout_width="match_parent"
@@ -180,6 +201,55 @@
                         android:layout_height="match_parent"
                         android:id="@+id/Constructor_LayoutQuestions"
                         android:layout_marginBottom="10dp">
+                </LinearLayout>
+                <TextView
+                        android:text=""
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="#ACACAC"
+                        android:textSize="18sp"
+                        android:id="@+id/Constructor_CommonCost"
+                        android:layout_margin="10dp"
+                        android:fontFamily="@font/ubuntu_light"/>
+                <Button
+                        android:text="Add mark"
+                        android:layout_width="match_parent"
+                        android:id="@+id/Constructor_AddMark"
+                        android:textColor="#000000"
+                        android:textSize="18sp"
+                        android:fontFamily="@font/ubuntu_medium"
+                        android:textAllCaps="false"
+                        android:background="#FFFFFF"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="textStart"
+                        android:layout_margin="10dp"/>
+                <TextView
+                        android:text="Set cost of mark and mark to it"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="#ACACAC"
+                        android:textSize="18sp"
+                        android:layout_margin="10dp"
+                        android:fontFamily="@font/ubuntu_light"/>
+                <LinearLayout
+                        android:orientation="horizontal"
+                        android:baselineAligned="false"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                    <LinearLayout
+                            android:id="@+id/Constructor_CostLayout"
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1">
+                    </LinearLayout>
+                    <LinearLayout
+                            android:id="@+id/Constructor_MarkLayout"
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1">
+                    </LinearLayout>
                 </LinearLayout>
                 <Button
                         android:text="Create"

@@ -110,7 +110,7 @@ class Question(
                 "$STATEMENTS": ${statements.toJsonObject()},
                 "$TRUTH": $truth,
 				"$TIME": $time,
-                "$ICON": "${icon?.toJsonObject()}",
+                "$ICON": ${icon?.toJsonObject() ?: "{}"},
 				"$COST": $cost
             }
         """
