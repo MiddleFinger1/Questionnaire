@@ -6,7 +6,7 @@
         android:layout_height="match_parent"
         android:background="#FFFFFF"
         android:fitsSystemWindows="true"
-        tools:context="com.fragments.GameOnlineSessions">
+        tools:context="com.ui.GameOnlineSessions">
     <android.support.design.widget.AppBarLayout
             android:id="@+id/main.appbar"
             android:layout_width="match_parent"

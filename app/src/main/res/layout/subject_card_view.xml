@@ -2,8 +2,10 @@
 <layout
         xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
-        <variable name="subject" type="com.questionnaire.game.Subject"/>
+        <variable name="subject" type="com.ui.game.Subject"/>
         <variable name="background" type="android.graphics.drawable.Drawable"/>
+        <variable name="count" type="String"/>
+        <variable name="costKeys" type="String"/>
     </data>
     <android.support.v7.widget.CardView
             android:layout_width="match_parent"
@@ -25,7 +27,7 @@
                     android:id="@+id/Subject_Title"
                     android:background="#63FFFFFF"/>
             <TextView
-                    android:text="TextView"
+                    android:text="@{count}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/Subject_KeysCount"
@@ -38,7 +40,7 @@
                     android:textAlignment="textStart"
                     android:background="#63FFFFFF"/>
             <TextView
-                    android:text="TextView"
+                    android:text="@{costKeys}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/Subject_CountCompletes"

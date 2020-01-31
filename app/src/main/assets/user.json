@@ -1,6 +1,18 @@
 {
     "isLogIn": false,
     "theme": "lightTheme",
+    "game": [
+        [true, false, false, false, false, false, false, false, false, false],
+        [false, false, false, false, false, false, false, false, false, false],
+        [false, false, false, false, false, false, false, false, false, false],
+        [false, false, false, false, false, false, false, false, false, false],
+        [false, false, false, false, false, false, false, false, false, false],
+        [false, false, false, false, false, false, false, false, false, false],
+        [false, false, false, false, false, false, false, false, false, false],
+        [false, false, false, false, false, false, false, false, false, false],
+        [false, false, false, false, false, false, false, false, false, false],
+        [false, false, false, false, false, false, false, false, false, false]
+    ],
     "questions": [],
     "settings": {
         "login": "user",

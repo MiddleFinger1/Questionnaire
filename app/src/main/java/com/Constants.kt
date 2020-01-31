@@ -26,7 +26,7 @@ const val APP_CONFIG = "appConfig"
 const val VERSION = "version"
 const val TRIES = "tries"
 const val DATE_TRY = "dateTry"
-
+const val GAME = "game"
 const val IS_BLOCKED = "isBlocked"
 const val IS_LOG_IN = "isLogIn"
 const val IS_RANDOM = "isRandom"

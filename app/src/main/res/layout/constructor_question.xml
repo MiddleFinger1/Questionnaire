@@ -3,14 +3,14 @@
         xmlns:tools="http://schemas.android.com/tools"
         xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
-        <variable name="question" type="com.questionnaire.Question"/>
+        <variable name="question" type="com.json.questionnaire.Question"/>
         <variable name="time" type="java.lang.String"/>
         <variable name="cost" type="java.lang.String"/>
     </data>
     <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context="com.questionnaire.constructor.ConstructorQuestion"
+            tools:context="com.ui.constructor.ConstructorQuestion"
             android:fitsSystemWindows="true"
             android:background="#FFFFFF">
         <android.support.v7.widget.Toolbar
