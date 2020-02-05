@@ -1,8 +1,8 @@
 package com.ui.event
 
 import android.graphics.drawable.Drawable
-import android.support.design.widget.FloatingActionButton
-import android.support.v7.widget.RecyclerView.ViewHolder
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import android.util.Log
 import android.view.View
 import android.widget.ImageView

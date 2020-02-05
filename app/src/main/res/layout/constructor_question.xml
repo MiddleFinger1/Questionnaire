@@ -13,7 +13,7 @@
             tools:context="com.ui.constructor.ConstructorQuestion"
             android:fitsSystemWindows="true"
             android:background="#FFFFFF">
-        <android.support.v7.widget.Toolbar
+        <androidx.appcompat.widget.Toolbar
                 app:title="Question"
                 app:navigationIcon="@drawable/svg_arrow_left_48dp"
                 android:fitsSystemWindows="true"
@@ -23,8 +23,8 @@
                 android:id="@+id/ConstQuestion_toolbar"
                 android:fadingEdgeLength="8dp"
                 android:elevation="8dp">
-        </android.support.v7.widget.Toolbar>
-        <android.support.v4.widget.NestedScrollView
+        </androidx.appcompat.widget.Toolbar>
+        <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_alignParentBottom="true"
@@ -60,7 +60,7 @@
                         android:layout_gravity="center_horizontal"
                         android:background="#F9A825"
                         android:layout_margin="10dp"/>
-                <android.support.design.widget.TextInputLayout
+                <com.google.android.material.textfield.TextInputLayout
                         android:elevation="5dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -68,7 +68,7 @@
                         android:hint="Question"
                         android:textColorHint="#000000"
                         app:helperTextTextAppearance="@style/TextAppearance.AppCompat.Small">
-                    <android.support.design.widget.TextInputEditText
+                    <com.google.android.material.textfield.TextInputEditText
                             android:layout_height="match_parent"
                             android:layout_width="match_parent"
                             android:textColorLink="@color/colorPrimary"
@@ -79,15 +79,15 @@
                             android:text="@={question.question}"
                             android:fontFamily="@font/ubuntu_medium"
                             android:id="@+id/ConstQuestion_question"/>
-                </android.support.design.widget.TextInputLayout>
-                <android.support.design.widget.TextInputLayout
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
                         android:elevation="5dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         style="@style/ItemThemeTextView"
                         android:hint="Description"
                         android:textColorHint="#000000">
-                    <android.support.design.widget.TextInputEditText
+                    <com.google.android.material.textfield.TextInputEditText
                             android:layout_height="match_parent"
                             android:layout_width="match_parent"
                             android:textColorLink="@color/colorPrimary"
@@ -100,15 +100,15 @@
                             android:id="@+id/ConstQuestion_Description"
                             android:minLines="4"
                             android:lines="4"/>
-                </android.support.design.widget.TextInputLayout>
-                <android.support.design.widget.TextInputLayout
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
                         android:elevation="5dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         style="@style/ItemThemeTextView"
                         android:hint="Time"
                         android:textColorHint="#000000">
-                    <android.support.design.widget.TextInputEditText
+                    <com.google.android.material.textfield.TextInputEditText
                             android:layout_height="match_parent"
                             android:layout_width="match_parent"
                             android:textColorLink="@color/colorPrimary"
@@ -120,7 +120,7 @@
                             android:fontFamily="@font/ubuntu_medium"
                             android:id="@+id/ConstQuestion_isDefault"
                             android:singleLine="true"/>
-                </android.support.design.widget.TextInputLayout>
+                </com.google.android.material.textfield.TextInputLayout>
                 <CheckBox
                         android:text="Set blocked back to the question in a navigation"
                         android:layout_width="match_parent"
@@ -160,14 +160,14 @@
                         android:id="@+id/ConstQuestion_LayoutStatements"
                         android:layout_marginBottom="10dp">
                 </LinearLayout>
-                <android.support.design.widget.TextInputLayout
+                <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         style="@style/ItemThemeTextView"
                         android:hint="Set mark"
                         android:layout_marginBottom="30dp"
                         android:textColorHint="#000000">
-                    <android.support.design.widget.TextInputEditText
+                    <com.google.android.material.textfield.TextInputEditText
                             android:layout_height="match_parent"
                             android:layout_width="match_parent"
                             android:textColorLink="@color/colorPrimary"
@@ -179,8 +179,8 @@
                             android:id="@+id/ConstQuestion_MarkCost"
                             android:text="@{cost}"
                             android:singleLine="true"/>
-                </android.support.design.widget.TextInputLayout>
+                </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
-        </android.support.v4.widget.NestedScrollView>
+        </androidx.core.widget.NestedScrollView>
     </RelativeLayout>
 </layout>

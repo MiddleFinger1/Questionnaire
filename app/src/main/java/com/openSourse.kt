@@ -1,7 +1,7 @@
 package com
 
 import android.graphics.drawable.Drawable
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import com.Helper
 import com.json.questionnaire.Source
 import com.json.questionnaire.Source.Companion.TYPE_DOCUMENT

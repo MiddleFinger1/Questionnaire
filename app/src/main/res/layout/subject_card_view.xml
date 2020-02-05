@@ -7,7 +7,7 @@
         <variable name="count" type="String"/>
         <variable name="costKeys" type="String"/>
     </data>
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="150dp"
             android:background="@{background}"
@@ -53,5 +53,5 @@
                     android:textAlignment="textEnd"
                     android:background="#63FFFFFF"/>
         </RelativeLayout>
-    </android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
 </layout>

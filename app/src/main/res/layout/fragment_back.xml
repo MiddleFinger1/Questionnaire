@@ -1,0 +1,79 @@
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.ui.start.AuthFragment"
+        android:padding="10dp" android:background="#FFFFFF">
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:id="@+id/Start.Layout">
+        <ImageButton
+                android:src="@drawable/app_icon"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:id="@+id/Start.IconLaunch"
+                android:scaleType="centerInside"
+                android:background="#00000000"/>
+        <TextView
+                android:text="Nice to see yoo,"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/Start.Hello"
+                android:textAlignment="center"
+                android:textSize="24sp"
+                android:textColor="#000000"
+                android:layout_weight="1"
+                android:fontFamily="@font/ubuntu_medium"/>
+        <TextView
+                android:text="Login"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/Start.LoginView"
+                android:layout_weight="1"
+                android:textAlignment="center"
+                android:textSize="18sp"/>
+        <Button
+                android:text="Enter to application"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/Start.EnterToApp"
+                android:layout_gravity="center_horizontal"
+                android:textSize="18sp"
+                android:layout_margin="10dp"
+                android:textAllCaps="false"
+                style="@style/ItemThemeTextView" android:fontFamily="@font/ubuntu_medium"/>
+        <Button
+                android:text="Exit from account"
+                android:textAllCaps="false"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/Start.ExitFromAcc"
+                android:textSize="18sp"
+                android:background="#FFFFFF"
+                android:fontFamily="@font/ubuntu_light"
+        />
+    </LinearLayout>
+    <TextView
+            android:text="@string/app_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            android:fontFamily="@font/ubuntu_medium"
+            android:textColor="#000000"
+            android:paddingBottom="10dp" android:gravity="bottom"
+            android:id="@+id/Start.AppName" android:layout_above="@id/Start.VersionApp"/>
+    <TextView
+            android:text="Version.2.0"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/Start.VersionApp"
+            android:textSize="18sp"
+            android:fontFamily="@font/ubuntu_light"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"/>
+</RelativeLayout>

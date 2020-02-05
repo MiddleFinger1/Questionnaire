@@ -6,7 +6,7 @@
         android:layout_height="match_parent"
         tools:context="com.ui.event.QuestionSession"
         android:background="#FFFFFF">
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
             android:id="@+id/Question.Toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
@@ -15,7 +15,7 @@
             android:background="#FFFFFF"
             app:titleTextColor="#000000"
             android:elevation="8dp"/>
-    <android.support.v4.widget.NestedScrollView
+    <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/Question.Toolbar">
@@ -81,5 +81,5 @@
                     android:paddingBottom="30dp">
             </LinearLayout>
         </RelativeLayout>
-    </android.support.v4.widget.NestedScrollView>
+    </androidx.core.widget.NestedScrollView>
 </RelativeLayout>

@@ -12,6 +12,8 @@ data class Settings(
     val icon: Source, val login: String, val userID: Int
 ): JsonObject {
 
+    var path = ""
+
     companion object {
 
         fun createSettings(json: String) =

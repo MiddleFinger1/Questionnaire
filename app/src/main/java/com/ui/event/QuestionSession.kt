@@ -2,10 +2,10 @@ package com.ui.event
 
 import android.graphics.Color
 import android.os.Bundle
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import android.widget.*
 import android.widget.RadioGroup.LayoutParams
-import android.support.v7.widget.Toolbar
+import androidx.appcompat.widget.Toolbar
 import com.json.questionnaire.Question
 import com.json.questionnaire.Statements
 import android.content.res.ColorStateList

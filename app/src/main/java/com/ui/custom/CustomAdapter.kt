@@ -1,8 +1,8 @@
 package com.ui.custom
 
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.RecyclerView.ViewHolder
-import android.support.v7.widget.RecyclerView.Adapter
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import androidx.recyclerview.widget.RecyclerView.Adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 

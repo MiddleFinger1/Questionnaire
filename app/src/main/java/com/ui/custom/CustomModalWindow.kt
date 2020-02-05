@@ -3,7 +3,7 @@ package com.ui.custom
 import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
-import android.support.v4.app.DialogFragment
+import androidx.fragment.app.DialogFragment
 import android.util.DisplayMetrics
 import android.util.Log
 import android.view.*
@@ -36,7 +36,7 @@ class CustomModalWindow: DialogFragment() {
     }
 
     override fun onResume() {
-        val params = dialog.window!!.attributes
+        val params = dialog?.window?.attributes
         val windowManager = context?.getSystemService(Context.WINDOW_SERVICE) as WindowManager
         val display = windowManager.defaultDisplay
         val metrics = DisplayMetrics()
@@ -47,14 +47,16 @@ class CustomModalWindow: DialogFragment() {
             if (setDpi != 0) setDpi
             else if (isSmall && setDpi == 0)screenHeight * 4/5
             else screenHeight / 2
-        params.width = screenWidth * 5/6
-        params.height = height
-        dialog.window!!.attributes = params as WindowManager.LayoutParams
+        if (params != null) {
+            params.width = screenWidth * 5 / 6
+            params.height = height
+            dialog?.window?.attributes = params
+        }
         super.onResume()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        dialog.window?.requestFeature(Window.FEATURE_NO_TITLE)
+        dialog?.window?.requestFeature(Window.FEATURE_NO_TITLE)
 
         val views = inflater.inflate(R.layout.custom_modal_window, container)
         views.apply {
