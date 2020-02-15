@@ -4,7 +4,6 @@ import android.content.Context
 import android.os.Environment
 import android.util.Log
 import com.Helper
-import com.json.questionnaire.Questionnaire
 import com.json.user.User
 import java.io.*
 
@@ -15,33 +14,38 @@ object IOManager {
 
     const val userFileName = "user.json"
     const val constructorFileName = "constructor.json"
+    const val dataFileName = "data.json"
     const val appDirectory = "Questionnaire"
+
+    fun findFilesConfigs(): Boolean {
+
+        val folderPath = "${Environment.getExternalStorageDirectory().absolutePath}/$appDirectory"
+        val folder = File(folderPath)
+        val userFile = File("$folderPath/$userFileName")
+        val constFile = File("$folderPath/$constructorFileName")
+        val dataFile = File("$folderPath/$dataFileName")
+
+        return folder.exists() && userFile.exists() && constFile.exists() && dataFile.exists()
+    }
 
     fun downloadUser(context: Context) {
         val json = readFile(userFileName)
         Log.e("jsonDownloadUser", json)
         val user = if (json != "")
             User.createUser(json)
-        else createUser(context)
+        else createUserInstance(context)
         if (user != null)
             IOManager.user = user
     }
 
-    private fun createUser(context: Context): User? {
+    fun createUserInstance(context: Context): User? {
         val folder = createFolder(appDirectory)
-            File(folder, userFileName)
-            File(folder, constructorFileName)
+            File(folder, userFileName).createNewFile()
+            File(folder, constructorFileName).createNewFile()
+            File(folder, dataFileName).createNewFile()
         val json = Helper.converting(context.assets.open(userFileName))
         writeFile(userFileName, json)
         return User.createUser(json)
-    }
-
-    fun signInQuestionnaire(questionnaire: Questionnaire){
-
-    }
-
-    fun signInUser(){
-
     }
 
     private fun getFile(fileName: String) =

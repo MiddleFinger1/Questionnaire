@@ -3,8 +3,10 @@ package com.ui.start
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.WindowManager
 import com.R
+import com.logic.IOManager
 
 
 class StartActivity : AppCompatActivity() {
@@ -17,6 +19,15 @@ class StartActivity : AppCompatActivity() {
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         window.statusBarColor = Color.parseColor("#ACACAC")
+
+        // проверяем, есть ли файлы приложения
+        val isFiles = IOManager.findFilesConfigs()
+        //
+
+
+
+
+        Log.e("state", IOManager.findFilesConfigs().toString())
 
         val fragment = BackFragment()
 
