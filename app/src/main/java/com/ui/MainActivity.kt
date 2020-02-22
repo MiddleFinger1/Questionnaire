@@ -34,7 +34,6 @@ class MainActivity : AppCompatActivity() {
             true
         }
 
-        IOManager.downloadUser(this)
         if (intent != null) {
             val type: String? = intent.getStringExtra("type")
             if (type != null) {
@@ -44,7 +43,6 @@ class MainActivity : AppCompatActivity() {
                         val json: String? = intent.getStringExtra("questionnaire")
                         if (json != null){
                             IOManager.writeFile(constructorFileName, json)
-
                         }
                     }
                     "obResult" -> {

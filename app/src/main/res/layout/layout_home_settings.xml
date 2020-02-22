@@ -23,11 +23,11 @@
                 app:expandedTitleMarginBottom="40dp">
             <ImageView
                     android:id="@+id/USERS.Logotype"
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     app:layout_collapseMode="parallax"
                     android:background="@mipmap/ic_launcher"
-                    android:layout_gravity="center"/>
+                    android:layout_gravity="center" android:alpha="0.6"/>
             <TextView
                     android:text="TextView"
                     android:layout_gravity="bottom|start"

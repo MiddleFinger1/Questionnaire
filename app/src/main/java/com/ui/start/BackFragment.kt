@@ -10,6 +10,7 @@ import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.ImageButton
 import com.R
+import com.logic.IOManager
 import com.ui.MainActivity
 
 
@@ -32,6 +33,7 @@ class BackFragment : Fragment() {
 
         iconLaunch.startAnimation(appearImage)
         buttonEnter.setOnClickListener {
+            IOManager.downloadUser()
             startActivity(Intent(context, MainActivity::class.java))
         }
         buttonExit.animation = null

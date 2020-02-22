@@ -1,8 +1,12 @@
 package com.logic
 
+import android.Manifest
+import android.app.Activity
 import android.content.Context
+import android.content.pm.PackageManager.PERMISSION_DENIED
 import android.os.Environment
 import android.util.Log
+import androidx.core.app.ActivityCompat
 import com.Helper
 import com.json.user.User
 import java.io.*
@@ -28,24 +32,44 @@ object IOManager {
         return folder.exists() && userFile.exists() && constFile.exists() && dataFile.exists()
     }
 
-    fun downloadUser(context: Context) {
+    // получить доступ к файловой системе относительно версии ОС (6.0 и выше)
+    fun getRulesOfFS(context: Context){
+        if (android.os.Build.VERSION.SDK_INT >= 23){
+            val check = context.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PERMISSION_DENIED
+            if (check){
+                Log.e("permision","Permission is granted")
+                ActivityCompat.requestPermissions(
+                    context as Activity,
+                    arrayOf( Manifest.permission.WRITE_EXTERNAL_STORAGE), 1)
+            }
+        }
+    }
+
+    fun downloadUser() {
         val json = readFile(userFileName)
         Log.e("jsonDownloadUser", json)
         val user = if (json != "")
             User.createUser(json)
-        else createUserInstance(context)
+        else null
         if (user != null)
             IOManager.user = user
     }
 
-    fun createUserInstance(context: Context): User? {
-        val folder = createFolder(appDirectory)
-            File(folder, userFileName).createNewFile()
+    fun createUserInstance(context: Context) {
+        try {
+            val folder = createFolder(appDirectory)
+            val fileUser = File(folder, userFileName)
+                Log.e("path", fileUser.absolutePath)
+                fileUser.createNewFile()
             File(folder, constructorFileName).createNewFile()
             File(folder, dataFileName).createNewFile()
-        val json = Helper.converting(context.assets.open(userFileName))
-        writeFile(userFileName, json)
-        return User.createUser(json)
+            val json = Helper.converting(context.assets.open(userFileName))
+            writeFile(userFileName, json)
+            downloadUser()
+        }
+        catch (ex: Exception) {
+            Log.e("exCreatingUserInstance", ex.toString())
+        }
     }
 
     private fun getFile(fileName: String) =

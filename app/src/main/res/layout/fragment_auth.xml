@@ -31,21 +31,33 @@
         <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                style="@style/ItemThemeTextView" android:textColorHint="#000000">
+                style="@style/ItemThemeTextView"
+                android:textColorHint="#000000">
             <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Password"
                     android:textColor="#000000"
-                    android:textColorHint="#000000" android:id="@+id/Start.PasswordTextView"/>
+                    android:textColorHint="#000000"
+                    android:id="@+id/Start.PasswordTextView"/>
         </com.google.android.material.textfield.TextInputLayout>
         <Button
                 style="@style/ItemThemeTextView"
                 android:text="Log in"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/Start.LogIn" android:textAllCaps="false"/>
+                android:id="@+id/Start.LogIn"
+                android:textAllCaps="false"/>
     </LinearLayout>
+    <Button
+            android:text="Create unsigned user"
+            android:layout_above="@id/Start.SignUp"
+            android:layout_centerHorizontal="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/ItemThemeTextView"
+            android:textAllCaps="false"
+            android:id="@+id/Start.CreateUnsignedUser"/>
     <Button
             android:text="Sign up"
             android:layout_width="match_parent"
@@ -55,6 +67,4 @@
             android:layout_centerHorizontal="true"
             style="@style/ItemThemeTextView"
             android:textAllCaps="false"/>
-
-
 </RelativeLayout>

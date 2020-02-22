@@ -1,12 +1,16 @@
 package com.ui.start
 
+import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.WindowManager
+import androidx.fragment.app.Fragment
 import com.R
+import com.json.user.User
 import com.logic.IOManager
+import com.ui.MainActivity
 
 
 class StartActivity : AppCompatActivity() {
@@ -23,15 +27,19 @@ class StartActivity : AppCompatActivity() {
         // проверяем, есть ли файлы приложения
         val isFiles = IOManager.findFilesConfigs()
         //
-
-
-
+        val fragment: Fragment =
+            if (isFiles)
+                BackFragment()
+            else AuthFragment()
 
         Log.e("state", IOManager.findFilesConfigs().toString())
 
-        val fragment = BackFragment()
-
         supportFragmentManager.beginTransaction().replace(R.id.MainStartActivity, fragment).commit()
+    }
 
+    fun enterToAccount(user: User){
+        val intent = Intent(baseContext, MainActivity::class.java)
+        IOManager.user = user
+        startActivity(intent)
     }
 }
