@@ -24,7 +24,6 @@ class HomeSettings : Fragment() {
 
     private lateinit var logoView: ImageView
     private lateinit var toolbar: Toolbar
-    private lateinit var userIdView: TextView
     private lateinit var fabFindUsers: FloatingActionButton
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -33,7 +32,6 @@ class HomeSettings : Fragment() {
         views.apply {
             logoView = findViewById(R.id.USERS_Logotype)
             toolbar = findViewById(R.id.USERS_Toolbar)
-            userIdView = findViewById(R.id.USERS_IdView)
             fabFindUsers = findViewById(R.id.USERS_fabFindUsers)
         }
         val user = IOManager.user
@@ -41,7 +39,6 @@ class HomeSettings : Fragment() {
         if (icon is Drawable)
             logoView.background = icon
         toolbar.title = user.settings.login
-        userIdView.text = user.settings.userID.toString()
 
         fabFindUsers.setOnClickListener {
             val fragment = CustomModalWindow()

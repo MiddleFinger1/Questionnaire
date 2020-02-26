@@ -1,5 +1,8 @@
 package com.ui.start
 
+import android.app.Activity
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -7,11 +10,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
+import com.Helper
 import com.R
 import com.google.android.material.textfield.TextInputEditText
-import com.google.firebase.auth.FirebaseAuth
+import com.json.questionnaire.Source
+import com.json.user.Settings
+import com.logic.Firing
+import java.io.File
 
 
 class SignUpFragment : Fragment() {
@@ -21,6 +29,9 @@ class SignUpFragment : Fragment() {
     private lateinit var passwordTextView: TextInputEditText
     private lateinit var loginTextView: TextInputEditText
     private lateinit var buttonCreateUser: Button
+    private lateinit var logouser: ImageView
+
+    private var pathToIcon = ""
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -31,28 +42,56 @@ class SignUpFragment : Fragment() {
             passwordTextView = findViewById(R.id.Start_SignUpPassword)
             loginTextView = findViewById(R.id.Start_SignUpLogin)
             buttonCreateUser = findViewById(R.id.Start_CreateUser)
+            logouser = findViewById(R.id.Start_LogoUser)
         }
         toolbar.setOnClickListener {
             val fragment = AuthFragment()
             if (activity != null)
                 activity!!.supportFragmentManager.beginTransaction().replace(R.id.MainStartActivity, fragment).commit()
         }
+        logouser.setOnClickListener {
+            val intent = Intent(Intent.ACTION_PICK)
+            intent.type = "image/image"
+            startActivityForResult(intent, 0)
+        }
         buttonCreateUser.setOnClickListener {
             val email = emailTextView.text.toString()
             val password = passwordTextView.text.toString()
-            try {
-                FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password).addOnCompleteListener {
-                    if (it.isSuccessful)
-                        Toast.makeText(context, "Аутентификация прошла успешна!", Toast.LENGTH_SHORT).show()
-                    else Toast.makeText(context, "Аутентификация провалена!", Toast.LENGTH_SHORT).show()
+            val login = loginTextView.text.toString()
+
+            Firing.signUpUser(email, password){
+                if (it.isSuccessful) {
+                    Toast.makeText(context, "Аутентификация прошла успешна!", Toast.LENGTH_SHORT).show()
+                    var path = ""
+                    if (pathToIcon.isNotEmpty())
+                        path = Firing.uploadFile(File(pathToIcon), "/images")
+
+                    val settings = Settings(Source(path), login)
+                    settings.path = "$login.json"
+                    settings.icon.isInSd = false
+                    Firing.createUserSettings(settings)
                 }
+                else Toast.makeText(context, "Аутентификация провалена!", Toast.LENGTH_SHORT).show()
             }
-            catch (ex: Exception) {
-                Toast.makeText(context, "Аутентификация провалена!", Toast.LENGTH_SHORT).show()
-                Log.e("signUpException", ex.toString())
-            }
+
         }
         return views
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == 0 && resultCode == Activity.RESULT_OK && data != null){
+            try {
+                pathToIcon = Helper.getRealPathFromURI(requireContext(), data.data!!)
+                Log.e("pathToImage", pathToIcon)
+                logouser.setImageURI(Uri.parse(pathToIcon))
+            }
+            catch (ex: Exception){
+                Log.e("getResultSignUpImage", ex.toString())
+            }
+        }
+
+
+
     }
 
 }

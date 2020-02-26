@@ -21,7 +21,7 @@
         <ImageView
                 android:src="@drawable/ic_account_box_black_48dp"
                 android:layout_width="200dp"
-                android:layout_height="200dp" android:id="@+id/imageView" android:layout_gravity="center_horizontal"/>
+                android:layout_height="200dp" android:id="@+id/Start.LogoUser" android:layout_gravity="center_horizontal"/>
         <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" android:textColorHint="#000000" style="@style/ItemThemeTextView">

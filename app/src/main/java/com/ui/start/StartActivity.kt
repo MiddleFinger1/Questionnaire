@@ -1,6 +1,5 @@
 package com.ui.start
 
-import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -8,12 +7,18 @@ import android.util.Log
 import android.view.WindowManager
 import androidx.fragment.app.Fragment
 import com.R
-import com.json.user.User
 import com.logic.IOManager
-import com.ui.MainActivity
 
 
 class StartActivity : AppCompatActivity() {
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        Log.e("FileSystem", IOManager.isGottenRulesOfFS(baseContext).toString())
+        if (!IOManager.isGottenRulesOfFS(baseContext))
+            IOManager.onGettingRule()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,11 +40,5 @@ class StartActivity : AppCompatActivity() {
         Log.e("state", IOManager.findFilesConfigs().toString())
 
         supportFragmentManager.beginTransaction().replace(R.id.MainStartActivity, fragment).commit()
-    }
-
-    fun enterToAccount(user: User){
-        val intent = Intent(baseContext, MainActivity::class.java)
-        IOManager.user = user
-        startActivity(intent)
     }
 }

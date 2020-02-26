@@ -9,7 +9,7 @@ import org.json.simple.parser.JSONParser
 
 
 data class Settings(
-    val icon: Source, val login: String, val userID: Int
+    val icon: Source, val login: String
 ): JsonObject {
 
     var path = ""
@@ -29,9 +29,12 @@ data class Settings(
         fun createSettings(jsonObject: JSONObject): Settings? {
             val jsonIcon = Source.createSource(jsonObject[ICON].toString())
             val jsonLogin = jsonObject[LOGIN]
-            val jsonUserID = jsonObject[USER_ID]
             return if (jsonIcon != null && jsonLogin != null){
-                Settings(jsonIcon, jsonLogin.toString(), jsonUserID.toString().toInt())
+                Settings(jsonIcon, jsonLogin.toString()).apply {
+                    val pathJson = jsonObject[PATH]
+                    if (pathJson != null)
+                        path = pathJson.toString()
+                }
             }
             else null
         }
@@ -42,7 +45,7 @@ data class Settings(
             {
                 "$ICON": ${icon.toJsonObject()},
                 "$LOGIN": "$login",
-                "$USER_ID": $userID
+                "$PATH": "$path"
             }
         """
     }

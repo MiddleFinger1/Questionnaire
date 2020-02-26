@@ -1,6 +1,6 @@
 package com.logic
 
-import android.Manifest
+import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
 import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager.PERMISSION_DENIED
@@ -21,6 +21,8 @@ object IOManager {
     const val dataFileName = "data.json"
     const val appDirectory = "Questionnaire"
 
+    lateinit var onGettingRule: () -> Unit
+
     fun findFilesConfigs(): Boolean {
 
         val folderPath = "${Environment.getExternalStorageDirectory().absolutePath}/$appDirectory"
@@ -32,16 +34,17 @@ object IOManager {
         return folder.exists() && userFile.exists() && constFile.exists() && dataFile.exists()
     }
 
+    fun isGottenRulesOfFS(context: Context) =
+        android.os.Build.VERSION.SDK_INT >= 23 && context.checkSelfPermission(WRITE_EXTERNAL_STORAGE) == PERMISSION_DENIED
+
     // получить доступ к файловой системе относительно версии ОС (6.0 и выше)
     fun getRulesOfFS(context: Context){
-        if (android.os.Build.VERSION.SDK_INT >= 23){
-            val check = context.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PERMISSION_DENIED
-            if (check){
-                Log.e("permision","Permission is granted")
-                ActivityCompat.requestPermissions(
-                    context as Activity,
-                    arrayOf( Manifest.permission.WRITE_EXTERNAL_STORAGE), 1)
-            }
+        if (isGottenRulesOfFS(context)){
+            Log.e("permision","Permission is granted")
+
+            ActivityCompat.requestPermissions(
+                context as Activity,
+                arrayOf(WRITE_EXTERNAL_STORAGE), 1)
         }
     }
 
@@ -55,14 +58,20 @@ object IOManager {
             IOManager.user = user
     }
 
+    // создает необходимые файлы и директорию под приложение
+    fun createFileDir(){
+        val folder = createFolder(appDirectory)
+        val fileUser = File(folder, userFileName)
+        Log.e("path", fileUser.absolutePath)
+        fileUser.createNewFile()
+        File(folder, constructorFileName).createNewFile()
+        File(folder, dataFileName).createNewFile()
+    }
+
+    // создание пользователя по умолчанию, образу из user.json из папки assets проекта
     fun createUserInstance(context: Context) {
         try {
-            val folder = createFolder(appDirectory)
-            val fileUser = File(folder, userFileName)
-                Log.e("path", fileUser.absolutePath)
-                fileUser.createNewFile()
-            File(folder, constructorFileName).createNewFile()
-            File(folder, dataFileName).createNewFile()
+            createFileDir()
             val json = Helper.converting(context.assets.open(userFileName))
             writeFile(userFileName, json)
             downloadUser()
@@ -98,6 +107,7 @@ object IOManager {
 
     fun writeFile(fileName: String, string: String){
         val file = getFile(fileName)
+        Log.e("fileIsExist", file.toString())
         if (file != null) {
             val bufferedWriter = BufferedWriter(FileWriter(file))
                 bufferedWriter.write(string)

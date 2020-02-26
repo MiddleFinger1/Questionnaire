@@ -13,10 +13,7 @@ import androidx.appcompat.widget.Toolbar
 import com.R
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.logic.Firing
 import com.logic.IOManager
 import com.ui.MainActivity
 
@@ -30,8 +27,10 @@ class AuthFragment : Fragment() {
     private lateinit var emailTextView: TextInputEditText
     private lateinit var passwordTextView: TextInputEditText
 
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
+
         val views = inflater.inflate(R.layout.fragment_auth, container, false)
         views.apply {
             toolbar = findViewById(R.id.Start_EnterAppToolbar)
@@ -41,7 +40,6 @@ class AuthFragment : Fragment() {
             emailTextView = findViewById(R.id.Start_EmailTextView)
             passwordTextView = findViewById(R.id.Start_PasswordTextView)
         }
-        IOManager.getRulesOfFS(views.context)
 
         buttonSignUp.setOnClickListener {
             val fragment = SignUpFragment()
@@ -49,42 +47,39 @@ class AuthFragment : Fragment() {
                 activity!!.supportFragmentManager.beginTransaction().replace(R.id.MainStartActivity, fragment).commit()
         }
         buttonCreateUser.setOnClickListener {
-            IOManager.createUserInstance(this.requireContext())
-            startActivity(Intent(context, MainActivity::class.java))
-            Toast.makeText(context, "Created", Toast.LENGTH_SHORT).show()
+            IOManager.onGettingRule = {
+                IOManager.createUserInstance(this.requireContext())
+                startActivity(Intent(context, MainActivity::class.java))
+                Toast.makeText(context, "Created", Toast.LENGTH_SHORT).show()
+            }
+            if (!IOManager.isGottenRulesOfFS(requireContext()))
+                IOManager.onGettingRule()
+            else IOManager.getRulesOfFS(requireContext())
         }
         buttonLogIn.setOnClickListener {
             val email = emailTextView.text.toString()
             val password = passwordTextView.text.toString()
-            try {
-                FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password).addOnCompleteListener {
-                    if (it.isSuccessful)
-                        Toast.makeText(context, "Аутентификация прошла успешна!", Toast.LENGTH_SHORT).show()
-                    else Toast.makeText(context, "Аутентификация провалена!", Toast.LENGTH_SHORT).show()
+
+            Firing.logInUser(email, password) {
+                if (it.isSuccessful)
+                    Toast.makeText(context, "Авторизация прошла успешна!", Toast.LENGTH_SHORT).show()
+                else Toast.makeText(context, "Авторизация провалена!", Toast.LENGTH_SHORT).show()
+            }
+
+            val user = FirebaseAuth.getInstance().currentUser
+            if (user != null)
+                Firing.onGettingUserSettings {
+                    Log.e("settings", it.toJsonObject())
+                    IOManager.onGettingRule = {
+                        IOManager.createFileDir()
+                        IOManager.writeFile(IOManager.dataFileName, it.toString())
+                    }
+                    if (!IOManager.isGottenRulesOfFS(requireContext())){
+                        IOManager.onGettingRule()
+                    }
+                    else IOManager.getRulesOfFS(requireContext())
                 }
 
-                val user = FirebaseAuth.getInstance().currentUser
-                val reference = FirebaseDatabase.getInstance().reference
-
-                if (user != null) {
-                    reference.child(user.uid).addValueEventListener(object: ValueEventListener{
-                        override fun onCancelled(p0: DatabaseError) {
-                            Log.e("onCancelledException", p0.toException().toString())
-                        }
-
-                        override fun onDataChange(dataSnapshot: DataSnapshot) {
-                            val array = dataSnapshot.child("Settings")
-
-                            Toast.makeText(context, array.toString(), Toast.LENGTH_SHORT).show()
-
-                        }
-                    })
-                }
-            }
-            catch (ex: Exception){
-                Toast.makeText(context, "Аутентификация провалена!", Toast.LENGTH_SHORT).show()
-                Log.e("signUpException", ex.toString())
-            }
         }
         toolbar.setNavigationOnClickListener {
             activity?.finish()
