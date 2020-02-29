@@ -58,7 +58,6 @@ class AuthFragment : Fragment() {
         buttonLogIn.setOnClickListener {
             val email = emailTextView.text.toString()
             val password = passwordTextView.text.toString()
-
             Firing.logInUser(email, password) {
                 if (it.isSuccessful)
                     Toast.makeText(context, "Авторизация прошла успешна!", Toast.LENGTH_SHORT).show()
@@ -77,7 +76,9 @@ class AuthFragment : Fragment() {
                     }
                     else IOManager.getRulesOfFS(requireContext())
 
-
+                    val fragment = BackFragment()
+                    if (activity != null)
+                        activity!!.supportFragmentManager.beginTransaction().replace(R.id.MainStartActivity, fragment).commit()
                 }
 
         }

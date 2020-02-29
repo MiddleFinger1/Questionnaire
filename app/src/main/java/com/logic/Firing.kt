@@ -23,10 +23,10 @@ object Firing {
     private const val link = "gs://questionnaire-72912.appspot.com"
     val auth = FirebaseAuth.getInstance()
 
-    const val imagesFolder = "/images"
-    const val usersFolder = "/users"
-    const val docsFolder = "/documents"
-    const val questionnaires = "/questionnaires"
+    const val imagesFolder = "images/"
+    const val usersFolder = "users/"
+    const val docsFolder = "documents/"
+    const val questionnaires = "questionnaires/"
 
     fun signUpUser(email: String, password: String, action: (Task<AuthResult>) -> Unit){
         try {
@@ -70,10 +70,8 @@ object Firing {
     fun getFile(path: String, action: (File, FileDownloadTask.TaskSnapshot) -> Unit) {
         try {
             val reference = FirebaseStorage.getInstance().getReferenceFromUrl(link)
-            val fileRef = reference.child("users/").child("")
-
-            Log.e("fileRef", fileRef.name)
-
+            val parts = path.split('/')
+            val fileRef = reference.child(parts[0]).child(parts[1])
             val localFile = IOManager.getFile(IOManager.tempFile)
             if (localFile != null) {
                 fileRef.getFile(Uri.parse(localFile.absolutePath)).addOnSuccessListener {
