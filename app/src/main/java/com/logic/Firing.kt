@@ -10,16 +10,23 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.storage.FileDownloadTask
 import com.google.firebase.storage.FirebaseStorage
 import com.json.questionnaire.Source
 import com.json.user.Settings
 import java.io.File
+import java.io.FileInputStream
 
 
 object Firing {
 
-
+    private const val link = "gs://questionnaire-72912.appspot.com"
     val auth = FirebaseAuth.getInstance()
+
+    const val imagesFolder = "/images"
+    const val usersFolder = "/users"
+    const val docsFolder = "/documents"
+    const val questionnaires = "/questionnaires"
 
     fun signUpUser(email: String, password: String, action: (Task<AuthResult>) -> Unit){
         try {
@@ -44,10 +51,10 @@ object Firing {
     }
 
     // метод для выгрузки файла в firebase storage
-    fun uploadFile(file: File, folder: String): String {
+    fun uploadFile(file: File, folder: String, nameCustom: String = ""): String {
         val reference = FirebaseStorage.getInstance().reference
         val uri = Uri.fromFile(file)
-        var path = "$folder/${file.name}"
+        var path = "$folder/${if (nameCustom == "") file.name else nameCustom}"
         if (!file.exists()) return ""
         val refToFile = reference.child(path)
         refToFile.putFile(uri).addOnSuccessListener {
@@ -60,8 +67,25 @@ object Firing {
         return path
     }
 
-    fun getFile(path: String){
+    fun getFile(path: String, action: (File, FileDownloadTask.TaskSnapshot) -> Unit) {
+        try {
+            val reference = FirebaseStorage.getInstance().getReferenceFromUrl(link)
+            val fileRef = reference.child("users/").child("")
 
+            Log.e("fileRef", fileRef.name)
+
+            val localFile = IOManager.getFile(IOManager.tempFile)
+            if (localFile != null) {
+                fileRef.getFile(Uri.parse(localFile.absolutePath)).addOnSuccessListener {
+                    Log.e("successGetFile", it.toString())
+                    action(localFile, it)
+                }.addOnFailureListener {
+                    Log.e("ExGetFileFromFireBase", it.toString())
+                }
+            }
+        } catch (ex: Exception) {
+            Log.e("ExGetFileFromFireBase", ex.toString())
+        }
     }
 
     fun createUserSettings(settings: Settings){
@@ -89,9 +113,9 @@ object Firing {
             }
 
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val array = dataSnapshot.child("Settings")
-
-                val source = Source(array.child("path").value.toString())
+                val array = dataSnapshot.child("settings")
+                val type = array.child("icon").child("type").value.toString().toInt()
+                val source = Source(array.child("icon").child("path").value.toString(), type)
                 source.isInSd = false
                 val settings = Settings(source, array.child("login").value.toString())
                 settings.path = array.child("path").value.toString()

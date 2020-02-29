@@ -19,6 +19,7 @@ object IOManager {
     const val userFileName = "user.json"
     const val constructorFileName = "constructor.json"
     const val dataFileName = "data.json"
+    const val tempFile = "temp.txt"
     const val appDirectory = "Questionnaire"
 
     lateinit var onGettingRule: () -> Unit
@@ -66,6 +67,7 @@ object IOManager {
         fileUser.createNewFile()
         File(folder, constructorFileName).createNewFile()
         File(folder, dataFileName).createNewFile()
+        File(folder, tempFile).createNewFile()
     }
 
     // создание пользователя по умолчанию, образу из user.json из папки assets проекта
@@ -81,7 +83,7 @@ object IOManager {
         }
     }
 
-    private fun getFile(fileName: String) =
+    fun getFile(fileName: String) =
         try {
             val root = Environment.getExternalStorageDirectory()
             val folder = File(root, appDirectory)

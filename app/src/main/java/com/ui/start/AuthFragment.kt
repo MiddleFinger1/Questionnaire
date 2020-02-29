@@ -2,7 +2,6 @@ package com.ui.start
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -69,15 +68,16 @@ class AuthFragment : Fragment() {
             val user = FirebaseAuth.getInstance().currentUser
             if (user != null)
                 Firing.onGettingUserSettings {
-                    Log.e("settings", it.toJsonObject())
                     IOManager.onGettingRule = {
                         IOManager.createFileDir()
-                        IOManager.writeFile(IOManager.dataFileName, it.toString())
+                        IOManager.writeFile(IOManager.dataFileName, it.toJsonObject())
                     }
                     if (!IOManager.isGottenRulesOfFS(requireContext())){
                         IOManager.onGettingRule()
                     }
                     else IOManager.getRulesOfFS(requireContext())
+
+
                 }
 
         }

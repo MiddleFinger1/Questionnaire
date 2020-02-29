@@ -62,18 +62,20 @@ class SignUpFragment : Fragment() {
             Firing.signUpUser(email, password){
                 if (it.isSuccessful) {
                     Toast.makeText(context, "Аутентификация прошла успешна!", Toast.LENGTH_SHORT).show()
-                    var path = ""
+                    var icon = ""
+					var path = ""
                     if (pathToIcon.isNotEmpty())
-                        path = Firing.uploadFile(File(pathToIcon), "/images")
-
-                    val settings = Settings(Source(path), login)
-                    settings.path = "$login.json"
+                        icon = Firing.uploadFile(File(pathToIcon), Firing.imagesFolder, "$login.png")
+					val file = Helper.stream2file(requireContext().assets.open("user.json"))
+                    if (file != null) 
+                        path = Firing.uploadFile(file, Firing.usersFolder, "$login.json")
+                    val settings = Settings(Source(icon), login)
+                    settings.path = path
                     settings.icon.isInSd = false
                     Firing.createUserSettings(settings)
                 }
                 else Toast.makeText(context, "Аутентификация провалена!", Toast.LENGTH_SHORT).show()
             }
-
         }
         return views
     }
@@ -83,6 +85,7 @@ class SignUpFragment : Fragment() {
             try {
                 pathToIcon = Helper.getRealPathFromURI(requireContext(), data.data!!)
                 Log.e("pathToImage", pathToIcon)
+
                 logouser.setImageURI(Uri.parse(pathToIcon))
             }
             catch (ex: Exception){

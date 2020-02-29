@@ -29,12 +29,12 @@ class User: JsonObject {
                 createUser(JSONParser().parse(json) as JSONObject)
             }
             catch (ex: Exception) {
-                Log.e("exUser", ex.toString())
-                Log.e("exUser", json)
+                Log.e("exCreateUser", ex.toString())
+                Log.e("exCreateUser", json)
                 null
             }
 
-        fun createUser(jsonObject: JSONObject) =
+        private fun createUser(jsonObject: JSONObject) =
             User().apply {
                 val jsonIsLogIn = jsonObject[IS_LOG_IN]
                 if (jsonIsLogIn != null)
